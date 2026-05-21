@@ -1,211 +1,873 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Telegram Mini App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: var(--tg-theme-bg-color, #1a1a2e);
-            color: var(--tg-theme-text-color, #ffffff);
-            padding: 20px;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-        }
-        
-        .header h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            opacity: 0.9;
-            font-size: 16px;
-        }
-        
-        .balance-card {
-            background: var(--tg-theme-secondary-bg-color, #16213e);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        
-        .balance-label {
-            font-size: 14px;
-            opacity: 0.7;
-            margin-bottom: 8px;
-        }
-        
-        .balance-amount {
-            font-size: 36px;
-            font-weight: bold;
-            color: #00d084;
-        }
-        
-        .topup-button {
-            width: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: transform 0.2s;
-        }
-        
-        .topup-button:active {
-            transform: scale(0.98);
-        }
-        
-        .games-section {
-            margin-top: 30px;
-        }
-        
-        .section-title {
-            font-size: 20px;
-            margin-bottom: 15px;
-            padding-left: 5px;
-        }
-        
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-        
-        .game-card {
-            background: var(--tg-theme-secondary-bg-color, #16213e);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .game-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .game-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-        }
-        
-        .game-name {
-            font-size: 14px;
-            font-weight: 500;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>UZPIN — Gaming Platform</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --gold: #F5A623;
+  --gold2: #FFD700;
+  --gold-dim: rgba(245,166,35,0.15);
+  --dark1: #090E1A;
+  --dark2: #0E1525;
+  --dark3: #141B2D;
+  --dark4: #1A2235;
+  --green: #00E676;
+  --text: #E8EDF5;
+  --muted: #6B7A99;
+  --border: rgba(245,166,35,0.12);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--dark1);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* === ANIMATED BACKGROUND === */
+.bg-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+  animation: orbFloat 8s ease-in-out infinite;
+}
+.bg-orb:nth-child(1) { width:300px;height:300px;background:#F5A623;top:-80px;left:-60px;animation-delay:0s; }
+.bg-orb:nth-child(2) { width:200px;height:200px;background:#764BA2;top:40%;right:-60px;animation-delay:-3s; }
+.bg-orb:nth-child(3) { width:250px;height:250px;background:#00B4D8;bottom:-80px;left:20%;animation-delay:-5s; }
+
+@keyframes orbFloat {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-30px) scale(1.08); }
+}
+
+/* === PARTICLE STARS === */
+.stars { position:fixed;inset:0;pointer-events:none;z-index:0; }
+.star {
+  position:absolute;
+  width:2px;height:2px;
+  background:#ffffff;
+  border-radius:50%;
+  animation: twinkle var(--dur) ease-in-out infinite;
+  opacity:0;
+}
+@keyframes twinkle {
+  0%,100% { opacity:0; transform:scale(1); }
+  50% { opacity:0.6; transform:scale(1.5); }
+}
+
+/* === LAYOUT === */
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 420px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* === PAGE SYSTEM === */
+.page { display:none; flex-direction:column; flex:1; animation: fadeInUp 0.35s ease; }
+.page.active { display:flex; }
+
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(16px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* === HEADER === */
+.header {
+  padding: 18px 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-row {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.avatar {
+  width:44px;height:44px;
+  border-radius:50%;
+  background: linear-gradient(135deg,#F5A623,#E8941A);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Rajdhani',sans-serif;
+  font-weight:700;font-size:17px;color:#090E1A;
+  border:2px solid rgba(245,166,35,0.5);
+  position:relative;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.avatar img { width:100%;height:100%;object-fit:cover;border-radius:50%; }
+.online-dot {
+  position:absolute;bottom:2px;right:2px;
+  width:10px;height:10px;
+  background:var(--green);
+  border-radius:50%;
+  border:2px solid var(--dark1);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { box-shadow:0 0 0 0 rgba(0,230,118,0.4); }
+  50% { box-shadow:0 0 0 4px rgba(0,230,118,0); }
+}
+
+.user-meta .name { font-size:14px;font-weight:600; }
+.user-meta .handle { font-size:11px;color:var(--muted);margin-top:1px; }
+
+.gold-badge {
+  background:linear-gradient(135deg,#F5A623,#E8941A);
+  color:#090E1A;
+  font-family:'Rajdhani',sans-serif;
+  font-size:10px;font-weight:700;
+  padding:4px 10px;
+  border-radius:20px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  animation: badgeGlow 3s ease-in-out infinite;
+}
+@keyframes badgeGlow {
+  0%,100% { box-shadow:0 0 8px rgba(245,166,35,0.3); }
+  50% { box-shadow:0 0 16px rgba(245,166,35,0.6); }
+}
+
+/* === LOGO === */
+.logo-section {
+  text-align:center;
+  padding:8px 0 16px;
+}
+.logo {
+  font-family:'Rajdhani',sans-serif;
+  font-size:36px;font-weight:700;
+  letter-spacing:4px;
+  background: linear-gradient(90deg,#F5A623 0%,#FFD700 50%,#F5A623 100%);
+  background-size:200%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation: shimmer 3s linear infinite;
+}
+@keyframes shimmer { 0%{background-position:0%} 100%{background-position:200%} }
+
+.tagline { font-size:11px;color:var(--muted);letter-spacing:0.5px;margin-top:2px; }
+
+/* === BALANCE CARD === */
+.balance-card {
+  margin:0 16px 16px;
+  background: linear-gradient(135deg, rgba(245,166,35,0.08), rgba(245,166,35,0.03));
+  border:1px solid rgba(245,166,35,0.25);
+  border-radius:20px;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+  animation: cardEntrance 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;
+}
+@keyframes cardEntrance {
+  from { opacity:0;transform:scale(0.9) translateY(10px); }
+  to { opacity:1;transform:scale(1) translateY(0); }
+}
+.balance-card::before {
+  content:'';
+  position:absolute;top:-40px;right:-40px;
+  width:130px;height:130px;
+  background:radial-gradient(circle,rgba(245,166,35,0.18),transparent);
+  border-radius:50%;
+}
+.balance-card::after {
+  content:'';
+  position:absolute;bottom:-20px;left:-20px;
+  width:80px;height:80px;
+  background:radial-gradient(circle,rgba(0,230,118,0.1),transparent);
+  border-radius:50%;
+}
+.bal-label { font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px; }
+.bal-amount {
+  font-family:'Rajdhani',sans-serif;
+  font-size:36px;font-weight:700;
+  color:var(--green);
+  line-height:1;
+  margin-bottom:16px;
+  animation: countUp 1s ease 0.3s both;
+}
+@keyframes countUp {
+  from { opacity:0;transform:translateX(-10px); }
+  to { opacity:1;transform:translateX(0); }
+}
+
+.topup-btn {
+  width:100%;
+  background:linear-gradient(135deg,#F5A623,#E8941A);
+  border:none;
+  border-radius:14px;
+  padding:14px;
+  font-family:'Rajdhani',sans-serif;
+  font-size:17px;font-weight:700;
+  color:#090E1A;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform 0.15s,box-shadow 0.15s;
+  position:relative;overflow:hidden;
+}
+.topup-btn::after {
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
+  transform:translateX(-100%);
+  animation: btnShine 4s ease-in-out infinite 1s;
+}
+@keyframes btnShine {
+  0%,80%,100% { transform:translateX(-100%); }
+  40% { transform:translateX(100%); }
+}
+.topup-btn:active { transform:scale(0.97);box-shadow:none; }
+
+/* === BANNER === */
+.banner {
+  margin:0 16px 20px;
+  border-radius:16px;
+  border:1px solid var(--border);
+  background:linear-gradient(135deg,#141B2D,#1A1535);
+  height:90px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  position:relative;
+}
+.banner-text {
+  font-family:'Rajdhani',sans-serif;
+  font-size:13px;font-weight:600;
+  color:rgba(245,166,35,0.5);
+  letter-spacing:3px;
+  animation: bannerPulse 2s ease-in-out infinite;
+}
+@keyframes bannerPulse {
+  0%,100% { opacity:0.4; }
+  50% { opacity:0.8; }
+}
+
+/* === SECTION HEADER === */
+.section-header {
+  padding:0 16px 12px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-line { width:3px;height:20px;background:var(--gold);border-radius:2px;flex-shrink:0; }
+.section-title {
+  font-family:'Rajdhani',sans-serif;
+  font-size:19px;font-weight:700;
+  letter-spacing:1px;
+}
+
+/* === GAMES GRID === */
+.games-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  padding:0 16px 20px;
+}
+
+.game-card {
+  background:var(--dark3);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:14px;
+  padding:12px 8px 10px;
+  text-align:center;
+  cursor:pointer;
+  transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s;
+  position:relative;
+  overflow:hidden;
+  animation: cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.game-card:nth-child(1){animation-delay:0.1s}
+.game-card:nth-child(2){animation-delay:0.15s}
+.game-card:nth-child(3){animation-delay:0.2s}
+.game-card:nth-child(4){animation-delay:0.25s}
+.game-card:nth-child(5){animation-delay:0.3s}
+.game-card:nth-child(6){animation-delay:0.35s}
+.game-card:nth-child(7){animation-delay:0.4s}
+
+@keyframes cardIn {
+  from { opacity:0;transform:scale(0.8) translateY(10px); }
+  to { opacity:1;transform:scale(1) translateY(0); }
+}
+
+.game-card:hover { border-color:rgba(245,166,35,0.4);transform:translateY(-3px) scale(1.02); }
+.game-card:active { transform:scale(0.94);border-color:rgba(245,166,35,0.6); }
+.game-card.featured { border-color:rgba(245,166,35,0.4);background:linear-gradient(135deg,var(--dark4),#1D2445); }
+
+.game-card::before {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at center,rgba(245,166,35,0.06),transparent);
+  opacity:0;transition:opacity 0.2s;
+}
+.game-card:hover::before { opacity:1; }
+
+.game-img {
+  width:54px;height:54px;
+  border-radius:12px;
+  margin:0 auto 8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;
+  background:var(--dark4);
+  position:relative;
+  overflow:hidden;
+}
+.game-img img { width:100%;height:100%;object-fit:cover;border-radius:12px; }
+
+.hot-badge {
+  position:absolute;top:6px;right:6px;
+  background:var(--gold);color:#090E1A;
+  font-size:8px;font-weight:700;
+  padding:2px 6px;border-radius:4px;
+  font-family:'Rajdhani',sans-serif;
+  animation: hotPulse 1.5s ease-in-out infinite;
+}
+@keyframes hotPulse {
+  0%,100% { transform:scale(1); }
+  50% { transform:scale(1.1); }
+}
+
+.new-badge {
+  position:absolute;top:6px;right:6px;
+  background:#00B4D8;color:#090E1A;
+  font-size:8px;font-weight:700;
+  padding:2px 6px;border-radius:4px;
+  font-family:'Rajdhani',sans-serif;
+}
+
+.game-name { font-size:10px;font-weight:500;color:var(--text);line-height:1.3; }
+
+/* === BOTTOM NAV === */
+.bottom-nav {
+  display:flex;
+  background:rgba(14,21,37,0.95);
+  backdrop-filter:blur(20px);
+  border-top:1px solid rgba(245,166,35,0.1);
+  padding:10px 0 calc(env(safe-area-inset-bottom,0px) + 8px);
+  position:sticky;bottom:0;
+  z-index:100;
+}
+
+.nav-item {
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  gap:4px;cursor:pointer;padding:4px 0;
+  position:relative;
+  transition:transform 0.15s;
+}
+.nav-item:active { transform:scale(0.9); }
+.nav-icon { font-size:20px;transition:transform 0.2s; }
+.nav-label { font-size:10px;color:var(--muted);font-weight:500;transition:color 0.2s; }
+.nav-item.active .nav-label { color:var(--gold); }
+.nav-item.active .nav-icon { transform:scale(1.15); }
+
+.nav-active-bar {
+  position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);
+  width:20px;height:3px;
+  background:var(--gold);border-radius:2px;
+  opacity:0;transition:opacity 0.2s;
+}
+.nav-item.active .nav-active-bar { opacity:1; }
+
+/* === HAMYON PAGE === */
+.hamyon-card {
+  margin:16px;
+  background:linear-gradient(135deg,rgba(245,166,35,0.1),rgba(245,166,35,0.03));
+  border:1px solid rgba(245,166,35,0.3);
+  border-radius:24px;
+  padding:30px 20px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.hamyon-label { font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px; }
+.hamyon-amount {
+  font-family:'Rajdhani',sans-serif;font-size:52px;font-weight:700;
+  color:var(--green);line-height:1;margin-bottom:4px;
+}
+.hamyon-sub { font-size:12px;color:var(--muted);margin-bottom:24px; }
+
+.hamyon-topup {
+  width:100%;
+  background:linear-gradient(135deg,#F5A623,#E8941A);
+  border:none;border-radius:14px;
+  padding:15px;
+  font-family:'Rajdhani',sans-serif;
+  font-size:18px;font-weight:700;
+  color:#090E1A;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:transform 0.15s;
+  position:relative;overflow:hidden;
+}
+.hamyon-topup::after {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
+  transform:translateX(-100%);
+  animation:btnShine 4s ease-in-out infinite 1s;
+}
+.hamyon-topup:active { transform:scale(0.97); }
+
+.history-section { padding:0 16px; }
+.history-title { font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px; }
+
+.empty-state {
+  text-align:center;padding:40px 20px;
+}
+.empty-icon { font-size:48px;opacity:0.3;margin-bottom:12px; }
+.empty-text { font-size:14px;color:var(--muted); }
+.empty-sub { font-size:12px;color:var(--muted);opacity:0.6;margin-top:4px; }
+
+/* === TARIX PAGE === */
+/* reuses empty-state */
+
+/* === PROFIL PAGE === */
+.profile-hero {
+  text-align:center;
+  padding:30px 16px 20px;
+}
+.profile-avatar {
+  width:80px;height:80px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#F5A623,#E8941A);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#090E1A;
+  margin:0 auto 14px;
+  border:3px solid rgba(245,166,35,0.5);
+  overflow:hidden;
+  animation: avatarIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;
+}
+.profile-avatar img { width:100%;height:100%;object-fit:cover;border-radius:50%; }
+
+@keyframes avatarIn {
+  from { transform:scale(0.5);opacity:0; }
+  to { transform:scale(1);opacity:1; }
+}
+.profile-name { font-size:22px;font-weight:600;margin-bottom:4px; }
+.profile-id { font-size:13px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:6px; }
+.copy-btn { cursor:pointer;opacity:0.5;transition:opacity 0.15s;font-size:14px; }
+.copy-btn:hover { opacity:1; }
+
+.profile-badge-row { display:flex;justify-content:center;margin:12px 0 0; }
+
+.menu-list { padding:8px 16px 0; }
+.menu-item {
+  display:flex;align-items:center;
+  background:var(--dark3);
+  border:1px solid rgba(255,255,255,0.04);
+  border-radius:14px;
+  padding:14px 16px;
+  margin-bottom:10px;
+  cursor:pointer;
+  transition:background 0.15s,border-color 0.15s,transform 0.15s;
+  animation: menuIn 0.4s ease both;
+}
+.menu-item:nth-child(1){animation-delay:0.05s}
+.menu-item:nth-child(2){animation-delay:0.1s}
+.menu-item:nth-child(3){animation-delay:0.15s}
+.menu-item:nth-child(4){animation-delay:0.2s}
+.menu-item:nth-child(5){animation-delay:0.25s}
+@keyframes menuIn {
+  from { opacity:0;transform:translateX(-12px); }
+  to { opacity:1;transform:translateX(0); }
+}
+.menu-item:hover { background:var(--dark4);border-color:rgba(245,166,35,0.2); }
+.menu-item:active { transform:scale(0.98); }
+
+.menu-icon {
+  width:40px;height:40px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin-right:14px;flex-shrink:0;
+}
+.icon-lang { background:rgba(100,150,255,0.15); }
+.icon-support { background:rgba(0,230,118,0.12); }
+.icon-about { background:rgba(100,150,255,0.15); }
+.icon-currency { background:rgba(245,166,35,0.15); }
+.icon-theme { background:rgba(150,100,255,0.15); }
+
+.menu-text .title { font-size:15px;font-weight:500; }
+.menu-text .sub { font-size:12px;color:var(--muted);margin-top:2px; }
+.menu-arrow { margin-left:auto;color:var(--muted);font-size:18px; }
+
+/* === RIPPLE EFFECT === */
+.ripple {
+  position:absolute;border-radius:50%;
+  background:rgba(245,166,35,0.25);
+  transform:scale(0);
+  animation:rippleAnim 0.5s linear;
+  pointer-events:none;
+}
+@keyframes rippleAnim {
+  to { transform:scale(4);opacity:0; }
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:rgba(245,166,35,0.2);border-radius:2px; }
+
+/* === HEADER BACK === */
+.page-header {
+  display:flex;align-items:center;
+  padding:18px 16px 12px;
+  gap:12px;
+}
+.back-btn {
+  width:36px;height:36px;
+  background:var(--dark3);border:1px solid var(--border);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:16px;transition:background 0.15s;
+}
+.back-btn:hover { background:var(--dark4); }
+.page-title { font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px; }
+.refresh-btn {
+  margin-left:auto;
+  width:36px;height:36px;
+  background:var(--dark3);border:1px solid var(--border);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:16px;transition:transform 0.3s;
+}
+.refresh-btn:active { transform:rotate(180deg); }
+
+/* === SCROLLABLE CONTENT === */
+.scroll-content { overflow-y:auto;flex:1;padding-bottom:8px; }
+</style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>🎮 UZPIN</h1>
-            <p>Игровая платформа</p>
-        </div>
 
-        <!-- Balance Card -->
-        <div class="balance-card">
-            <div class="balance-label">Ваш баланс</div>
-            <div class="balance-amount">0 UZS</div>
-            <button class="topup-button" onclick="topupBalance()">
-                ↗ Пополнить
-            </button>
-        </div>
+<!-- Animated background -->
+<div class="bg-canvas">
+  <div class="bg-orb"></div>
+  <div class="bg-orb"></div>
+  <div class="bg-orb"></div>
+</div>
+<div class="stars" id="stars"></div>
 
-        <!-- Games Section -->
-        <div class="games-section">
-            <h2 class="section-title">🎯 Игры</h2>
-            <div class="games-grid">
-                <div class="game-card" onclick="selectGame('PUBG Mobile')">
-                    <div class="game-icon">🎮</div>
-                    <div class="game-name">PUBG Mobile</div>
-                </div>
-                <div class="game-card" onclick="selectGame('Mobile Legends')">
-                    <div class="game-icon">⚔️</div>
-                    <div class="game-name">Mobile Legends</div>
-                </div>
-                <div class="game-card" onclick="selectGame('Free Fire')">
-                    <div class="game-icon">🔥</div>
-                    <div class="game-name">Free Fire</div>
-                </div>
-            </div>
+<div class="app">
+
+  <!-- ====== BOSH SAHIFA ====== -->
+  <div class="page active scroll-content" id="page-home">
+    <div class="header">
+      <div class="user-row">
+        <div class="avatar" id="home-avatar">КП<div class="online-dot"></div></div>
+        <div class="user-meta">
+          <div class="name" id="home-name">Кудрявый Пацан</div>
+          <div class="handle" id="home-handle">@Umarov_Barotjon</div>
         </div>
+      </div>
+      <div class="gold-badge">Gold ✦</div>
     </div>
 
-    <script>
-        // Initialize Telegram WebApp
-        let tg = window.Telegram.WebApp;
-        
-        tg.expand();
-        tg.ready();
+    <div class="logo-section">
+      <div class="logo">UZPIN</div>
+      <div class="tagline">Biz bilamiz — oson va qulay!</div>
+    </div>
 
-        // Set header color
-        tg.setHeaderColor('#1a1a2e');
-        tg.setBackgroundColor('#1a1a2e');
+    <div class="balance-card">
+      <div class="bal-label">Topup balance</div>
+      <div class="bal-amount" id="home-balance">0 UZS</div>
+      <button class="topup-btn" onclick="topupBalance(this)">
+        <span>↗</span> To'ldirish
+      </button>
+    </div>
 
-        function topupBalance() {
-            tg.showPopup({
-                title: 'Пополнение баланса',
-                message: 'Выберите сумму пополнения:',
-                buttons: [
-                    {id: '10000', type: 'default', text: '10,000 UZS'},
-                    {id: '50000', type: 'default', text: '50,000 UZS'},
-                    {id: '100000', type: 'default', text: '100,000 UZS'}
-                ]
-            }, (buttonId) => {
-                if (buttonId) {
-                    tg.sendData(`Topup: ${buttonId} UZS`);
-                }
-            });
-        }
+    <div class="banner">
+      <div class="banner-text">🎮  UZPIN  •  TOP UP GAMES  •  FAST & EASY</div>
+    </div>
 
-        function selectGame(gameName) {
-            tg.showPopup({
-                title: gameName,
-                message: `Вы выбрали ${gameName}. Что хотите сделать?`,
-                buttons: [
-                    {type: 'default', text: 'Пополнить аккаунт'},
-                    {type: 'cancel', text: 'Отмена'}
-                ]
-            }, (buttonId) => {
-                if (buttonId === 'default') {
-                    tg.sendData(`Game: ${gameName}`);
-                }
-            });
-        }
-    </script>
+    <div class="section-header">
+      <div class="section-line"></div>
+      <div class="section-title">O'yinlar</div>
+    </div>
+
+    <div class="games-grid">
+      <div class="game-card featured" onclick="selectGame(this,'PUBG Mobile')">
+        <div class="hot-badge">HOT</div>
+        <div class="game-img">🪖</div>
+        <div class="game-name">PUBG Mobile</div>
+      </div>
+      <div class="game-card" onclick="selectGame(this,'Mobile Legends')">
+        <div class="game-img">⚔️</div>
+        <div class="game-name">Mobile Legends</div>
+      </div>
+      <div class="game-card" onclick="selectGame(this,'Free Fire RU/CIS')">
+        <div class="game-img">🔥</div>
+        <div class="game-name">Free Fire RU/CIS</div>
+      </div>
+      <div class="game-card" onclick="selectGame(this,'Steam Gift Card')">
+        <div class="game-img">🎮</div>
+        <div class="game-name">Steam Gift Card</div>
+      </div>
+      <div class="game-card" onclick="selectGame(this,'Magic Chess')">
+        <div class="new-badge">NEW</div>
+        <div class="game-img">♟️</div>
+        <div class="game-name">Magic Chess</div>
+      </div>
+      <div class="game-card" onclick="selectGame(this,'Standoff 2')">
+        <div class="game-img">🎯</div>
+        <div class="game-name">Standoff 2</div>
+      </div>
+      <div class="game-card" onclick="selectGame(this,'Telegram Stars')">
+        <div class="game-img">⭐</div>
+        <div class="game-name">Telegram Stars</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== HAMYON ====== -->
+  <div class="page scroll-content" id="page-hamyon">
+    <div class="page-header">
+      <div class="page-title">Hamyon</div>
+      <div class="refresh-btn">↻</div>
+    </div>
+
+    <div class="hamyon-card">
+      <div class="hamyon-label">Joriy balans</div>
+      <div class="hamyon-amount" id="hamyon-balance">0</div>
+      <div class="hamyon-sub">UZS</div>
+      <button class="hamyon-topup" onclick="topupBalance(this)">
+        <span>+</span> Balansni to'ldirish
+      </button>
+    </div>
+
+    <div class="history-section">
+      <div class="history-title">Balance History</div>
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <div class="empty-text">Ma'lumot topilmadi</div>
+        <div class="empty-sub">Hozircha hech narsa yo'q</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== TARIX ====== -->
+  <div class="page scroll-content" id="page-tarix">
+    <div class="page-header">
+      <div class="page-title">Tarix</div>
+    </div>
+    <div class="empty-state" style="padding-top:80px">
+      <div class="empty-icon" style="font-size:56px">📋</div>
+      <div class="empty-text">Ma'lumot topilmadi</div>
+      <div class="empty-sub">Hozircha hech narsa yo'q</div>
+    </div>
+  </div>
+
+  <!-- ====== PROFIL ====== -->
+  <div class="page scroll-content" id="page-profil">
+    <div class="profile-hero">
+      <div class="profile-avatar" id="profil-avatar">КП</div>
+      <div class="profile-name" id="profil-name">Кудрявый Пацан</div>
+      <div class="profile-id">
+        <span id="profil-id">5273703401</span>
+        <span class="copy-btn" onclick="copyId()">📋</span>
+      </div>
+      <div class="profile-badge-row">
+        <div class="gold-badge">Gold Member ✦</div>
+      </div>
+    </div>
+
+    <div class="menu-list">
+      <div class="menu-item" onclick="menuTap(this,'Ilova tili')">
+        <div class="menu-icon icon-lang">🌐</div>
+        <div class="menu-text"><div class="title">Ilova tili</div><div class="sub">O'zbek</div></div>
+        <div class="menu-arrow">›</div>
+      </div>
+      <div class="menu-item" onclick="menuTap(this,'Qo\'llab-quvvatlash')">
+        <div class="menu-icon icon-support">🎧</div>
+        <div class="menu-text"><div class="title">Qo'llab-quvvatlash</div><div class="sub">24/7 yordam</div></div>
+        <div class="menu-arrow">›</div>
+      </div>
+      <div class="menu-item" onclick="menuTap(this,'Ilova haqida')">
+        <div class="menu-icon icon-about">ℹ️</div>
+        <div class="menu-text"><div class="title">Ilova haqida</div><div class="sub">v1.0.0</div></div>
+        <div class="menu-arrow">›</div>
+      </div>
+      <div class="menu-item" onclick="menuTap(this,'Valyutani o\'zgartirish')">
+        <div class="menu-icon icon-currency" style="font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:#F5A623;">UZS</div>
+        <div class="menu-text"><div class="title">Valyutani o'zgartirish</div><div class="sub">UZS — so'm</div></div>
+        <div class="menu-arrow">›</div>
+      </div>
+      <div class="menu-item" onclick="menuTap(this,'Mavzuni o\'zgartirish')">
+        <div class="menu-icon icon-theme">🌙</div>
+        <div class="menu-text"><div class="title">Mavzuni o'zgartirish</div><div class="sub">Qorong'i rejim</div></div>
+        <div class="menu-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== BOTTOM NAV ====== -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" onclick="switchPage('home',this)">
+      <div class="nav-icon">⊞</div>
+      <div class="nav-label">Bosh sahifa</div>
+      <div class="nav-active-bar"></div>
+    </div>
+    <div class="nav-item" onclick="switchPage('hamyon',this)">
+      <div class="nav-icon">💳</div>
+      <div class="nav-label">Hamyon</div>
+      <div class="nav-active-bar"></div>
+    </div>
+    <div class="nav-item" onclick="switchPage('tarix',this)">
+      <div class="nav-icon">🕐</div>
+      <div class="nav-label">Tarix</div>
+      <div class="nav-active-bar"></div>
+    </div>
+    <div class="nav-item" onclick="switchPage('profil',this)">
+      <div class="nav-icon">👤</div>
+      <div class="nav-label">Profil</div>
+      <div class="nav-active-bar"></div>
+    </div>
+  </nav>
+
+</div>
+
+<script>
+// === TELEGRAM INIT ===
+let tg = null;
+try {
+  tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+  if (tg) { tg.expand(); tg.ready(); }
+} catch(e) {}
+
+// === USER DATA ===
+function loadUserData() {
+  let name = 'Кудрявый Пацан', handle = '@Umarov_Barotjon', initials = 'КП', photoUrl = null, uid = '5273703401';
+  if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    const u = tg.initDataUnsafe.user;
+    const first = u.first_name || '';
+    const last = u.last_name || '';
+    name = (first + ' ' + last).trim() || name;
+    handle = u.username ? '@' + u.username : handle;
+    initials = (first[0]||(last[0]||'U')).toUpperCase();
+    if (u.photo_url) photoUrl = u.photo_url;
+    uid = String(u.id) || uid;
+  }
+  // Apply everywhere
+  ['home-name','profil-name'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.textContent = name;
+  });
+  document.getElementById('home-handle').textContent = handle;
+  document.getElementById('profil-id').textContent = uid;
+  // Avatars
+  ['home-avatar','profil-avatar'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (photoUrl) {
+      // keep online dot for home
+      const dot = el.querySelector('.online-dot');
+      el.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = photoUrl; img.alt = 'avatar';
+      el.appendChild(img);
+      if (dot) el.appendChild(dot);
+    } else {
+      const dot = el.querySelector('.online-dot');
+      el.innerHTML = initials;
+      if (dot) el.appendChild(dot);
+    }
+  });
+}
+loadUserData();
+
+// === STARS ===
+(function() {
+  const container = document.getElementById('stars');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s;`;
+    container.appendChild(s);
+  }
+})();
+
+// === NAVIGATION ===
+function switchPage(name, navEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  navEl.classList.add('active');
+}
+
+// === RIPPLE ===
+function createRipple(btn, e) {
+  const rect = btn.getBoundingClientRect();
+  const r = document.createElement('span');
+  r.className = 'ripple';
+  const size = Math.max(rect.width, rect.height) * 2;
+  r.style.cssText = `width:${size}px;height:${size}px;left:${(e.clientX-rect.left)-size/2}px;top:${(e.clientY-rect.top)-size/2}px;`;
+  btn.appendChild(r);
+  r.addEventListener('animationend', () => r.remove());
+}
+
+// === TOPUP ===
+function topupBalance(btn) {
+  createRipple(btn, event);
+  if (tg) {
+    tg.showPopup({
+      title: 'Balansni to\'ldirish',
+      message: 'Summani tanlang:',
+      buttons: [
+        {id:'10000',type:'default',text:'10,000 UZS'},
+        {id:'50000',type:'default',text:'50,000 UZS'},
+        {id:'100000',type:'default',text:'100,000 UZS'},
+        {id:'custom',type:'default',text:'Boshqa summa'}
+      ]
+    }, (id) => { if(id) tg.sendData('Topup:'+id); });
+  } else {
+    alert('Pополнение: demo-режим');
+  }
+}
+
+// === SELECT GAME ===
+function selectGame(card, name) {
+  createRipple(card, event);
+  setTimeout(() => {
+    if (tg) {
+      tg.showPopup({
+        title: name,
+        message: name + ' uchun to\'ldirmoqchimisiz?',
+        buttons: [
+          {id:'yes',type:'default',text:'✅ Ha, to\'ldirish'},
+          {type:'cancel',text:'Bekor qilish'}
+        ]
+      }, (id) => { if(id==='yes') tg.sendData('Game:'+name); });
+    } else {
+      alert('Игра: ' + name + ' — demo-режим');
+    }
+  }, 120);
+}
+
+// === MENU ITEM ===
+function menuTap(el, title) {
+  el.style.background = 'rgba(245,166,35,0.08)';
+  setTimeout(() => el.style.background = '', 300);
+  if (tg) tg.sendData('Menu:'+title);
+}
+
+// === COPY ID ===
+function copyId() {
+  const id = document.getElementById('profil-id').textContent;
+  if (navigator.clipboard) navigator.clipboard.writeText(id);
+  if (tg) tg.showAlert('ID nusxalandi: ' + id);
+  else alert('Скопировано: ' + id);
+}
+</script>
 </body>
 </html>

@@ -9,7 +9,7 @@ bot = telebot.TeleBot(BOT_TOKEN)
 def send_welcome(message):
     markup = types.InlineKeyboardMarkup(row_width=2)
     
-    # ✅ Кнопка для Mini App (исправлено имя переменной)
+    # Кнопка для Mini App
     web_app_url = 'https://barotjon-00.github.io/telegram-mini-app'
     web_app = types.WebAppInfo(url=web_app_url)
     btn_mini_app = types.InlineKeyboardButton(text="🎮 Играть", web_app=web_app)
@@ -37,12 +37,24 @@ def send_welcome(message):
 🎯 Выберите игру и пополните баланс прямо сейчас!
     """
     
-    bot.send_message(
-        message.chat.id, 
-        welcome_text,
-        reply_markup=markup,
-        parse_mode='HTML'
-    )
+    # ✅ ОТПРАВКА ЛОКАЛЬНОГО ФОТО
+    try:
+        with open('1.png', 'rb') as photo:
+            bot.send_photo(
+                message.chat.id,
+                photo=photo,
+                caption=welcome_text,
+                reply_markup=markup,
+                parse_mode='HTML'
+            )
+    except FileNotFoundError:
+        # Если файл не найден - отправляем только текст
+        bot.send_message(
+            message.chat.id, 
+            welcome_text,
+            reply_markup=markup,
+            parse_mode='HTML'
+        )
 
 # Обработчик нажатий на кнопки
 @bot.callback_query_handler(func=lambda call: True)
