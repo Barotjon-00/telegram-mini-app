@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Arena X Donate — Gaming Platform</title>
+<title>Arena X Donate</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
@@ -31,7 +31,6 @@ body {
   overflow-x: hidden;
 }
 
-/* BG */
 .bg-canvas { position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden; }
 .bg-orb { position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;animation:orbFloat 8s ease-in-out infinite; }
 .bg-orb:nth-child(1){width:300px;height:300px;background:#F5A623;top:-80px;left:-60px;animation-delay:0s;}
@@ -45,12 +44,10 @@ body {
 
 .app{position:relative;z-index:1;max-width:420px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
 
-/* PAGES */
 .page{display:none;flex-direction:column;flex:1;animation:fadeInUp 0.35s ease;}
 .page.active{display:flex;}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 
-/* HEADER */
 .header{padding:18px 16px 10px;display:flex;align-items:center;justify-content:space-between;}
 .user-row{display:flex;align-items:center;gap:10px;}
 .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#F5A623,#E8941A);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:17px;color:#090E1A;border:2px solid rgba(245,166,35,0.5);position:relative;overflow:hidden;flex-shrink:0;}
@@ -62,13 +59,11 @@ body {
 .gold-badge{background:linear-gradient(135deg,#F5A623,#E8941A);color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.5px;text-transform:uppercase;animation:badgeGlow 3s ease-in-out infinite;}
 @keyframes badgeGlow{0%,100%{box-shadow:0 0 8px rgba(245,166,35,0.3);}50%{box-shadow:0 0 16px rgba(245,166,35,0.6);}}
 
-/* LOGO */
 .logo-section{text-align:center;padding:8px 0 16px;}
 .logo{font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;letter-spacing:3px;background:linear-gradient(90deg,#F5A623 0%,#FFD700 50%,#F5A623 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite;}
 @keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
 .tagline{font-size:11px;color:var(--muted);letter-spacing:0.5px;margin-top:2px;}
 
-/* BALANCE CARD */
 .balance-card{margin:0 16px 16px;background:linear-gradient(135deg,rgba(245,166,35,0.08),rgba(245,166,35,0.03));border:1px solid rgba(245,166,35,0.25);border-radius:20px;padding:20px;position:relative;overflow:hidden;animation:cardEntrance 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;}
 @keyframes cardEntrance{from{opacity:0;transform:scale(0.9) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
 .bal-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
@@ -78,21 +73,17 @@ body {
 @keyframes btnShine{0%,80%,100%{transform:translateX(-100%);}40%{transform:translateX(100%);}}
 .topup-btn:active{transform:scale(0.97);}
 
-/* CAROUSEL */
 .carousel{margin:0 16px 20px;border-radius:16px;overflow:hidden;position:relative;height:180px;background:var(--dark3);box-shadow:0 4px 12px rgba(0,0,0,0.3);}
 .carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease-in-out;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0f1419);}
 .carousel-slide.active{opacity:1;}
-.carousel-slide img{width:100%;height:100%;object-fit:cover;}
 .carousel-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
 .carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.3s;}
 .carousel-dot.active{background:var(--gold);width:24px;border-radius:4px;}
 
-/* SECTION */
 .section-header{padding:0 16px 12px;display:flex;align-items:center;gap:10px;}
 .section-line{width:3px;height:20px;background:var(--gold);border-radius:2px;flex-shrink:0;}
 .section-title{font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;letter-spacing:1px;}
 
-/* GAMES GRID */
 .games-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 16px 20px;}
 .game-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:14px;padding:12px 8px 10px;text-align:center;cursor:pointer;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),border-color 0.2s;position:relative;overflow:hidden;animation:cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;}
 .game-card:nth-child(1){animation-delay:0.1s}.game-card:nth-child(2){animation-delay:0.15s}.game-card:nth-child(3){animation-delay:0.2s}.game-card:nth-child(4){animation-delay:0.25s}.game-card:nth-child(5){animation-delay:0.3s}.game-card:nth-child(6){animation-delay:0.35s}.game-card:nth-child(7){animation-delay:0.4s}
@@ -105,7 +96,6 @@ body {
 @keyframes hotPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
 .new-badge{position:absolute;top:6px;right:6px;background:#00B4D8;color:#090E1A;font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;font-family:'Rajdhani',sans-serif;}
 
-/* BOTTOM NAV */
 .bottom-nav{display:flex;background:rgba(14,21,37,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.1);padding:10px 0 calc(env(safe-area-inset-bottom,0px) + 8px);position:sticky;bottom:0;z-index:100;}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 0;position:relative;transition:transform 0.15s;}
 .nav-item:active{transform:scale(0.9);}
@@ -116,7 +106,6 @@ body {
 .nav-active-bar{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:20px;height:3px;background:var(--gold);border-radius:2px;opacity:0;transition:opacity 0.2s;}
 .nav-item.active .nav-active-bar{opacity:1;}
 
-/* HAMYON */
 .hamyon-card{margin:16px;background:linear-gradient(135deg,rgba(245,166,35,0.1),rgba(245,166,35,0.03));border:1px solid rgba(245,166,35,0.3);border-radius:24px;padding:30px 20px;text-align:center;position:relative;overflow:hidden;}
 .hamyon-label{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
 .hamyon-amount{font-family:'Rajdhani',sans-serif;font-size:52px;font-weight:700;color:var(--green);line-height:1;margin-bottom:4px;}
@@ -127,13 +116,11 @@ body {
 .history-section{padding:0 16px;}
 .history-title{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
 
-/* EMPTY STATE */
 .empty-state{text-align:center;padding:40px 20px;}
 .empty-icon{font-size:48px;opacity:0.3;margin-bottom:12px;}
 .empty-text{font-size:14px;color:var(--muted);}
 .empty-sub{font-size:12px;color:var(--muted);opacity:0.6;margin-top:4px;}
 
-/* PROFILE */
 .profile-hero{text-align:center;padding:30px 16px 20px;}
 .profile-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#F5A623,#E8941A);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#090E1A;margin:0 auto 14px;border:3px solid rgba(245,166,35,0.5);overflow:hidden;animation:avatarIn 0.5s cubic-bezier(0.34,1.56,0.64,1);position:relative;}
 .profile-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
@@ -144,10 +131,9 @@ body {
 .copy-btn:hover{opacity:1;}
 .profile-badge-row{display:flex;justify-content:center;margin:12px 0 0;}
 
-/* MENU - БЕЗ ИКОНОК */
 .menu-list{padding:8px 16px 0;}
 .menu-item{display:flex;align-items:center;justify-content:space-between;background:var(--dark3);border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:16px 20px;margin-bottom:10px;cursor:pointer;transition:background 0.15s,border-color 0.15s,transform 0.15s;animation:menuIn 0.4s ease both;}
-.menu-item:nth-child(1){animation-delay:0.05s}.menu-item:nth-child(2){animation-delay:0.1s}.menu-item:nth-child(3){animation-delay:0.15s}.menu-item:nth-child(4){animation-delay:0.2s}.menu-item:nth-child(5){animation-delay:0.25s}
+.menu-item:nth-child(1){animation-delay:0.05s}.menu-item:nth-child(2){animation-delay:0.1s}.menu-item:nth-child(3){animation-delay:0.15s}.menu-item:nth-child(4){animation-delay:0.2s}
 @keyframes menuIn{from{opacity:0;transform:translateX(-12px);}to{opacity:1;transform:translateX(0);}}
 .menu-item:hover{background:var(--dark4);border-color:rgba(245,166,35,0.2);}
 .menu-item:active{transform:scale(0.98);}
@@ -156,11 +142,9 @@ body {
 .menu-text .msub{font-size:12px;color:var(--muted);margin-top:2px;}
 .menu-arrow{color:var(--muted);font-size:18px;}
 
-/* RIPPLE */
 .ripple{position:absolute;border-radius:50%;background:rgba(245,166,35,0.25);transform:scale(0);animation:rippleAnim 0.5s linear;pointer-events:none;}
 @keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
 
-/* SCROLL */
 ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(245,166,35,0.2);border-radius:2px;}
 .page-header{display:flex;align-items:center;padding:18px 16px 12px;gap:12px;}
 .page-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px;}
@@ -168,7 +152,6 @@ body {
 .refresh-btn:active{transform:rotate(180deg);}
 .scroll-content{overflow-y:auto;flex:1;padding-bottom:8px;}
 
-/* ====== BOTTOM SHEET MODAL ====== */
 .sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px);}
 .sheet-overlay.open{opacity:1;pointer-events:all;}
 .sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:420px;background:#111827;border-radius:24px 24px 0 0;z-index:201;transition:transform 0.35s cubic-bezier(0.34,1.2,0.64,1);padding-bottom:env(safe-area-inset-bottom,0px);}
@@ -178,28 +161,19 @@ body {
 .sheet-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:0.5px;}
 .sheet-body{padding:12px 16px 24px;}
 
-/* OPTION LIST - КАК НА ФОТО 2 */
 .option-item{display:flex;align-items:center;justify-content:space-between;background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px 20px;margin-bottom:10px;cursor:pointer;transition:all 0.2s ease;position:relative;overflow:hidden;}
 .option-item:active{transform:scale(0.98);}
-
-/* Выбранный элемент - оранжевый фон как на фото */
 .option-item.selected{background:linear-gradient(135deg,#F5A623,#E8941A);border-color:transparent;box-shadow:0 4px 12px rgba(245,166,35,0.3);}
-
 .opt-row{display:flex;align-items:center;gap:12px;flex:1;}
-
 .opt-code{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--muted);min-width:30px;}
 .option-item.selected .opt-code{color:#090E1A;}
-
 .opt-label{font-size:16px;font-weight:500;flex:1;}
 .option-item.selected .opt-label{color:#090E1A;font-weight:700;}
-
-/* Галочка справа как на фото */
 .opt-check{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,0.2);transition:all 0.2s;}
 .option-item.selected .opt-check{color:#090E1A;}
 .option-item.selected .opt-check::before{content:'✓';font-weight:bold;}
 .option-item:not(.selected) .opt-check::before{content:'';width:10px;height:10px;border:2px solid rgba(255,255,255,0.2);border-radius:50%;display:block;}
 
-/* SUPPORT ITEMS */
 .support-item{display:flex;align-items:center;background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;transition:background 0.15s,transform 0.1s;text-decoration:none;}
 .support-item:active{transform:scale(0.98);}
 .support-icon{font-size:20px;margin-right:14px;width:36px;text-align:center;}
@@ -208,21 +182,10 @@ body {
 .support-val{font-size:13px;color:var(--gold);margin-top:2px;}
 .support-arrow{font-size:18px;color:var(--muted);}
 
-/* ABOUT */
 .about-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
 .about-row:last-child{border-bottom:none;}
 .about-key{font-size:13px;color:var(--muted);}
 .about-val{font-size:13px;font-weight:500;}
-
-/* THEME TOGGLE */
-.theme-toggle-row{display:flex;align-items:center;background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px;margin-bottom:10px;}
-.theme-toggle-label{flex:1;font-size:15px;font-weight:500;}
-.toggle-switch{position:relative;width:52px;height:28px;flex-shrink:0;}
-.toggle-switch input{opacity:0;width:0;height:0;}
-.toggle-slider{position:absolute;inset:0;background:#2a3547;border-radius:28px;cursor:pointer;transition:background 0.3s;}
-.toggle-slider::before{content:'';position:absolute;height:22px;width:22px;left:3px;bottom:3px;background:#6B7A99;border-radius:50%;transition:0.3s;}
-.toggle-switch input:checked + .toggle-slider{background:linear-gradient(135deg,#F5A623,#E8941A);}
-.toggle-switch input:checked + .toggle-slider::before{transform:translateX(24px);background:#090E1A;}
 </style>
 </head>
 <body>
@@ -238,7 +201,7 @@ body {
   <div class="page active scroll-content" id="page-home">
     <div class="header">
       <div class="user-row">
-        <div class="avatar" id="home-avatar">АХ<div class="online-dot"></div></div>
+        <div class="avatar" id="home-avatar">AX<div class="online-dot"></div></div>
         <div class="user-meta">
           <div class="name" id="home-name">Arena X User</div>
           <div class="handle" id="home-handle">@username</div>
@@ -248,12 +211,12 @@ body {
     </div>
     <div class="logo-section">
       <div class="logo">Arena X Donate</div>
-      <div class="tagline">Biz bilamiz — oson va qulay!</div>
+      <div class="tagline" data-translate="tagline">Biz bilamiz — oson va qulay!</div>
     </div>
     <div class="balance-card">
-      <div class="bal-label">Topup balance</div>
+      <div class="bal-label" data-translate="balanceLabel">Topup balance</div>
       <div class="bal-amount" id="home-balance">0 UZS</div>
-      <button class="topup-btn" onclick="topupBalance(event,this)"><span>↗</span> To'ldirish</button>
+      <button class="topup-btn" onclick="topupBalance(event,this)"><span>↗</span> <span data-translate="topupBtn">To'ldirish</span></button>
     </div>
     
     <!-- CAROUSEL -->
@@ -311,21 +274,21 @@ body {
   <!-- HAMYON -->
   <div class="page scroll-content" id="page-hamyon">
     <div class="page-header">
-      <div class="page-title">Hamyon</div>
+      <div class="page-title" data-translate="wallet">Hamyon</div>
       <div class="refresh-btn" onclick="this.style.transform='rotate(360deg)';setTimeout(()=>this.style.transform='',400)">↻</div>
     </div>
     <div class="hamyon-card">
-      <div class="hamyon-label">Joriy balans</div>
+      <div class="hamyon-label" data-translate="currentBalance">Joriy balans</div>
       <div class="hamyon-amount">0</div>
       <div class="hamyon-sub">UZS</div>
-      <button class="hamyon-topup" onclick="topupBalance(event,this)"><span>+</span> Balansni to'ldirish</button>
+      <button class="hamyon-topup" onclick="topupBalance(event,this)"><span>+</span> <span data-translate="addBalance">Balansni to'ldirish</span></button>
     </div>
     <div class="history-section">
-      <div class="history-title">Balance History</div>
+      <div class="history-title" data-translate="history">Balance History</div>
       <div class="empty-state">
         <div class="empty-icon">📭</div>
-        <div class="empty-text">Ma'lumot topilmadi</div>
-        <div class="empty-sub">Hozircha hech narsa yo'q</div>
+        <div class="empty-text" data-translate="noData">Ma'lumot topilmadi</div>
+        <div class="empty-sub" data-translate="nothingYet">Hozircha hech narsa yo'q</div>
       </div>
     </div>
   </div>
@@ -333,11 +296,11 @@ body {
   <!-- O'YINLAR -->
   <div class="page scroll-content" id="page-oyinlar">
     <div class="page-header">
-      <div class="page-title">O'yinlar</div>
+      <div class="page-title" data-translate="games">O'yinlar</div>
     </div>
     <div class="section-header">
       <div class="section-line"></div>
-      <div class="section-title">Barcha o'yinlar</div>
+      <div class="section-title" data-translate="allGames">Barcha o'yinlar</div>
     </div>
     <div class="games-grid">
       <div class="game-card featured" onclick="selectGame(event,this,'PUBG Mobile')">
@@ -375,18 +338,18 @@ body {
 
   <!-- TARIX -->
   <div class="page scroll-content" id="page-tarix">
-    <div class="page-header"><div class="page-title">Tarix</div></div>
+    <div class="page-header"><div class="page-title" data-translate="history">Tarix</div></div>
     <div class="empty-state" style="padding-top:80px">
       <div class="empty-icon" style="font-size:56px">📋</div>
-      <div class="empty-text">Ma'lumot topilmadi</div>
-      <div class="empty-sub">Hozircha hech narsa yo'q</div>
+      <div class="empty-text" data-translate="noData">Ma'lumot topilmadi</div>
+      <div class="empty-sub" data-translate="nothingYet">Hozircha hech narsa yo'q</div>
     </div>
   </div>
 
   <!-- PROFIL -->
   <div class="page scroll-content" id="page-profil">
     <div class="profile-hero">
-      <div class="profile-avatar" id="profil-avatar">АХ</div>
+      <div class="profile-avatar" id="profil-avatar">AX</div>
       <div class="profile-name" id="profil-name">Arena X User</div>
       <div class="profile-id">
         <span id="profil-id">0000000000</span>
@@ -396,44 +359,37 @@ body {
     </div>
     <div class="menu-list">
       <div class="menu-item" onclick="openLang()">
-        <div class="menu-text"><div class="mtitle">Ilova tili</div><div class="msub" id="lang-sub">O'zbek</div></div>
+        <div class="menu-text"><div class="mtitle" data-translate="language">Ilova tili</div><div class="msub" id="lang-sub">O'zbek</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openSupport()">
-        <div class="menu-text"><div class="mtitle">Qo'llab-quvvatlash</div><div class="msub">24/7 yordam</div></div>
+        <div class="menu-text"><div class="mtitle" data-translate="support">Qo'llab-quvvatlash</div><div class="msub" data-translate="supportSub">24/7 yordam</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openAbout()">
-        <div class="menu-text"><div class="mtitle">Ilova haqida</div><div class="msub">v1.0.0</div></div>
+        <div class="menu-text"><div class="mtitle" data-translate="about">Ilova haqida</div><div class="msub">v1.0.0</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openCurrency()">
-        <div class="menu-text"><div class="mtitle">Valyutani o'zgartirish</div><div class="msub" id="currency-sub">UZS — so'm</div></div>
-        <div class="menu-arrow">›</div>
-      </div>
-      <div class="menu-item" onclick="openTheme()">
-        <div class="menu-text"><div class="mtitle">Mavzuni o'zgartirish</div><div class="msub" id="theme-sub">Qorong'i rejim</div></div>
+        <div class="menu-text"><div class="mtitle" data-translate="currency">Valyutani o'zgartirish</div><div class="msub" id="currency-sub">UZS — so'm</div></div>
         <div class="menu-arrow">›</div>
       </div>
     </div>
   </div>
 
-  <!-- BOTTOM NAV (5 ITEMS) -->
+  <!-- BOTTOM NAV (4 ITEMS - без темы) -->
   <nav class="bottom-nav">
     <div class="nav-item active" onclick="switchPage('home',this)">
-      <div class="nav-icon">⊞</div><div class="nav-label">Bosh sahifa</div><div class="nav-active-bar"></div>
+      <div class="nav-icon">⊞</div><div class="nav-label" data-translate="navHome">Bosh sahifa</div><div class="nav-active-bar"></div>
     </div>
     <div class="nav-item" onclick="switchPage('hamyon',this)">
-      <div class="nav-icon">💳</div><div class="nav-label">Hamyon</div><div class="nav-active-bar"></div>
+      <div class="nav-icon">💳</div><div class="nav-label" data-translate="navWallet">Hamyon</div><div class="nav-active-bar"></div>
     </div>
     <div class="nav-item" onclick="switchPage('oyinlar',this)">
-      <div class="nav-icon">🎮</div><div class="nav-label">O'yinlar</div><div class="nav-active-bar"></div>
+      <div class="nav-icon">🎮</div><div class="nav-label" data-translate="navGames">O'yinlar</div><div class="nav-active-bar"></div>
     </div>
     <div class="nav-item" onclick="switchPage('tarix',this)">
-      <div class="nav-icon">🕐</div><div class="nav-label">Tarix</div><div class="nav-active-bar"></div>
-    </div>
-    <div class="nav-item" onclick="switchPage('profil',this)">
-      <div class="nav-icon">👤</div><div class="nav-label">Profil</div><div class="nav-active-bar"></div>
+      <div class="nav-icon">🕐</div><div class="nav-label" data-translate="navHistory">Tarix</div><div class="nav-active-bar"></div>
     </div>
   </nav>
 </div>
@@ -441,28 +397,28 @@ body {
 <!-- ====== SHEETS ====== -->
 <div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
 
-<!-- LANGUAGE SHEET - КАК НА ФОТО 2 -->
+<!-- LANGUAGE SHEET -->
 <div class="sheet" id="sheet-lang">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title">Ilova tili</div>
+    <div class="sheet-title" data-translate="selectLang">Ilova tili</div>
   </div>
   <div class="sheet-body">
-    <div class="option-item selected" id="lang-uz" onclick="setLang('uz','O\'zbek')">
+    <div class="option-item selected" id="lang-uz" onclick="setLang('uz')">
       <div class="opt-row">
         <span class="opt-code">UZ</span>
         <span class="opt-label">O'zbek</span>
       </div>
       <span class="opt-check"></span>
     </div>
-    <div class="option-item" id="lang-ru" onclick="setLang('ru','Русский')">
+    <div class="option-item" id="lang-ru" onclick="setLang('ru')">
       <div class="opt-row">
         <span class="opt-code">RU</span>
         <span class="opt-label">Русский</span>
       </div>
       <span class="opt-check"></span>
     </div>
-    <div class="option-item" id="lang-en" onclick="setLang('en','English')">
+    <div class="option-item" id="lang-en" onclick="setLang('en')">
       <div class="opt-row">
         <span class="opt-code">EN</span>
         <span class="opt-label">English</span>
@@ -476,13 +432,13 @@ body {
 <div class="sheet" id="sheet-support">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title">Qo'llab-quvvatlash</div>
+    <div class="sheet-title" data-translate="support">Qo'llab-quvvatlash</div>
   </div>
   <div class="sheet-body">
     <a class="support-item" onclick="callPhone()">
       <span class="support-icon">📞</span>
       <div class="support-text">
-        <div class="support-label">Telefon</div>
+        <div class="support-label" data-translate="phone">Telefon</div>
         <div class="support-val">+998 90 589 01 92</div>
       </div>
       <span class="support-arrow" style="color:var(--gold)">›</span>
@@ -502,14 +458,13 @@ body {
 <div class="sheet" id="sheet-about">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title">Ilova haqida</div>
+    <div class="sheet-title" data-translate="about">Ilova haqida</div>
   </div>
   <div class="sheet-body">
-    <div class="about-row"><span class="about-key">Ilova nomi</span><span class="about-val">Arena X Donate</span></div>
-    <div class="about-row"><span class="about-key">Versiya</span><span class="about-val">v1.0.0</span></div>
-    <div class="about-row"><span class="about-key">Platforma</span><span class="about-val">Telegram Mini App</span></div>
-    <div class="about-row"><span class="about-key">Ishlab chiquvchi</span><span class="about-val">@barbossa_gaming</span></div>
-    <div class="about-row"><span class="about-key">Til</span><span class="about-val">O'zbek / RU / EN</span></div>
+    <div class="about-row"><span class="about-key" data-translate="appName">Ilova nomi</span><span class="about-val">Arena X Donate</span></div>
+    <div class="about-row"><span class="about-key" data-translate="version">Versiya</span><span class="about-val">v1.0.0</span></div>
+    <div class="about-row"><span class="about-key" data-translate="platform">Platforma</span><span class="about-val">Telegram Mini App</span></div>
+    <div class="about-row"><span class="about-key" data-translate="developer">Ishlab chiquvchi</span><span class="about-val">@barbossa_gaming</span></div>
   </div>
 </div>
 
@@ -517,7 +472,7 @@ body {
 <div class="sheet" id="sheet-currency">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title">Valyutani tanlang</div>
+    <div class="sheet-title" data-translate="selectCurrency">Valyutani tanlang</div>
   </div>
   <div class="sheet-body">
     <div class="option-item selected" id="cur-uzs" onclick="setCurrency('UZS','UZS — so\'m')">
@@ -544,32 +499,14 @@ body {
   </div>
 </div>
 
-<!-- THEME SHEET -->
-<div class="sheet" id="sheet-theme">
-  <div class="sheet-handle"></div>
-  <div class="sheet-header">
-    <div class="sheet-title">Mavzuni o'zgartirish</div>
-  </div>
-  <div class="sheet-body">
-    <div class="theme-toggle-row">
-      <span class="theme-toggle-label" id="theme-toggle-label">Qorong'i rejim</span>
-      <label class="toggle-switch">
-        <input type="checkbox" id="theme-chk" onchange="toggleTheme(this.checked)">
-        <span class="toggle-slider"></span>
-      </label>
-    </div>
-    <div style="font-size:12px;color:var(--muted);text-align:center;margin-top:8px;">Joriy: <span id="current-theme-label" style="color:var(--gold)">Qorong'i</span></div>
-  </div>
-</div>
-
 <!-- TOPUP SHEET -->
 <div class="sheet" id="sheet-topup">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title">Balansni to'ldirish</div>
+    <div class="sheet-title" data-translate="topupTitle">Balansni to'ldirish</div>
   </div>
   <div class="sheet-body">
-    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;text-align:center;">Summani tanlang</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;text-align:center;" data-translate="selectAmount">Summani tanlang</div>
     <div class="option-item" onclick="doTopup('10000')">
       <div class="opt-row">
         <span class="opt-label">10,000 UZS</span>
@@ -590,7 +527,7 @@ body {
     </div>
     <div class="option-item" onclick="doTopup('custom')">
       <div class="opt-row">
-        <span class="opt-label">Boshqa summa</span>
+        <span class="opt-label" data-translate="otherAmount">Boshqa summa</span>
       </div>
       <span class="opt-check" style="color:var(--muted);font-size:14px;">›</span>
     </div>
@@ -607,12 +544,12 @@ body {
     <div style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:16px;" id="game-sheet-desc">To'ldirmoqchimisiz?</div>
     <div class="option-item" style="background:linear-gradient(135deg,#F5A623,#E8941A);border-color:transparent;" onclick="confirmGame()">
       <div class="opt-row">
-        <span class="opt-label" style="color:#090E1A;font-weight:700;">Ha, to'ldirish</span>
+        <span class="opt-label" style="color:#090E1A;font-weight:700;" data-translate="yesTopup">Ha, to'ldirish</span>
       </div>
     </div>
     <div class="option-item" onclick="closeSheet()">
       <div class="opt-row">
-        <span class="opt-label">Bekor qilish</span>
+        <span class="opt-label" data-translate="cancel">Bekor qilish</span>
       </div>
     </div>
   </div>
@@ -623,9 +560,139 @@ body {
 let tg = null;
 try { tg = window.Telegram?.WebApp || null; if(tg){tg.expand();tg.ready();} } catch(e){}
 
+// ПЕРЕВОДЫ
+const translations = {
+  uz: {
+    tagline: 'Biz bilamiz — oson va qulay!',
+    balanceLabel: 'Hisobingiz',
+    topupBtn: "To'ldirish",
+    wallet: 'Hamyon',
+    currentBalance: 'Joriy balans',
+    addBalance: "Balansni to'ldirish",
+    history: 'Tarix',
+    noData: "Ma'lumot topilmadi",
+    nothingYet: 'Hozircha hech narsa yo\'q',
+    games: "O'yinlar",
+    allGames: "Barcha o'yinlar",
+    language: 'Ilova tili',
+    support: "Qo'llab-quvvatlash",
+    supportSub: '24/7 yordam',
+    about: 'Ilova haqida',
+    currency: "Valyutani o'zgartirish",
+    navHome: 'Bosh sahifa',
+    navWallet: 'Hamyon',
+    navGames: "O'yinlar",
+    navHistory: 'Tarix',
+    selectLang: 'Ilova tili',
+    phone: 'Telefon',
+    appName: 'Ilova nomi',
+    version: 'Versiya',
+    platform: 'Platforma',
+    developer: 'Ishlab chiquvchi',
+    selectCurrency: 'Valyutani tanlang',
+    topupTitle: "Balansni to'ldirish",
+    selectAmount: 'Summani tanlang',
+    otherAmount: 'Boshqa summa',
+    yesTopup: "Ha, to'ldirish",
+    cancel: 'Bekor qilish'
+  },
+  ru: {
+    tagline: 'Мы знаем — легко и удобно!',
+    balanceLabel: 'Ваш баланс',
+    topupBtn: 'Пополнить',
+    wallet: 'Кошелёк',
+    currentBalance: 'Текущий баланс',
+    addBalance: 'Пополнить баланс',
+    history: 'История',
+    noData: 'Информация не найдена',
+    nothingYet: 'Пока ничего нет',
+    games: 'Игры',
+    allGames: 'Все игры',
+    language: 'Язык приложения',
+    support: 'Поддержка',
+    supportSub: 'Помощь 24/7',
+    about: 'О приложении',
+    currency: 'Изменить валюту',
+    navHome: 'Главная',
+    navWallet: 'Кошелёк',
+    navGames: 'Игры',
+    navHistory: 'История',
+    selectLang: 'Язык приложения',
+    phone: 'Телефон',
+    appName: 'Название',
+    version: 'Версия',
+    platform: 'Платформа',
+    developer: 'Разработчик',
+    selectCurrency: 'Выберите валюту',
+    topupTitle: 'Пополнение баланса',
+    selectAmount: 'Выберите сумму',
+    otherAmount: 'Другая сумма',
+    yesTopup: 'Да, пополнить',
+    cancel: 'Отмена'
+  },
+  en: {
+    tagline: 'We know — easy and convenient!',
+    balanceLabel: 'Your balance',
+    topupBtn: 'Top up',
+    wallet: 'Wallet',
+    currentBalance: 'Current balance',
+    addBalance: 'Add balance',
+    history: 'History',
+    noData: 'No information found',
+    nothingYet: 'Nothing yet',
+    games: 'Games',
+    allGames: 'All games',
+    language: 'App language',
+    support: 'Support',
+    supportSub: '24/7 help',
+    about: 'About app',
+    currency: 'Change currency',
+    navHome: 'Home',
+    navWallet: 'Wallet',
+    navGames: 'Games',
+    navHistory: 'History',
+    selectLang: 'App language',
+    phone: 'Phone',
+    appName: 'App name',
+    version: 'Version',
+    platform: 'Platform',
+    developer: 'Developer',
+    selectCurrency: 'Select currency',
+    topupTitle: 'Top up balance',
+    selectAmount: 'Select amount',
+    otherAmount: 'Other amount',
+    yesTopup: 'Yes, top up',
+    cancel: 'Cancel'
+  }
+};
+
+let currentLang = 'uz';
+
+function setLang(lang) {
+  currentLang = lang;
+  
+  // Обновляем все элементы с data-translate
+  document.querySelectorAll('[data-translate]').forEach(el => {
+    const key = el.getAttribute('data-translate');
+    if (translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+  
+  // Обновляем выбор в листе
+  document.querySelectorAll('#sheet-lang .option-item').forEach(o => o.classList.remove('selected'));
+  document.getElementById('lang-' + lang).classList.add('selected');
+  
+  // Обновляем подзаголовок
+  const langNames = { uz: "O'zbek", ru: 'Русский', en: 'English' };
+  document.getElementById('lang-sub').textContent = langNames[lang];
+  
+  setTimeout(closeSheet, 300);
+}
+
 // USER DATA
 function loadUserData() {
-  let name='Arena X User', handle='@username', initials='АХ', photo=null, uid='0000000000';
+  let name='Arena X User', handle='@username', initials='AX', photo=null, uid='0000000000';
   if (tg?.initDataUnsafe?.user) {
     const u = tg.initDataUnsafe.user;
     const f = u.first_name||'', l = u.last_name||'';
@@ -716,12 +783,14 @@ function doTopup(val) {
 
 // GAME
 let pendingGame = '';
-const gameIcons = {'PUBG Mobile':'🪖','Mobile Legends':'⚔️','Free Fire RU/CIS':'🔥','Steam Gift Card':'🎮','Magic Chess':'♟️','Standoff 2':'🎯','Telegram Stars & Premium':'⭐'};
 function selectGame(e, card, name) {
   ripple(card, e);
   pendingGame = name;
   document.getElementById('game-sheet-title').textContent = name;
-  document.getElementById('game-sheet-desc').textContent = name+" uchun to'ldirmoqchimisiz?";
+  const descText = currentLang === 'uz' ? name+" uchun to'ldirmoqchimisiz?" : 
+                   currentLang === 'ru' ? 'Пополнить '+name+'?' : 
+                   'Top up '+name+'?';
+  document.getElementById('game-sheet-desc').textContent = descText;
   setTimeout(() => openSheet('sheet-game'), 80);
 }
 function confirmGame() {
@@ -732,12 +801,6 @@ function confirmGame() {
 
 // LANG
 function openLang() { openSheet('sheet-lang'); }
-function setLang(code, label) {
-  document.querySelectorAll('#sheet-lang .option-item').forEach(o=>o.classList.remove('selected'));
-  document.getElementById('lang-'+code).classList.add('selected');
-  document.getElementById('lang-sub').textContent = label;
-  setTimeout(closeSheet, 300);
-}
 
 // SUPPORT
 function openSupport() { openSheet('sheet-support'); }
@@ -764,39 +827,11 @@ function setCurrency(code, label) {
   setTimeout(closeSheet, 300);
 }
 
-// THEME
-function openTheme() { openSheet('sheet-theme'); }
-let isDark = true;
-function toggleTheme(checked) {
-  isDark = !checked;
-  const label = isDark ? 'Qorong\'i rejim' : 'Yorug\' rejim';
-  document.getElementById('theme-sub').textContent = label;
-  document.getElementById('theme-toggle-label').textContent = label;
-  document.getElementById('current-theme-label').textContent = isDark ? 'Qorong\'i' : 'Yorug\'';
-  if (!isDark) {
-    document.documentElement.style.setProperty('--dark1','#F0F4F8');
-    document.documentElement.style.setProperty('--dark2','#E2E8F0');
-    document.documentElement.style.setProperty('--dark3','#CBD5E0');
-    document.documentElement.style.setProperty('--dark4','#A0AEC0');
-    document.documentElement.style.setProperty('--text','#1A202C');
-    document.documentElement.style.setProperty('--muted','#4A5568');
-    document.body.style.background='#F0F4F8';
-  } else {
-    document.documentElement.style.setProperty('--dark1','#090E1A');
-    document.documentElement.style.setProperty('--dark2','#0E1525');
-    document.documentElement.style.setProperty('--dark3','#141B2D');
-    document.documentElement.style.setProperty('--dark4','#1A2235');
-    document.documentElement.style.setProperty('--text','#E8EDF5');
-    document.documentElement.style.setProperty('--muted','#6B7A99');
-    document.body.style.background='#090E1A';
-  }
-}
-
 // COPY ID
 function copyId() {
   const id = document.getElementById('profil-id').textContent;
   navigator.clipboard?.writeText(id);
-  if (tg) tg.showAlert('ID nusxalandi: '+id);
+  if (tg) tg.showAlert((currentLang === 'uz' ? 'ID nusxalandi: ' : currentLang === 'ru' ? 'ID скопирован: ' : 'ID copied: ') + id);
   else { const b=document.querySelector('.copy-btn'); b.textContent='✅'; setTimeout(()=>b.textContent='📋',1500); }
 }
 </script>
