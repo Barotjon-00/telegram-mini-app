@@ -83,8 +83,6 @@ body {
 .carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease-in-out;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0f1419);}
 .carousel-slide.active{opacity:1;}
 .carousel-slide img{width:100%;height:100%;object-fit:cover;}
-.carousel-slide .slide-content{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;}
-.carousel-slide .slide-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);}
 .carousel-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
 .carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.3s;}
 .carousel-dot.active{background:var(--gold);width:24px;border-radius:4px;}
@@ -146,22 +144,17 @@ body {
 .copy-btn:hover{opacity:1;}
 .profile-badge-row{display:flex;justify-content:center;margin:12px 0 0;}
 
-/* MENU */
+/* MENU - БЕЗ ИКОНОК */
 .menu-list{padding:8px 16px 0;}
-.menu-item{display:flex;align-items:center;background:var(--dark3);border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:background 0.15s,border-color 0.15s,transform 0.15s;animation:menuIn 0.4s ease both;}
+.menu-item{display:flex;align-items:center;justify-content:space-between;background:var(--dark3);border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:16px 20px;margin-bottom:10px;cursor:pointer;transition:background 0.15s,border-color 0.15s,transform 0.15s;animation:menuIn 0.4s ease both;}
 .menu-item:nth-child(1){animation-delay:0.05s}.menu-item:nth-child(2){animation-delay:0.1s}.menu-item:nth-child(3){animation-delay:0.15s}.menu-item:nth-child(4){animation-delay:0.2s}.menu-item:nth-child(5){animation-delay:0.25s}
 @keyframes menuIn{from{opacity:0;transform:translateX(-12px);}to{opacity:1;transform:translateX(0);}}
 .menu-item:hover{background:var(--dark4);border-color:rgba(245,166,35,0.2);}
 .menu-item:active{transform:scale(0.98);}
-.menu-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-right:14px;flex-shrink:0;}
-.icon-lang{background:rgba(100,150,255,0.15);}
-.icon-support{background:rgba(0,230,118,0.12);}
-.icon-about{background:rgba(100,150,255,0.15);}
-.icon-currency{background:rgba(245,166,35,0.15);}
-.icon-theme{background:rgba(150,100,255,0.15);}
+.menu-text{flex:1;}
 .menu-text .mtitle{font-size:15px;font-weight:500;}
 .menu-text .msub{font-size:12px;color:var(--muted);margin-top:2px;}
-.menu-arrow{margin-left:auto;color:var(--muted);font-size:18px;}
+.menu-arrow{color:var(--muted);font-size:18px;}
 
 /* RIPPLE */
 .ripple{position:absolute;border-radius:50%;background:rgba(245,166,35,0.25);transform:scale(0);animation:rippleAnim 0.5s linear;pointer-events:none;}
@@ -182,21 +175,29 @@ body {
 .sheet.open{transform:translateX(-50%) translateY(0);}
 .sheet-handle{width:40px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:12px auto 0;}
 .sheet-header{padding:16px 20px 8px;text-align:center;}
-.sheet-icon{width:56px;height:56px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:24px;}
 .sheet-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:0.5px;}
 .sheet-body{padding:12px 16px 24px;}
 
-/* OPTION LIST */
-.option-item{display:flex;align-items:center;background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:background 0.15s,border-color 0.15s,transform 0.1s;position:relative;overflow:hidden;}
+/* OPTION LIST - КАК НА ФОТО 2 */
+.option-item{display:flex;align-items:center;justify-content:space-between;background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px 20px;margin-bottom:10px;cursor:pointer;transition:all 0.2s ease;position:relative;overflow:hidden;}
 .option-item:active{transform:scale(0.98);}
-.option-item.selected{background:linear-gradient(135deg,#F5A623,#E8941A);border-color:transparent;}
+
+/* Выбранный элемент - оранжевый фон как на фото */
+.option-item.selected{background:linear-gradient(135deg,#F5A623,#E8941A);border-color:transparent;box-shadow:0 4px 12px rgba(245,166,35,0.3);}
+
+.opt-row{display:flex;align-items:center;gap:12px;flex:1;}
+
+.opt-code{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--muted);min-width:30px;}
+.option-item.selected .opt-code{color:#090E1A;}
+
+.opt-label{font-size:16px;font-weight:500;flex:1;}
 .option-item.selected .opt-label{color:#090E1A;font-weight:700;}
+
+/* Галочка справа как на фото */
+.opt-check{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,0.2);transition:all 0.2s;}
 .option-item.selected .opt-check{color:#090E1A;}
-.opt-flag{font-size:22px;margin-right:12px;}
-.opt-label{font-size:15px;font-weight:500;flex:1;}
-.opt-check{font-size:18px;color:rgba(255,255,255,0.2);}
-.option-item.selected .opt-check::before{content:'✓';}
-.option-item:not(.selected) .opt-check::before{content:'○';}
+.option-item.selected .opt-check::before{content:'✓';font-weight:bold;}
+.option-item:not(.selected) .opt-check::before{content:'';width:10px;height:10px;border:2px solid rgba(255,255,255,0.2);border-radius:50%;display:block;}
 
 /* SUPPORT ITEMS */
 .support-item{display:flex;align-items:center;background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;transition:background 0.15s,transform 0.1s;text-decoration:none;}
@@ -222,7 +223,6 @@ body {
 .toggle-slider::before{content:'';position:absolute;height:22px;width:22px;left:3px;bottom:3px;background:#6B7A99;border-radius:50%;transition:0.3s;}
 .toggle-switch input:checked + .toggle-slider{background:linear-gradient(135deg,#F5A623,#E8941A);}
 .toggle-switch input:checked + .toggle-slider::before{transform:translateX(24px);background:#090E1A;}
-.theme-icon{font-size:20px;margin-right:14px;}
 </style>
 </head>
 <body>
@@ -330,7 +330,7 @@ body {
     </div>
   </div>
 
-  <!-- O'YINLAR (NEW!) -->
+  <!-- O'YINLAR -->
   <div class="page scroll-content" id="page-oyinlar">
     <div class="page-header">
       <div class="page-title">O'yinlar</div>
@@ -396,27 +396,22 @@ body {
     </div>
     <div class="menu-list">
       <div class="menu-item" onclick="openLang()">
-        <div class="menu-icon icon-lang">🌐</div>
         <div class="menu-text"><div class="mtitle">Ilova tili</div><div class="msub" id="lang-sub">O'zbek</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openSupport()">
-        <div class="menu-icon icon-support">🎧</div>
         <div class="menu-text"><div class="mtitle">Qo'llab-quvvatlash</div><div class="msub">24/7 yordam</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openAbout()">
-        <div class="menu-icon icon-about">ℹ️</div>
         <div class="menu-text"><div class="mtitle">Ilova haqida</div><div class="msub">v1.0.0</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openCurrency()">
-        <div class="menu-icon icon-currency" style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:#F5A623;" id="currency-icon">UZS</div>
         <div class="menu-text"><div class="mtitle">Valyutani o'zgartirish</div><div class="msub" id="currency-sub">UZS — so'm</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openTheme()">
-        <div class="menu-icon icon-theme" id="theme-icon">🌙</div>
         <div class="menu-text"><div class="mtitle">Mavzuni o'zgartirish</div><div class="msub" id="theme-sub">Qorong'i rejim</div></div>
         <div class="menu-arrow">›</div>
       </div>
@@ -446,22 +441,33 @@ body {
 <!-- ====== SHEETS ====== -->
 <div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
 
-<!-- LANGUAGE SHEET -->
+<!-- LANGUAGE SHEET - КАК НА ФОТО 2 -->
 <div class="sheet" id="sheet-lang">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-icon" style="background:rgba(100,150,255,0.15)">🌐</div>
     <div class="sheet-title">Ilova tili</div>
   </div>
   <div class="sheet-body">
-    <div class="option-item selected" id="lang-uz" onclick="setLang('uz','O\'zbek','🇺🇿')">
-      <span class="opt-flag">🇺🇿</span><span class="opt-label">O'zbek</span><span class="opt-check"></span>
+    <div class="option-item selected" id="lang-uz" onclick="setLang('uz','O\'zbek')">
+      <div class="opt-row">
+        <span class="opt-code">UZ</span>
+        <span class="opt-label">O'zbek</span>
+      </div>
+      <span class="opt-check"></span>
     </div>
-    <div class="option-item" id="lang-ru" onclick="setLang('ru','Русский','🇷🇺')">
-      <span class="opt-flag">🇷🇺</span><span class="opt-label">Русский</span><span class="opt-check"></span>
+    <div class="option-item" id="lang-ru" onclick="setLang('ru','Русский')">
+      <div class="opt-row">
+        <span class="opt-code">RU</span>
+        <span class="opt-label">Русский</span>
+      </div>
+      <span class="opt-check"></span>
     </div>
-    <div class="option-item" id="lang-en" onclick="setLang('en','English','🇬🇧')">
-      <span class="opt-flag">🇬🇧</span><span class="opt-label">English</span><span class="opt-check"></span>
+    <div class="option-item" id="lang-en" onclick="setLang('en','English')">
+      <div class="opt-row">
+        <span class="opt-code">EN</span>
+        <span class="opt-label">English</span>
+      </div>
+      <span class="opt-check"></span>
     </div>
   </div>
 </div>
@@ -470,7 +476,6 @@ body {
 <div class="sheet" id="sheet-support">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-icon" style="background:rgba(0,230,118,0.12)">🎧</div>
     <div class="sheet-title">Qo'llab-quvvatlash</div>
   </div>
   <div class="sheet-body">
@@ -497,7 +502,6 @@ body {
 <div class="sheet" id="sheet-about">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-icon" style="background:rgba(100,150,255,0.15)">ℹ️</div>
     <div class="sheet-title">Ilova haqida</div>
   </div>
   <div class="sheet-body">
@@ -513,18 +517,29 @@ body {
 <div class="sheet" id="sheet-currency">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-icon" style="background:rgba(245,166,35,0.15);font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#F5A623;">UZS</div>
     <div class="sheet-title">Valyutani tanlang</div>
   </div>
   <div class="sheet-body">
     <div class="option-item selected" id="cur-uzs" onclick="setCurrency('UZS','UZS — so\'m')">
-      <span class="opt-flag">🇺🇿</span><span class="opt-label">UZS — So'm</span><span class="opt-check"></span>
+      <div class="opt-row">
+        <span class="opt-code">UZS</span>
+        <span class="opt-label">So'm</span>
+      </div>
+      <span class="opt-check"></span>
     </div>
     <div class="option-item" id="cur-usd" onclick="setCurrency('USD','USD — Dollar')">
-      <span class="opt-flag">🇺🇸</span><span class="opt-label">USD — Dollar</span><span class="opt-check"></span>
+      <div class="opt-row">
+        <span class="opt-code">USD</span>
+        <span class="opt-label">Dollar</span>
+      </div>
+      <span class="opt-check"></span>
     </div>
     <div class="option-item" id="cur-rub" onclick="setCurrency('RUB','RUB — Rubl')">
-      <span class="opt-flag">🇷🇺</span><span class="opt-label">RUB — Rubl</span><span class="opt-check"></span>
+      <div class="opt-row">
+        <span class="opt-code">RUB</span>
+        <span class="opt-label">Rubl</span>
+      </div>
+      <span class="opt-check"></span>
     </div>
   </div>
 </div>
@@ -533,12 +548,10 @@ body {
 <div class="sheet" id="sheet-theme">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-icon" style="background:rgba(150,100,255,0.15)" id="theme-sheet-icon">🌙</div>
     <div class="sheet-title">Mavzuni o'zgartirish</div>
   </div>
   <div class="sheet-body">
     <div class="theme-toggle-row">
-      <span class="theme-icon" id="ticon">🌙</span>
       <span class="theme-toggle-label" id="theme-toggle-label">Qorong'i rejim</span>
       <label class="toggle-switch">
         <input type="checkbox" id="theme-chk" onchange="toggleTheme(this.checked)">
@@ -553,22 +566,33 @@ body {
 <div class="sheet" id="sheet-topup">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-icon" style="background:rgba(245,166,35,0.15)">💳</div>
     <div class="sheet-title">Balansni to'ldirish</div>
   </div>
   <div class="sheet-body">
     <div style="font-size:12px;color:var(--muted);margin-bottom:12px;text-align:center;">Summani tanlang</div>
     <div class="option-item" onclick="doTopup('10000')">
-      <span class="opt-flag">💵</span><span class="opt-label">10,000 UZS</span><span class="opt-check" style="color:var(--muted);font-size:14px;">›</span>
+      <div class="opt-row">
+        <span class="opt-label">10,000 UZS</span>
+      </div>
+      <span class="opt-check" style="color:var(--muted);font-size:14px;">›</span>
     </div>
     <div class="option-item" onclick="doTopup('50000')">
-      <span class="opt-flag">💵</span><span class="opt-label">50,000 UZS</span><span class="opt-check" style="color:var(--muted);font-size:14px;">›</span>
+      <div class="opt-row">
+        <span class="opt-label">50,000 UZS</span>
+      </div>
+      <span class="opt-check" style="color:var(--muted);font-size:14px;">›</span>
     </div>
     <div class="option-item" onclick="doTopup('100000')">
-      <span class="opt-flag">💵</span><span class="opt-label">100,000 UZS</span><span class="opt-check" style="color:var(--muted);font-size:14px;">›</span>
+      <div class="opt-row">
+        <span class="opt-label">100,000 UZS</span>
+      </div>
+      <span class="opt-check" style="color:var(--muted);font-size:14px;">›</span>
     </div>
     <div class="option-item" onclick="doTopup('custom')">
-      <span class="opt-flag">✏️</span><span class="opt-label">Boshqa summa</span><span class="opt-check" style="color:var(--muted);font-size:14px;">›</span>
+      <div class="opt-row">
+        <span class="opt-label">Boshqa summa</span>
+      </div>
+      <span class="opt-check" style="color:var(--muted);font-size:14px;">›</span>
     </div>
   </div>
 </div>
@@ -577,17 +601,19 @@ body {
 <div class="sheet" id="sheet-game">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-icon" style="background:rgba(245,166,35,0.15)" id="game-sheet-icon">🎮</div>
     <div class="sheet-title" id="game-sheet-title">Game</div>
   </div>
   <div class="sheet-body">
     <div style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:16px;" id="game-sheet-desc">To'ldirmoqchimisiz?</div>
     <div class="option-item" style="background:linear-gradient(135deg,#F5A623,#E8941A);border-color:transparent;" onclick="confirmGame()">
-      <span class="opt-flag">✅</span>
-      <span class="opt-label" style="color:#090E1A;font-weight:700;">Ha, to'ldirish</span>
+      <div class="opt-row">
+        <span class="opt-label" style="color:#090E1A;font-weight:700;">Ha, to'ldirish</span>
+      </div>
     </div>
     <div class="option-item" onclick="closeSheet()">
-      <span class="opt-flag">❌</span><span class="opt-label">Bekor qilish</span>
+      <div class="opt-row">
+        <span class="opt-label">Bekor qilish</span>
+      </div>
     </div>
   </div>
 </div>
@@ -694,7 +720,6 @@ const gameIcons = {'PUBG Mobile':'🪖','Mobile Legends':'⚔️','Free Fire RU/
 function selectGame(e, card, name) {
   ripple(card, e);
   pendingGame = name;
-  document.getElementById('game-sheet-icon').textContent = gameIcons[name]||'🎮';
   document.getElementById('game-sheet-title').textContent = name;
   document.getElementById('game-sheet-desc').textContent = name+" uchun to'ldirmoqchimisiz?";
   setTimeout(() => openSheet('sheet-game'), 80);
@@ -707,7 +732,7 @@ function confirmGame() {
 
 // LANG
 function openLang() { openSheet('sheet-lang'); }
-function setLang(code, label, flag) {
+function setLang(code, label) {
   document.querySelectorAll('#sheet-lang .option-item').forEach(o=>o.classList.remove('selected'));
   document.getElementById('lang-'+code).classList.add('selected');
   document.getElementById('lang-sub').textContent = label;
@@ -736,7 +761,6 @@ function setCurrency(code, label) {
   document.querySelectorAll('#sheet-currency .option-item').forEach(o=>o.classList.remove('selected'));
   document.getElementById('cur-'+code.toLowerCase()).classList.add('selected');
   document.getElementById('currency-sub').textContent = label;
-  document.getElementById('currency-icon').textContent = code;
   setTimeout(closeSheet, 300);
 }
 
@@ -746,11 +770,8 @@ let isDark = true;
 function toggleTheme(checked) {
   isDark = !checked;
   const label = isDark ? 'Qorong\'i rejim' : 'Yorug\' rejim';
-  const icon = isDark ? '🌙' : '☀️';
   document.getElementById('theme-sub').textContent = label;
-  document.getElementById('theme-icon').textContent = icon;
-  document.getElementById('ticon').textContent = icon;
-  document.getElementById('theme-sheet-icon').textContent = icon;
+  document.getElementById('theme-toggle-label').textContent = label;
   document.getElementById('current-theme-label').textContent = isDark ? 'Qorong\'i' : 'Yorug\'';
   if (!isDark) {
     document.documentElement.style.setProperty('--dark1','#F0F4F8');
