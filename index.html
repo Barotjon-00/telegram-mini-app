@@ -76,9 +76,27 @@ body {
 .carousel{margin:0 16px 20px;border-radius:16px;overflow:hidden;position:relative;height:180px;background:var(--dark3);box-shadow:0 4px 12px rgba(0,0,0,0.3);}
 .carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease-in-out;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0f1419);}
 .carousel-slide.active{opacity:1;}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;}
 .carousel-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
 .carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.3s;}
 .carousel-dot.active{background:var(--gold);width:24px;border-radius:4px;}
+
+/* КНОПКА ПОДПИСКИ НА КАНАЛ */
+.channel-btn{margin:0 16px 20px;background:linear-gradient(135deg,#229ED9,#1a7fb0);border:none;border-radius:14px;padding:16px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 4px 12px rgba(34,158,217,0.3);}
+.channel-btn:active{transform:scale(0.97);box-shadow:none;}
+.channel-icon{font-size:24px;}
+
+/* SUPPORT SECTION ВНИЗУ */
+.support-section{margin:0 16px 20px;background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:20px;}
+.support-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;margin-bottom:15px;display:flex;align-items:center;gap:8px;}
+.support-links{display:flex;flex-direction:column;gap:10px;}
+.support-link{display:flex;align-items:center;background:var(--dark4);border-radius:12px;padding:14px;text-decoration:none;color:var(--text);transition:background 0.15s,transform 0.1s;}
+.support-link:active{transform:scale(0.98);background:rgba(245,166,35,0.1);}
+.support-link-icon{font-size:20px;margin-right:12px;width:36px;text-align:center;}
+.support-link-text{flex:1;}
+.support-link-label{font-size:14px;font-weight:500;}
+.support-link-val{font-size:12px;color:var(--muted);margin-top:2px;}
+.support-link-arrow{color:var(--muted);font-size:18px;}
 
 .section-header{padding:0 16px 12px;display:flex;align-items:center;gap:10px;}
 .section-line{width:3px;height:20px;background:var(--gold);border-radius:2px;flex-shrink:0;}
@@ -127,7 +145,6 @@ body {
 @keyframes avatarIn{from{transform:scale(0.5);opacity:0;}to{transform:scale(1);opacity:1;}}
 .profile-name{font-size:22px;font-weight:600;margin-bottom:4px;}
 .profile-id{font-size:13px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:6px;}
-/* УБРАНА КНОПКА КОПИРОВАНИЯ */
 .profile-badge-row{display:flex;justify-content:center;margin:12px 0 0;}
 
 .menu-list{padding:8px 16px 0;}
@@ -219,56 +236,78 @@ body {
     </div>
     
     <!-- CAROUSEL -->
-    <!-- CAROUSEL -->
-<div class="carousel">
-  <!-- Слайд 1: PUBG -->
-  <div class="carousel-slide active">
-    <img src="1.jpg" alt="PUBG Mobile" style="width:100%;height:100%;object-fit:cover;">
-    <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);">PUBG Mobile</div>
+    <div class="carousel">
+      <div class="carousel-slide active">
+        <img src="1.jpg" alt="PUBG Mobile" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);">PUBG Mobile</div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="2.jpg" alt="Mobile Legends" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);">Mobile Legends</div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="3.jpg" alt="Free Fire" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);">Free Fire</div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="4.jpg" alt="Standoff 2" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);">Standoff 2</div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="5.jpg" alt="Telegram Stars" style="width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);">Telegram Stars</div>
+        </div>
+      </div>
+      <div class="carousel-dots">
+        <div class="carousel-dot active"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+      </div>
     </div>
-  </div>
-  
-  <!-- Слайд 2: Mobile Legends -->
-  <div class="carousel-slide">
-    <img src="https://i.imgur.com/ВАША_ССЫЛКА_2.jpg" alt="Mobile Legends" style="width:100%;height:100%;object-fit:cover;">
-    <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);">Mobile Legends</div>
+
+    <!-- КНОПКА ПОДПИСКИ НА КАНАЛ -->
+    <button class="channel-btn" onclick="openChannel()">
+      <span class="channel-icon">📢</span>
+      <span data-translate="subscribeChannel">Kanalga obuna bo'ling</span>
+    </button>
+
+    <!-- SUPPORT SECTION ВНИЗУ -->
+    <div class="support-section">
+      <div class="support-title">
+        <span>🎧</span>
+        <span data-translate="supportTitle">Qo'llab-quvvatlash</span>
+      </div>
+      <div class="support-links">
+        <a class="support-link" onclick="callPhone()">
+          <span class="support-link-icon">📞</span>
+          <div class="support-link-text">
+            <div class="support-link-label" data-translate="phone">Telefon</div>
+            <div class="support-link-val">+998 90 589 01 92</div>
+          </div>
+          <span class="support-link-arrow">›</span>
+        </a>
+        <a class="support-link" onclick="openTelegramSupport()">
+          <span class="support-link-icon">✈️</span>
+          <div class="support-link-text">
+            <div class="support-link-label">Telegram</div>
+            <div class="support-link-val">@barbossa_gaming</div>
+          </div>
+          <span class="support-link-arrow" style="color:#229ED9">›</span>
+        </a>
+      </div>
     </div>
-  </div>
-  
-  <!-- Слайд 3: Free Fire -->
-  <div class="carousel-slide">
-    <img src="https://i.imgur.com/ВАША_ССЫЛКА_3.jpg" alt="Free Fire" style="width:100%;height:100%;object-fit:cover;">
-    <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);">Free Fire</div>
-    </div>
-  </div>
-  
-  <!-- Слайд 4: Standoff 2 -->
-  <div class="carousel-slide">
-    <img src="https://i.imgur.com/ВАША_ССЫЛКА_4.jpg" alt="Standoff 2" style="width:100%;height:100%;object-fit:cover;">
-    <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);">Standoff 2</div>
-    </div>
-  </div>
-  
-  <!-- Слайд 5: Telegram Stars -->
-  <div class="carousel-slide">
-    <img src="https://i.imgur.com/ВАША_ССЫЛКА_5.jpg" alt="Telegram Stars" style="width:100%;height:100%;object-fit:cover;">
-    <div style="position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);">Telegram Stars</div>
-    </div>
-  </div>
-  
-  <div class="carousel-dots">
-    <div class="carousel-dot active"></div>
-    <div class="carousel-dot"></div>
-    <div class="carousel-dot"></div>
-    <div class="carousel-dot"></div>
-    <div class="carousel-dot"></div>
-  </div>
-</div>
+
   </div>
 
   <!-- HAMYON -->
@@ -346,14 +385,13 @@ body {
     </div>
   </div>
 
-  <!-- PROFIL - ВЕРНУЛИ! -->
+  <!-- PROFIL -->
   <div class="page scroll-content" id="page-profil">
     <div class="profile-hero">
       <div class="profile-avatar" id="profil-avatar">AX</div>
       <div class="profile-name" id="profil-name">Arena X User</div>
       <div class="profile-id">
         <span id="profil-id">0000000000</span>
-        <!-- КНОПКА КОПИРОВАНИЯ УБРАНА -->
       </div>
       <div class="profile-badge-row"><div class="gold-badge">Gold Member ✦</div></div>
     </div>
@@ -377,7 +415,7 @@ body {
     </div>
   </div>
 
-  <!-- BOTTOM NAV - 5 ВКЛАДОК (вернули Profil) -->
+  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <div class="nav-item active" onclick="switchPage('home',this)">
       <div class="nav-icon">⊞</div><div class="nav-label" data-translate="navHome">Bosh sahifa</div><div class="nav-active-bar"></div>
@@ -598,7 +636,9 @@ const translations = {
     selectAmount: 'Summani tanlang',
     otherAmount: 'Boshqa summa',
     yesTopup: "Ha, to'ldirish",
-    cancel: 'Bekor qilish'
+    cancel: 'Bekor qilish',
+    subscribeChannel: 'Kanalga obuna bo\'ling',
+    supportTitle: 'Qo\'llab-quvvatlash'
   },
   ru: {
     tagline: 'Мы знаем — легко и удобно!',
@@ -633,7 +673,9 @@ const translations = {
     selectAmount: 'Выберите сумму',
     otherAmount: 'Другая сумма',
     yesTopup: 'Да, пополнить',
-    cancel: 'Отмена'
+    cancel: 'Отмена',
+    subscribeChannel: 'Подписаться на канал',
+    supportTitle: 'Поддержка'
   },
   en: {
     tagline: 'We know — easy and convenient!',
@@ -668,7 +710,9 @@ const translations = {
     selectAmount: 'Select amount',
     otherAmount: 'Other amount',
     yesTopup: 'Yes, top up',
-    cancel: 'Cancel'
+    cancel: 'Cancel',
+    subscribeChannel: 'Subscribe to channel',
+    supportTitle: 'Support'
   }
 };
 
@@ -818,6 +862,27 @@ function openTelegram() {
   else window.open('https://t.me/barbossa_gaming','_blank');
 }
 
+// НОВАЯ ФУНКЦИЯ: ОТКРЫТЬ КАНАЛ
+function openChannel() {
+  // ЗАМЕНИТЕ ССЫЛКУ НИЖЕ на ваш Telegram канал
+  const channelUrl = 'https://t.me/ВАШ_КАНАЛ';
+  
+  if (tg) {
+    tg.openTelegramLink(channelUrl);
+  } else {
+    window.open(channelUrl, '_blank');
+  }
+}
+
+// НОВАЯ ФУНКЦИЯ: ПОДДЕРЖКА В TELEGRAM
+function openTelegramSupport() {
+  if (tg) {
+    tg.openTelegramLink('https://t.me/barbossa_gaming');
+  } else {
+    window.open('https://t.me/barbossa_gaming', '_blank');
+  }
+}
+
 // ABOUT
 function openAbout() { openSheet('sheet-about'); }
 
@@ -829,8 +894,6 @@ function setCurrency(code, label) {
   document.getElementById('currency-sub').textContent = label;
   setTimeout(closeSheet, 300);
 }
-
-// COPY ID ФУНКЦИЯ УДАЛЕНА (кнопки больше нет)
 </script>
 </body>
 </html>
