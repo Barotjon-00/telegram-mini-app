@@ -127,8 +127,7 @@ body {
 @keyframes avatarIn{from{transform:scale(0.5);opacity:0;}to{transform:scale(1);opacity:1;}}
 .profile-name{font-size:22px;font-weight:600;margin-bottom:4px;}
 .profile-id{font-size:13px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:6px;}
-.copy-btn{cursor:pointer;opacity:0.5;transition:opacity 0.15s;font-size:14px;background:none;border:none;color:var(--muted);}
-.copy-btn:hover{opacity:1;}
+/* УБРАНА КНОПКА КОПИРОВАНИЯ */
 .profile-badge-row{display:flex;justify-content:center;margin:12px 0 0;}
 
 .menu-list{padding:8px 16px 0;}
@@ -214,7 +213,7 @@ body {
       <div class="tagline" data-translate="tagline">Biz bilamiz — oson va qulay!</div>
     </div>
     <div class="balance-card">
-      <div class="bal-label" data-translate="balanceLabel">Topup balance</div>
+      <div class="bal-label" data-translate="balanceLabel">Hisobingiz</div>
       <div class="bal-amount" id="home-balance">0 UZS</div>
       <button class="topup-btn" onclick="topupBalance(event,this)"><span>↗</span> <span data-translate="topupBtn">To'ldirish</span></button>
     </div>
@@ -284,7 +283,7 @@ body {
       <button class="hamyon-topup" onclick="topupBalance(event,this)"><span>+</span> <span data-translate="addBalance">Balansni to'ldirish</span></button>
     </div>
     <div class="history-section">
-      <div class="history-title" data-translate="history">Balance History</div>
+      <div class="history-title" data-translate="history">Tarix</div>
       <div class="empty-state">
         <div class="empty-icon">📭</div>
         <div class="empty-text" data-translate="noData">Ma'lumot topilmadi</div>
@@ -346,14 +345,14 @@ body {
     </div>
   </div>
 
-  <!-- PROFIL -->
+  <!-- PROFIL - ВЕРНУЛИ! -->
   <div class="page scroll-content" id="page-profil">
     <div class="profile-hero">
       <div class="profile-avatar" id="profil-avatar">AX</div>
       <div class="profile-name" id="profil-name">Arena X User</div>
       <div class="profile-id">
         <span id="profil-id">0000000000</span>
-        <button class="copy-btn" onclick="copyId()">📋</button>
+        <!-- КНОПКА КОПИРОВАНИЯ УБРАНА -->
       </div>
       <div class="profile-badge-row"><div class="gold-badge">Gold Member ✦</div></div>
     </div>
@@ -377,7 +376,7 @@ body {
     </div>
   </div>
 
-  <!-- BOTTOM NAV (4 ITEMS - без темы) -->
+  <!-- BOTTOM NAV - 5 ВКЛАДОК (вернули Profil) -->
   <nav class="bottom-nav">
     <div class="nav-item active" onclick="switchPage('home',this)">
       <div class="nav-icon">⊞</div><div class="nav-label" data-translate="navHome">Bosh sahifa</div><div class="nav-active-bar"></div>
@@ -390,6 +389,9 @@ body {
     </div>
     <div class="nav-item" onclick="switchPage('tarix',this)">
       <div class="nav-icon">🕐</div><div class="nav-label" data-translate="navHistory">Tarix</div><div class="nav-active-bar"></div>
+    </div>
+    <div class="nav-item" onclick="switchPage('profil',this)">
+      <div class="nav-icon">👤</div><div class="nav-label" data-translate="navProfile">Profil</div><div class="nav-active-bar"></div>
     </div>
   </nav>
 </div>
@@ -583,6 +585,7 @@ const translations = {
     navWallet: 'Hamyon',
     navGames: "O'yinlar",
     navHistory: 'Tarix',
+    navProfile: 'Profil',
     selectLang: 'Ilova tili',
     phone: 'Telefon',
     appName: 'Ilova nomi',
@@ -617,6 +620,7 @@ const translations = {
     navWallet: 'Кошелёк',
     navGames: 'Игры',
     navHistory: 'История',
+    navProfile: 'Профиль',
     selectLang: 'Язык приложения',
     phone: 'Телефон',
     appName: 'Название',
@@ -651,6 +655,7 @@ const translations = {
     navWallet: 'Wallet',
     navGames: 'Games',
     navHistory: 'History',
+    navProfile: 'Profile',
     selectLang: 'App language',
     phone: 'Phone',
     appName: 'App name',
@@ -671,7 +676,6 @@ let currentLang = 'uz';
 function setLang(lang) {
   currentLang = lang;
   
-  // Обновляем все элементы с data-translate
   document.querySelectorAll('[data-translate]').forEach(el => {
     const key = el.getAttribute('data-translate');
     if (translations[lang][key]) {
@@ -679,11 +683,9 @@ function setLang(lang) {
     }
   });
   
-  // Обновляем выбор в листе
   document.querySelectorAll('#sheet-lang .option-item').forEach(o => o.classList.remove('selected'));
   document.getElementById('lang-' + lang).classList.add('selected');
   
-  // Обновляем подзаголовок
   const langNames = { uz: "O'zbek", ru: 'Русский', en: 'English' };
   document.getElementById('lang-sub').textContent = langNames[lang];
   
@@ -827,13 +829,7 @@ function setCurrency(code, label) {
   setTimeout(closeSheet, 300);
 }
 
-// COPY ID
-function copyId() {
-  const id = document.getElementById('profil-id').textContent;
-  navigator.clipboard?.writeText(id);
-  if (tg) tg.showAlert((currentLang === 'uz' ? 'ID nusxalandi: ' : currentLang === 'ru' ? 'ID скопирован: ' : 'ID copied: ') + id);
-  else { const b=document.querySelector('.copy-btn'); b.textContent='✅'; setTimeout(()=>b.textContent='📋',1500); }
-}
+// COPY ID ФУНКЦИЯ УДАЛЕНА (кнопки больше нет)
 </script>
 </body>
 </html>
