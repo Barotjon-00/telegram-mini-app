@@ -71,8 +71,6 @@ body {
 /* BALANCE CARD */
 .balance-card{margin:0 16px 16px;background:linear-gradient(135deg,rgba(245,166,35,0.08),rgba(245,166,35,0.03));border:1px solid rgba(245,166,35,0.25);border-radius:20px;padding:20px;position:relative;overflow:hidden;animation:cardEntrance 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;}
 @keyframes cardEntrance{from{opacity:0;transform:scale(0.9) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
-.balance-card::before{content:'';position:absolute;top:-40px;right:-40px;width:130px;height:130px;background:radial-gradient(circle,rgba(245,166,35,0.18),transparent);border-radius:50%;}
-.balance-card::after{content:'';position:absolute;bottom:-20px;left:-20px;width:80px;height:80px;background:radial-gradient(circle,rgba(0,230,118,0.1),transparent);border-radius:50%;}
 .bal-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
 .bal-amount{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:var(--green);line-height:1;margin-bottom:16px;}
 .topup-btn{width:100%;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:14px;padding:14px;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:#090E1A;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform 0.15s;position:relative;overflow:hidden;}
@@ -80,17 +78,23 @@ body {
 @keyframes btnShine{0%,80%,100%{transform:translateX(-100%);}40%{transform:translateX(100%);}}
 .topup-btn:active{transform:scale(0.97);}
 
-/* BANNER */
-.banner{margin:0 16px 20px;border-radius:16px;border:1px solid var(--border);background:linear-gradient(135deg,#141B2D,#1A1535);height:90px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.banner-text{font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;color:rgba(245,166,35,0.5);letter-spacing:3px;animation:bannerPulse 2s ease-in-out infinite;}
-@keyframes bannerPulse{0%,100%{opacity:0.4;}50%{opacity:0.9;}}
+/* CAROUSEL */
+.carousel{margin:0 16px 20px;border-radius:16px;overflow:hidden;position:relative;height:180px;background:var(--dark3);box-shadow:0 4px 12px rgba(0,0,0,0.3);}
+.carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease-in-out;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0f1419);}
+.carousel-slide.active{opacity:1;}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;}
+.carousel-slide .slide-content{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);text-align:center;}
+.carousel-slide .slide-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);}
+.carousel-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
+.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.3s;}
+.carousel-dot.active{background:var(--gold);width:24px;border-radius:4px;}
 
 /* SECTION */
 .section-header{padding:0 16px 12px;display:flex;align-items:center;gap:10px;}
 .section-line{width:3px;height:20px;background:var(--gold);border-radius:2px;flex-shrink:0;}
 .section-title{font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;letter-spacing:1px;}
 
-/* GAMES */
+/* GAMES GRID */
 .games-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 16px 20px;}
 .game-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:14px;padding:12px 8px 10px;text-align:center;cursor:pointer;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),border-color 0.2s;position:relative;overflow:hidden;animation:cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;}
 .game-card:nth-child(1){animation-delay:0.1s}.game-card:nth-child(2){animation-delay:0.15s}.game-card:nth-child(3){animation-delay:0.2s}.game-card:nth-child(4){animation-delay:0.25s}.game-card:nth-child(5){animation-delay:0.3s}.game-card:nth-child(6){animation-delay:0.35s}.game-card:nth-child(7){animation-delay:0.4s}
@@ -182,7 +186,7 @@ body {
 .sheet-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:0.5px;}
 .sheet-body{padding:12px 16px 24px;}
 
-/* OPTION LIST (language, currency) */
+/* OPTION LIST */
 .option-item{display:flex;align-items:center;background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:background 0.15s,border-color 0.15s,transform 0.1s;position:relative;overflow:hidden;}
 .option-item:active{transform:scale(0.98);}
 .option-item.selected{background:linear-gradient(135deg,#F5A623,#E8941A);border-color:transparent;}
@@ -251,12 +255,89 @@ body {
       <div class="bal-amount" id="home-balance">0 UZS</div>
       <button class="topup-btn" onclick="topupBalance(event,this)"><span>↗</span> To'ldirish</button>
     </div>
-    <div class="banner">
-      <div class="banner-text">ARENA X DONATE  •  TOP UP GAMES</div>
+    
+    <!-- CAROUSEL -->
+    <div class="carousel">
+      <div class="carousel-slide active">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;color:#fff;">
+            <div style="font-size:48px;margin-bottom:10px;">🎮</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;">PUBG Mobile</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;color:#fff;">
+            <div style="font-size:48px;margin-bottom:10px;">⚔️</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;">Mobile Legends</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#4facfe,#00f2fe);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;color:#fff;">
+            <div style="font-size:48px;margin-bottom:10px;">🔥</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;">Free Fire</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#43e97b,#38f9d7);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;color:#fff;">
+            <div style="font-size:48px;margin-bottom:10px;">🎯</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;">Standoff 2</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#fa709a,#fee140);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;color:#fff;">
+            <div style="font-size:48px;margin-bottom:10px;">⭐</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;">Telegram Stars</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-dots">
+        <div class="carousel-dot active"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HAMYON -->
+  <div class="page scroll-content" id="page-hamyon">
+    <div class="page-header">
+      <div class="page-title">Hamyon</div>
+      <div class="refresh-btn" onclick="this.style.transform='rotate(360deg)';setTimeout(()=>this.style.transform='',400)">↻</div>
+    </div>
+    <div class="hamyon-card">
+      <div class="hamyon-label">Joriy balans</div>
+      <div class="hamyon-amount">0</div>
+      <div class="hamyon-sub">UZS</div>
+      <button class="hamyon-topup" onclick="topupBalance(event,this)"><span>+</span> Balansni to'ldirish</button>
+    </div>
+    <div class="history-section">
+      <div class="history-title">Balance History</div>
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <div class="empty-text">Ma'lumot topilmadi</div>
+        <div class="empty-sub">Hozircha hech narsa yo'q</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- O'YINLAR (NEW!) -->
+  <div class="page scroll-content" id="page-oyinlar">
+    <div class="page-header">
+      <div class="page-title">O'yinlar</div>
     </div>
     <div class="section-header">
       <div class="section-line"></div>
-      <div class="section-title">O'yinlar</div>
+      <div class="section-title">Barcha o'yinlar</div>
     </div>
     <div class="games-grid">
       <div class="game-card featured" onclick="selectGame(event,this,'PUBG Mobile')">
@@ -285,31 +366,9 @@ body {
         <div class="game-img">🎯</div>
         <div class="game-name">Standoff 2</div>
       </div>
-      <div class="game-card" onclick="selectGame(event,this,'Telegram Stars')">
+      <div class="game-card" onclick="selectGame(event,this,'Telegram Stars & Premium')">
         <div class="game-img">⭐</div>
-        <div class="game-name">Telegram Stars &amp; Premium</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- HAMYON -->
-  <div class="page scroll-content" id="page-hamyon">
-    <div class="page-header">
-      <div class="page-title">Hamyon</div>
-      <div class="refresh-btn" onclick="this.style.transform='rotate(360deg)';setTimeout(()=>this.style.transform='',400)">↻</div>
-    </div>
-    <div class="hamyon-card">
-      <div class="hamyon-label">Joriy balans</div>
-      <div class="hamyon-amount">0</div>
-      <div class="hamyon-sub">UZS</div>
-      <button class="hamyon-topup" onclick="topupBalance(event,this)"><span>+</span> Balansni to'ldirish</button>
-    </div>
-    <div class="history-section">
-      <div class="history-title">Balance History</div>
-      <div class="empty-state">
-        <div class="empty-icon">📭</div>
-        <div class="empty-text">Ma'lumot topilmadi</div>
-        <div class="empty-sub">Hozircha hech narsa yo'q</div>
+        <div class="game-name">Telegram Stars</div>
       </div>
     </div>
   </div>
@@ -364,13 +423,16 @@ body {
     </div>
   </div>
 
-  <!-- BOTTOM NAV -->
+  <!-- BOTTOM NAV (5 ITEMS) -->
   <nav class="bottom-nav">
     <div class="nav-item active" onclick="switchPage('home',this)">
       <div class="nav-icon">⊞</div><div class="nav-label">Bosh sahifa</div><div class="nav-active-bar"></div>
     </div>
     <div class="nav-item" onclick="switchPage('hamyon',this)">
       <div class="nav-icon">💳</div><div class="nav-label">Hamyon</div><div class="nav-active-bar"></div>
+    </div>
+    <div class="nav-item" onclick="switchPage('oyinlar',this)">
+      <div class="nav-icon">🎮</div><div class="nav-label">O'yinlar</div><div class="nav-active-bar"></div>
     </div>
     <div class="nav-item" onclick="switchPage('tarix',this)">
       <div class="nav-icon">🕐</div><div class="nav-label">Tarix</div><div class="nav-active-bar"></div>
@@ -382,7 +444,6 @@ body {
 </div>
 
 <!-- ====== SHEETS ====== -->
-<!-- OVERLAY -->
 <div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
 
 <!-- LANGUAGE SHEET -->
@@ -572,6 +633,20 @@ loadUserData();
   }
 })();
 
+// CAROUSEL
+let currentSlide = 0;
+const slides = document.querySelectorAll('.carousel-slide');
+const dots = document.querySelectorAll('.carousel-dot');
+
+function nextSlide() {
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  currentSlide = (currentSlide + 1) % slides.length;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+}
+setInterval(nextSlide, 5000);
+
 // NAV
 function switchPage(name, el) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -669,7 +744,7 @@ function setCurrency(code, label) {
 function openTheme() { openSheet('sheet-theme'); }
 let isDark = true;
 function toggleTheme(checked) {
-  isDark = !checked; // checked = light mode
+  isDark = !checked;
   const label = isDark ? 'Qorong\'i rejim' : 'Yorug\' rejim';
   const icon = isDark ? '🌙' : '☀️';
   document.getElementById('theme-sub').textContent = label;
