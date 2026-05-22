@@ -81,12 +81,10 @@ body {
 .carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.3s;}
 .carousel-dot.active{background:var(--gold);width:24px;border-radius:4px;}
 
-/* КНОПКА ПОДПИСКИ НА КАНАЛ */
 .channel-btn{margin:0 16px 20px;background:linear-gradient(135deg,#229ED9,#1a7fb0);border:none;border-radius:14px;padding:16px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 4px 12px rgba(34,158,217,0.3);}
 .channel-btn:active{transform:scale(0.97);box-shadow:none;}
 .channel-icon{font-size:24px;}
 
-/* SUPPORT SECTION ВНИЗУ */
 .support-section{margin:0 16px 20px;background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:20px;}
 .support-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;margin-bottom:15px;display:flex;align-items:center;gap:8px;}
 .support-links{display:flex;flex-direction:column;gap:10px;}
@@ -123,6 +121,28 @@ body {
 .nav-item.active .nav-icon{transform:scale(1.15);}
 .nav-active-bar{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:20px;height:3px;background:var(--gold);border-radius:2px;opacity:0;transition:opacity 0.2s;}
 .nav-item.active .nav-active-bar{opacity:1;}
+
+/* GAME PAGE STYLES */
+.game-banner{width:100%;height:200px;background:linear-gradient(135deg,#F5A623,#E8941A);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.game-banner img{width:100%;height:100%;object-fit:cover;opacity:0.3;}
+.game-banner-title{position:absolute;font-family:'Rajdhani',sans-serif;font-size:48px;font-weight:700;color:#fff;text-shadow:0 4px 8px rgba(0,0,0,0.5);z-index:1;}
+.back-btn-game{position:absolute;top:16px;left:16px;width:40px;height:40px;background:rgba(0,0,0,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;font-size:20px;color:#fff;backdrop-filter:blur(10px);}
+.back-btn-game:active{transform:scale(0.9);}
+
+.game-tabs{display:flex;gap:8px;padding:16px;overflow-x:auto;background:var(--dark2);}
+.game-tab{padding:10px 20px;background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:20px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.2s;}
+.game-tab.active{background:var(--gold);color:#090E1A;border-color:var(--gold);}
+.game-tab:active{transform:scale(0.95);}
+
+.packages-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px;}
+.package-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:16px;text-align:center;transition:transform 0.15s,border-color 0.15s;}
+.package-card:active{transform:scale(0.95);border-color:rgba(245,166,35,0.4);}
+.package-icon{width:80px;height:80px;margin:0 auto 12px;background:var(--dark4);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:40px;}
+.package-name{font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text);}
+.package-price{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:4px;}
+.package-stock{font-size:11px;color:var(--muted);margin-bottom:12px;}
+.package-buy-btn{width:100%;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:10px;padding:10px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:transform 0.1s;}
+.package-buy-btn:active{transform:scale(0.95);}
 
 .hamyon-card{margin:16px;background:linear-gradient(135deg,rgba(245,166,35,0.1),rgba(245,166,35,0.03));border:1px solid rgba(245,166,35,0.3);border-radius:24px;padding:30px 20px;text-align:center;position:relative;overflow:hidden;}
 .hamyon-label{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
@@ -276,13 +296,11 @@ body {
       </div>
     </div>
 
-    <!-- КНОПКА ПОДПИСКИ НА КАНАЛ -->
     <button class="channel-btn" onclick="openChannel()">
       <span class="channel-icon">📢</span>
       <span data-translate="subscribeChannel">Kanalga obuna bo'ling</span>
     </button>
 
-    <!-- SUPPORT SECTION ВНИЗУ -->
     <div class="support-section">
       <div class="support-title">
         <span>🎧</span>
@@ -308,6 +326,126 @@ body {
       </div>
     </div>
 
+  </div>
+
+  <!-- PUBG MOBILE PAGE -->
+  <div class="page scroll-content" id="page-pubg">
+    <div class="game-banner">
+      <img src="pubg-banner.jpg" alt="PUBG">
+      <div class="game-banner-title">PUBG Mobile</div>
+      <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
+    </div>
+    
+    <div class="game-tabs">
+      <div class="game-tab active">UC VOUCHER</div>
+      <div class="game-tab">ROYAL PASS</div>
+      <div class="game-tab">PROMOCOD</div>
+    </div>
+    
+    <div class="packages-grid">
+      <div class="package-card" onclick="buyPackage('PUBG','60 UC','12500')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">60 UC</div>
+        <div class="package-price">12 500 UZS</div>
+        <div class="package-stock">Mavjud: 7221</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('PUBG','325 UC','59800')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">325 UC</div>
+        <div class="package-price">59 800 UZS</div>
+        <div class="package-stock">Mavjud: 1682</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('PUBG','660 UC','117400')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">660 UC</div>
+        <div class="package-price">117 400 UZS</div>
+        <div class="package-stock">Mavjud: 140</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('PUBG','1800 UC','289000')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">1800 UC</div>
+        <div class="package-price">289 000 UZS</div>
+        <div class="package-stock">Mavjud: 263</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('PUBG','3850 UC','576000')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">3850 UC</div>
+        <div class="package-price">576 000 UZS</div>
+        <div class="package-stock">Mavjud: 129</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('PUBG','8100 UC','1149200')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">8100 UC</div>
+        <div class="package-price">1 149 200 UZS</div>
+        <div class="package-stock">Mavjud: 111</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE LEGENDS PAGE -->
+  <div class="page scroll-content" id="page-mlbb">
+    <div class="game-banner" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">
+      <img src="mlbb-banner.jpg" alt="MLBB">
+      <div class="game-banner-title">Mobile Legends</div>
+      <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
+    </div>
+    
+    <div class="game-tabs">
+      <div class="game-tab active">UZ/Global</div>
+      <div class="game-tab">MLBB UZ</div>
+      <div class="game-tab">MLBB Ru</div>
+    </div>
+    
+    <div class="packages-grid">
+      <div class="package-card" onclick="buyPackage('MLBB','Vaqtinchalik paket','3100')">
+        <div class="package-icon">💠</div>
+        <div class="package-name">Vaqtinchalik paket</div>
+        <div class="package-price">3 100 UZS</div>
+        <div class="package-stock">Mavjud: 500+</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB','Oylik elit pack','53200')">
+        <div class="package-icon">💠</div>
+        <div class="package-name">Oylik elit pack</div>
+        <div class="package-price">53 200 UZS</div>
+        <div class="package-stock">Mavjud: 300+</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB','Haftalik elit pack','10600')">
+        <div class="package-icon">💠</div>
+        <div class="package-name">Haftalik elit pack</div>
+        <div class="package-price">10 600 UZS</div>
+        <div class="package-stock">Mavjud: 400+</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB','Almaz propusk y3','19800')">
+        <div class="package-icon">💠</div>
+        <div class="package-name">Almaz propusk y3</div>
+        <div class="package-price">19 800 UZS</div>
+        <div class="package-stock">Mavjud: 200+</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB','50+5 diamond','10500')">
+        <div class="package-icon">💠</div>
+        <div class="package-name">50+5 💎 (+45 birinchi harid)</div>
+        <div class="package-price">10 500 UZS</div>
+        <div class="package-stock">Mavjud: 600+</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB','150+15 diamond','31400')">
+        <div class="package-icon">💠</div>
+        <div class="package-name">150+15 💎 (+135 birinchi harid)</div>
+        <div class="package-price">31 400 UZS</div>
+        <div class="package-stock">Mavjud: 450+</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+    </div>
   </div>
 
   <!-- HAMYON -->
@@ -342,12 +480,12 @@ body {
       <div class="section-title" data-translate="allGames">Barcha o'yinlar</div>
     </div>
     <div class="games-grid">
-      <div class="game-card featured" onclick="selectGame(event,this,'PUBG Mobile')">
+      <div class="game-card featured" onclick="openGamePage('pubg')">
         <div class="hot-badge">HOT</div>
         <div class="game-img">🪖</div>
         <div class="game-name">PUBG Mobile</div>
       </div>
-      <div class="game-card" onclick="selectGame(event,this,'Mobile Legends')">
+      <div class="game-card" onclick="openGamePage('mlbb')">
         <div class="game-img">⚔️</div>
         <div class="game-name">Mobile Legends</div>
       </div>
@@ -435,7 +573,7 @@ body {
   </nav>
 </div>
 
-<!-- ====== SHEETS ====== -->
+<!-- SHEETS -->
 <div class="sheet-overlay" id="overlay" onclick="closeSheet()"></div>
 
 <!-- LANGUAGE SHEET -->
@@ -575,33 +713,37 @@ body {
   </div>
 </div>
 
-<!-- GAME SHEET -->
-<div class="sheet" id="sheet-game">
+<!-- BUY PACKAGE SHEET -->
+<div class="sheet" id="sheet-buy">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title" id="game-sheet-title">Game</div>
+    <div class="sheet-title" id="buy-sheet-title">Sotib olish</div>
   </div>
   <div class="sheet-body">
-    <div style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:16px;" id="game-sheet-desc">To'ldirmoqchimisiz?</div>
-    <div class="option-item" style="background:linear-gradient(135deg,#F5A623,#E8941A);border-color:transparent;" onclick="confirmGame()">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:48px;margin-bottom:10px;" id="buy-package-icon">💎</div>
+      <div style="font-size:18px;font-weight:600;margin-bottom:5px;" id="buy-package-name">60 UC</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:var(--gold);" id="buy-package-price">12 500 UZS</div>
+    </div>
+    <div style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;">ID kiriting:</div>
+    <input type="text" id="player-id-input" placeholder="Player ID" style="width:100%;padding:14px;background:var(--dark4);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;">
+    <div class="option-item" style="background:linear-gradient(135deg,#F5A623,#E8941A);border-color:transparent;" onclick="confirmBuy()">
       <div class="opt-row">
-        <span class="opt-label" style="color:#090E1A;font-weight:700;" data-translate="yesTopup">Ha, to'ldirish</span>
+        <span class="opt-label" style="color:#090E1A;font-weight:700;">✅ Sotib olish</span>
       </div>
     </div>
     <div class="option-item" onclick="closeSheet()">
       <div class="opt-row">
-        <span class="opt-label" data-translate="cancel">Bekor qilish</span>
+        <span class="opt-label">❌ Bekor qilish</span>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// TG
 let tg = null;
 try { tg = window.Telegram?.WebApp || null; if(tg){tg.expand();tg.ready();} } catch(e){}
 
-// ПЕРЕВОДЫ
 const translations = {
   uz: {
     tagline: 'Biz bilamiz — oson va qulay!',
@@ -635,8 +777,6 @@ const translations = {
     topupTitle: "Balansni to'ldirish",
     selectAmount: 'Summani tanlang',
     otherAmount: 'Boshqa summa',
-    yesTopup: "Ha, to'ldirish",
-    cancel: 'Bekor qilish',
     subscribeChannel: 'Kanalga obuna bo\'ling',
     supportTitle: 'Qo\'llab-quvvatlash'
   },
@@ -672,8 +812,6 @@ const translations = {
     topupTitle: 'Пополнение баланса',
     selectAmount: 'Выберите сумму',
     otherAmount: 'Другая сумма',
-    yesTopup: 'Да, пополнить',
-    cancel: 'Отмена',
     subscribeChannel: 'Подписаться на канал',
     supportTitle: 'Поддержка'
   },
@@ -709,35 +847,27 @@ const translations = {
     topupTitle: 'Top up balance',
     selectAmount: 'Select amount',
     otherAmount: 'Other amount',
-    yesTopup: 'Yes, top up',
-    cancel: 'Cancel',
     subscribeChannel: 'Subscribe to channel',
     supportTitle: 'Support'
   }
 };
 
 let currentLang = 'uz';
+let pendingBuy = {};
 
 function setLang(lang) {
   currentLang = lang;
-  
   document.querySelectorAll('[data-translate]').forEach(el => {
     const key = el.getAttribute('data-translate');
-    if (translations[lang][key]) {
-      el.textContent = translations[lang][key];
-    }
+    if (translations[lang][key]) el.textContent = translations[lang][key];
   });
-  
   document.querySelectorAll('#sheet-lang .option-item').forEach(o => o.classList.remove('selected'));
   document.getElementById('lang-' + lang).classList.add('selected');
-  
   const langNames = { uz: "O'zbek", ru: 'Русский', en: 'English' };
   document.getElementById('lang-sub').textContent = langNames[lang];
-  
   setTimeout(closeSheet, 300);
 }
 
-// USER DATA
 function loadUserData() {
   let name='Arena X User', handle='@username', initials='AX', photo=null, uid='0000000000';
   if (tg?.initDataUnsafe?.user) {
@@ -763,7 +893,6 @@ function loadUserData() {
 }
 loadUserData();
 
-// STARS
 (function(){
   const c = document.getElementById('stars');
   for(let i=0;i<60;i++){
@@ -773,11 +902,9 @@ loadUserData();
   }
 })();
 
-// CAROUSEL
 let currentSlide = 0;
 const slides = document.querySelectorAll('.carousel-slide');
 const dots = document.querySelectorAll('.carousel-dot');
-
 function nextSlide() {
   slides[currentSlide].classList.remove('active');
   dots[currentSlide].classList.remove('active');
@@ -787,15 +914,20 @@ function nextSlide() {
 }
 setInterval(nextSlide, 5000);
 
-// NAV
 function switchPage(name, el) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
-  el.classList.add('active');
+  if(el && el.classList.contains('nav-item')) el.classList.add('active');
+  else document.querySelector('.nav-item').classList.add('active');
 }
 
-// RIPPLE
+function openGamePage(game) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+game).classList.add('active');
+}
+
 function ripple(el, e) {
   const r=document.createElement('span'); r.className='ripple';
   const rect=el.getBoundingClientRect();
@@ -804,10 +936,9 @@ function ripple(el, e) {
   el.appendChild(r); r.addEventListener('animationend',()=>r.remove());
 }
 
-// SHEET SYSTEM
 let currentSheet = null;
 function openSheet(id) {
-  if (currentSheet) { document.getElementById(currentSheet).classList.remove('open'); }
+  if (currentSheet) document.getElementById(currentSheet).classList.remove('open');
   currentSheet = id;
   document.getElementById('overlay').classList.add('open');
   document.getElementById(id).classList.add('open');
@@ -817,7 +948,6 @@ function closeSheet() {
   if (currentSheet) { document.getElementById(currentSheet).classList.remove('open'); currentSheet=null; }
 }
 
-// TOPUP
 function topupBalance(e, btn) {
   ripple(btn, e);
   setTimeout(() => openSheet('sheet-topup'), 80);
@@ -828,28 +958,42 @@ function doTopup(val) {
   else alert('Topup: '+val+' UZS (demo)');
 }
 
-// GAME
-let pendingGame = '';
+function buyPackage(game, packageName, price) {
+  pendingBuy = { game, packageName, price };
+  const icons = { 'PUBG': '🪖', 'MLBB': '⚔️' };
+  document.getElementById('buy-package-icon').textContent = icons[game] || '💎';
+  document.getElementById('buy-package-name').textContent = packageName;
+  document.getElementById('buy-package-price').textContent = parseInt(price).toLocaleString() + ' UZS';
+  document.getElementById('player-id-input').value = '';
+  openSheet('sheet-buy');
+}
+
+function confirmBuy() {
+  const playerId = document.getElementById('player-id-input').value.trim();
+  if (!playerId) {
+    alert('ID kiriting!');
+    return;
+  }
+  closeSheet();
+  const msg = `${pendingBuy.game}|${pendingBuy.packageName}|${pendingBuy.price}|${playerId}`;
+  if (tg) tg.sendData(msg);
+  else alert('Покупка: ' + msg + ' (demo)');
+}
+
 function selectGame(e, card, name) {
   ripple(card, e);
-  pendingGame = name;
-  document.getElementById('game-sheet-title').textContent = name;
-  const descText = currentLang === 'uz' ? name+" uchun to'ldirmoqchimisiz?" : 
-                   currentLang === 'ru' ? 'Пополнить '+name+'?' : 
-                   'Top up '+name+'?';
-  document.getElementById('game-sheet-desc').textContent = descText;
-  setTimeout(() => openSheet('sheet-game'), 80);
-}
-function confirmGame() {
-  closeSheet();
-  if (tg) tg.sendData('Game:'+pendingGame);
-  else alert('Game: '+pendingGame+' (demo)');
+  if (tg) {
+    tg.showPopup({
+      title: name,
+      message: name+" uchun to'ldirmoqchimisiz?",
+      buttons: [{type:'default',text:'Ha'},{type:'cancel',text:'Bekor qilish'}]
+    }, (id) => { if(id==='default') tg.sendData('Game:'+name); });
+  } else {
+    alert('Game: '+name+' (demo)');
+  }
 }
 
-// LANG
 function openLang() { openSheet('sheet-lang'); }
-
-// SUPPORT
 function openSupport() { openSheet('sheet-support'); }
 function callPhone() {
   closeSheet();
@@ -861,38 +1005,24 @@ function openTelegram() {
   if (tg) tg.openTelegramLink('https://t.me/barbossa_gaming');
   else window.open('https://t.me/barbossa_gaming','_blank');
 }
-
-// НОВАЯ ФУНКЦИЯ: ОТКРЫТЬ КАНАЛ
-function openChannel() {
-  // ЗАМЕНИТЕ ССЫЛКУ НИЖЕ на ваш Telegram канал
-  const channelUrl = 'https://t.me/ВАШ_КАНАЛ';
-  
-  if (tg) {
-    tg.openTelegramLink(channelUrl);
-  } else {
-    window.open(channelUrl, '_blank');
-  }
-}
-
-// НОВАЯ ФУНКЦИЯ: ПОДДЕРЖКА В TELEGRAM
-function openTelegramSupport() {
-  if (tg) {
-    tg.openTelegramLink('https://t.me/barbossa_gaming');
-  } else {
-    window.open('https://t.me/barbossa_gaming', '_blank');
-  }
-}
-
-// ABOUT
 function openAbout() { openSheet('sheet-about'); }
-
-// CURRENCY
 function openCurrency() { openSheet('sheet-currency'); }
 function setCurrency(code, label) {
   document.querySelectorAll('#sheet-currency .option-item').forEach(o=>o.classList.remove('selected'));
   document.getElementById('cur-'+code.toLowerCase()).classList.add('selected');
   document.getElementById('currency-sub').textContent = label;
   setTimeout(closeSheet, 300);
+}
+
+function openChannel() {
+  const channelUrl = 'https://t.me/ВАШ_КАНАЛ';
+  if (tg) tg.openTelegramLink(channelUrl);
+  else window.open(channelUrl, '_blank');
+}
+
+function openTelegramSupport() {
+  if (tg) tg.openTelegramLink('https://t.me/barbossa_gaming');
+  else window.open('https://t.me/barbossa_gaming', '_blank');
 }
 </script>
 </body>
