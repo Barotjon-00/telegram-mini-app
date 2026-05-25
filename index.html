@@ -144,6 +144,10 @@ body {
 .package-buy-btn{width:100%;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:10px;padding:10px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform 0.1s;}
 .package-buy-btn:active{transform:scale(0.95);}
 
+/* PUBG Specific Styles */
+.pubg-info-bar{padding:12px 16px;background:var(--dark2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:14px;color:var(--gold);}
+.pack-section-title{padding:16px 16px 8px;font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+
 /* Telegram Premium specific */
 .username-input-section{padding:16px;}
 .username-label{font-size:14px;color:var(--muted);margin-bottom:8px;}
@@ -343,332 +347,204 @@ body {
 
   <!-- PUBG MOBILE PAGE -->
   <div class="page scroll-content" id="page-pubg">
-    <div class="game-banner">
+    <div class="game-banner" style="background:linear-gradient(135deg,#f39c12,#e74c3c);">
       <img src="pubg-banner.jpg" alt="PUBG">
       <div class="game-banner-title">PUBG Mobile</div>
       <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
     </div>
     
     <div class="game-tabs">
-      <div class="game-tab active">UC VOUCHER</div>
-      <div class="game-tab">ROYAL PASS</div>
-      <div class="game-tab">PROMOCOD</div>
+      <div class="game-tab active" onclick="showPUBGTab('promocod')">PUBG PROMOCOD</div>
+      <div class="game-tab" onclick="showPUBGTab('iduc')">ID orqali UC</div>
+      <div class="game-tab" onclick="showPUBGTab('arzonroq')">ID orqali ARZONROQ</div>
+      <div class="game-tab" onclick="showPUBGTab('obunalar')">OBUNALAR va PACKLAR</div>
     </div>
     
-    <div class="packages-grid">
-      <div class="package-card" onclick="buyPackage('PUBG','60 UC','12500')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">60 UC</div>
-        <div class="package-price">12 500 UZS</div>
-        <div class="package-stock">Mavjud: 7221</div>
-        <button class="package-buy-btn">Sotib olish</button>
+    <!-- PUBG PROMOCOD Tab -->
+    <div id="pubg-promocod">
+      <div class="pubg-info-bar">
+        <span>ℹ️</span>
+        <span>PUBG PROMOCOD</span>
       </div>
-      <div class="package-card" onclick="buyPackage('PUBG','325 UC','59800')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">325 UC</div>
-        <div class="package-price">59 800 UZS</div>
-        <div class="package-stock">Mavjud: 1682</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('PUBG','660 UC','117400')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">660 UC</div>
-        <div class="package-price">117 400 UZS</div>
-        <div class="package-stock">Mavjud: 140</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('PUBG','1800 UC','289000')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">1800 UC</div>
-        <div class="package-price">289 000 UZS</div>
-        <div class="package-stock">Mavjud: 263</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('PUBG','3850 UC','576000')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">3850 UC</div>
-        <div class="package-price">576 000 UZS</div>
-        <div class="package-stock">Mavjud: 129</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('PUBG','8100 UC','1149200')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">8100 UC</div>
-        <div class="package-price">1 149 200 UZS</div>
-        <div class="package-stock">Mavjud: 111</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MOBILE LEGENDS PAGE -->
-  <div class="page scroll-content" id="page-mlbb">
-    <div class="game-banner" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">
-      <img src="mlbb-banner.jpg" alt="MLBB">
-      <div class="game-banner-title">Mobile Legends</div>
-      <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
-    </div>
-    
-    <div class="game-tabs">
-      <div class="game-tab active" onclick="showMLBBTab('uzglobal')">UZ/Global</div>
-      <div class="game-tab" onclick="showMLBBTab('mlbbuz')">MLBB UZ</div>
-      <div class="game-tab" onclick="showMLBBTab('mlbbru')">MLBB Ru</div>
-      <div class="game-tab" onclick="showMLBBTab('turk')">Turk</div>
-    </div>
-    
-    <!-- UZ/Global Tab -->
-    <div class="packages-grid" id="mlbb-uzglobal">
-      <div class="package-card" onclick="buyPackage('MLBB','Vaqtinchalik paket','3100')">
-        <div class="package-icon">📦</div>
-        <div class="package-name">Vaqtinchalik paket</div>
-        <div class="package-price">3 100 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB','Oylik elit pack','53200')">
-        <div class="package-icon">👑</div>
-        <div class="package-name">Oylik elit pack</div>
-        <div class="package-price">53 200 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB','Haftalik elit pack','10600')">
-        <div class="package-icon">⭐</div>
-        <div class="package-name">Haftalik elit pack</div>
-        <div class="package-price">10 600 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB','Almaz propusk y3','19800')">
-        <div class="package-icon">🎫</div>
-        <div class="package-name">Almaz propusk y3</div>
-        <div class="package-price">19 800 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB','50+5 diamond','10500')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">50+5 💎 (+45 birinchi harid)</div>
-        <div class="package-price">10 500 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB','150+15 diamond','31400')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">150+15 💎 (+135 birinchi harid)</div>
-        <div class="package-price">31 400 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB','250+25 diamond','49900')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">250+25 💎 (+225 birinchi harid)</div>
-        <div class="package-price">49 900 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB','500+65 diamond','102400')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">500+65 💎 (+435 birinchi harid)</div>
-        <div class="package-price">102 400 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB','172 diamond y3','32500')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">172 💎 (156+16) y3</div>
-        <div class="package-price">32 500 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
+      <div class="packages-grid">
+        <div class="package-card" onclick="buyPackage('PUBG','60 UC VOUCHER','12430')">
+          <div class="package-icon">🎫</div>
+          <div class="package-name">60 UC</div>
+          <div class="package-price">12 430 UZS</div>
+          <div class="package-stock">Mavjud: 6884</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG','325 UC VOUCHER','59764')">
+          <div class="package-icon">🎫</div>
+          <div class="package-name">325 UC VOUCHER</div>
+          <div class="package-price">59 764 UZS</div>
+          <div class="package-stock">Mavjud: 1344</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG','660 UC VOUCHER','117355')">
+          <div class="package-icon">🎫</div>
+          <div class="package-name">660 UC VOUCHER</div>
+          <div class="package-price">117 355 UZS</div>
+          <div class="package-stock">Mavjud: 815</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG','1800 UC VOUCHER','288984')">
+          <div class="package-icon">🎫</div>
+          <div class="package-name">1800 UC VOUCHER</div>
+          <div class="package-price">288 984 UZS</div>
+          <div class="package-stock">Mavjud: 178</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG','3850 UC VOUCHER','574581')">
+          <div class="package-icon">🎫</div>
+          <div class="package-name">3850 UC VOUCHER</div>
+          <div class="package-price">574 581 UZS</div>
+          <div class="package-stock">Mavjud: 57</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG','8100 UC VOUCHER','1145789')">
+          <div class="package-icon">🎫</div>
+          <div class="package-name">8100 UC VOUCHER</div>
+          <div class="package-price">1 145 789 UZS</div>
+          <div class="package-stock">Mavjud: 75</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG','16200 UC','2311844')">
+          <div class="package-icon">🎫</div>
+          <div class="package-name">16200 UC</div>
+          <div class="package-price">2 311 844 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG','24300 UC','3528604')">
+          <div class="package-icon">🎫</div>
+          <div class="package-name">24300 UC</div>
+          <div class="package-price">3 528 604 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG','32400 UC','4836716')">
+          <div class="package-icon">🎫</div>
+          <div class="package-name">32400 UC</div>
+          <div class="package-price">4 836 716 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
       </div>
     </div>
 
-    <!-- MLBB UZ Tab -->
-    <div class="packages-grid" id="mlbb-mlbbuz" style="display:none;">
-      <div class="package-card" onclick="buyPackage('MLBB-UZ','11 diamond','2292')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">11 💎 (10+1 Bonus)</div>
-        <div class="package-price">2 292 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
+    <!-- ID orqali UC Tab -->
+    <div id="pubg-iduc" style="display:none;">
+      <div class="pubg-info-bar">
+        <span>ℹ️</span>
+        <span>ID orqali UC</span>
       </div>
-      <div class="package-card" onclick="buyPackage('MLBB-UZ','22 diamond','4546')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">22 💎 (20+2 Bonus)</div>
-        <div class="package-price">4 546 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-UZ','56 diamond','11364')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">56 💎 (51+5 Bonus)</div>
-        <div class="package-price">11 364 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-UZ','112 diamond','22881')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">112 💎 (102+10 Bonus)</div>
-        <div class="package-price">22 881 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-UZ','223 diamond','45800')">
-        <div class="package-icon">💰</div>
-        <div class="package-name">223 💎 (203+20 Bonus)</div>
-        <div class="package-price">45 800 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-UZ','336 diamond','68719')">
-        <div class="package-icon">🪣</div>
-        <div class="package-name">336 💎 (303+33 Bonus)</div>
-        <div class="package-price">68 719 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-UZ','570 diamond','114519')">
-        <div class="package-icon">🪣</div>
-        <div class="package-name">570 💎 (504+66 Bonus)</div>
-        <div class="package-price">114 519 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-UZ','1163 diamond','229038')">
-        <div class="package-icon">🚛</div>
-        <div class="package-name">1163 💎 (1007+156 Bonus)</div>
-        <div class="package-price">229 038 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-UZ','2398 diamond','450441')">
-        <div class="package-icon">🚛</div>
-        <div class="package-name">2398 💎 (2015+383 Bonus)</div>
-        <div class="package-price">450 441 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-UZ','6042 diamond','1125000')">
-        <div class="package-icon">🏛️</div>
-        <div class="package-name">6042 💎 (5035+1007 Bonus)</div>
-        <div class="package-price">1 125 000 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
+      <div class="packages-grid">
+        <div class="package-card" onclick="buyPackage('PUBG-ID','60 UC','12500')">
+          <div class="package-icon">💎</div>
+          <div class="package-name">60 UC</div>
+          <div class="package-price">12 500 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG-ID','325 UC','59800')">
+          <div class="package-icon">💎</div>
+          <div class="package-name">325 UC</div>
+          <div class="package-price">59 800 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG-ID','660 UC','117400')">
+          <div class="package-icon">💎</div>
+          <div class="package-name">660 UC</div>
+          <div class="package-price">117 400 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG-ID','1800 UC','289000')">
+          <div class="package-icon">💎</div>
+          <div class="package-name">1800 UC</div>
+          <div class="package-price">289 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG-ID','3850 UC','576000')">
+          <div class="package-icon">💎</div>
+          <div class="package-name">3850 UC</div>
+          <div class="package-price">576 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG-ID','8100 UC','1149200')">
+          <div class="package-icon">💎</div>
+          <div class="package-name">8100 UC</div>
+          <div class="package-price">1 149 200 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
       </div>
     </div>
 
-    <!-- MLBB Ru Tab -->
-    <div class="packages-grid" id="mlbb-mlbbru" style="display:none;">
-      <div class="package-card" onclick="buyPackage('MLBB-RU','Limited Time','4100')">
-        <div class="package-icon">🎫</div>
-        <div class="package-name">mobilelegends RU Limited-Time</div>
-        <div class="package-price">4 100 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
+    <!-- ID orqali ARZONROQ Tab -->
+    <div id="pubg-arzonroq" style="display:none;">
+      <div class="pubg-info-bar">
+        <span>ℹ️</span>
+        <span>ID orqali ARZONROQ</span>
       </div>
-      <div class="package-card" onclick="buyPackage('MLBB-RU','Almazny propusk','32726')">
-        <div class="package-icon">🎫</div>
-        <div class="package-name">Алмазный пропуск (неделя)</div>
-        <div class="package-price">32 726 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
+      <div class="packages-grid">
+        <div class="package-card" onclick="buyPackage('PUBG-ARZON','1800 UC','280000')">
+          <div class="package-icon">💰</div>
+          <div class="package-name">1800 UC</div>
+          <div class="package-price">280 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG-ARZON','3850 UC','570000')">
+          <div class="package-icon">💰</div>
+          <div class="package-name">3850 UC</div>
+          <div class="package-price">570 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG-ARZON','8100 UC','1120000')">
+          <div class="package-icon">👑</div>
+          <div class="package-name">8100 UC</div>
+          <div class="package-price">1 120 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
       </div>
-      <div class="package-card" onclick="buyPackage('MLBB-RU','35 diamond','10358')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">35 💎</div>
-        <div class="package-price">10 358 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-RU','55 diamond','15681')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">55 💎</div>
-        <div class="package-price">15 681 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-RU','165 diamond','46756')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">165 💎</div>
-        <div class="package-price">46 756 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-RU','275 diamond','74585')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">275 💎</div>
-        <div class="package-price">74 585 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-RU','565 diamond','149995')">
-        <div class="package-icon">💰</div>
-        <div class="package-name">565 💎</div>
-        <div class="package-price">149 995 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-RU','1155 diamond','301091')">
-        <div class="package-icon">🔐</div>
-        <div class="package-name">1155 💎</div>
-        <div class="package-price">301 091 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-RU','1765 diamond','450260')">
-        <div class="package-icon">🪣</div>
-        <div class="package-name">1765 💎</div>
-        <div class="package-price">450 260 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-RU','2975 diamond','750000')">
-        <div class="package-icon">🚛</div>
-        <div class="package-name">2975 💎</div>
-        <div class="package-price">750 000 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-RU','6000 diamond','1500000')">
-        <div class="package-icon">🏛️</div>
-        <div class="package-name">6000 💎</div>
-        <div class="package-price">1 500 000 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
+      
+      <div class="pack-section-title">OBUNALAR va PACKLAR</div>
+      <div class="packages-grid">
+        <div class="package-card" onclick="buyPackage('PUBG-PACK','Mifik ramz paketi','70000')">
+          <div class="package-icon">🎁</div>
+          <div class="package-name">Mifik ramz paketi</div>
+          <div class="package-price">70 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG-PACK','Material Paket','45000')">
+          <div class="package-icon">📦</div>
+          <div class="package-name">Material Paket</div>
+          <div class="package-price">45 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG-PACK','Ilk harid paketi','20000')">
+          <div class="package-icon">🎯</div>
+          <div class="package-name">Ilk harid paketi</div>
+          <div class="package-price">20 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
       </div>
     </div>
 
-    <!-- Turk Tab -->
-    <div class="packages-grid" id="mlbb-turk" style="display:none;">
-      <div class="package-card" onclick="buyPackage('MLBB-TURK','Haftalik propusk','22430')">
-        <div class="package-icon">🎫</div>
-        <div class="package-name">haftalik propusk</div>
-        <div class="package-price">22 430 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
+    <!-- OBUNALAR va PACKLAR Tab -->
+    <div id="pubg-obunalar" style="display:none;">
+      <div class="pubg-info-bar">
+        <span>ℹ️</span>
+        <span>OBUNALAR va PACKLAR</span>
       </div>
-      <div class="package-card" onclick="buyPackage('MLBB-TURK','22+2 diamond','5179')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">22+2 💎</div>
-        <div class="package-price">5 179 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-TURK','40+4 diamond','9082')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">40+4 💎</div>
-        <div class="package-price">9 082 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-TURK','80+8 diamond','18165')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">80+8 💎</div>
-        <div class="package-price">18 165 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-TURK','121+12 diamond','27384')">
-        <div class="package-icon">💎</div>
-        <div class="package-name">121+12 💎</div>
-        <div class="package-price">27 384 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-TURK','201+12 diamond','45411')">
-        <div class="package-icon">💰</div>
-        <div class="package-name">201+12 💎</div>
-        <div class="package-price">45 411 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-TURK','449+45 diamond','100868')">
-        <div class="package-icon">💰</div>
-        <div class="package-name">449+45 💎</div>
-        <div class="package-price">100 868 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-TURK','897+144 diamond','202011')">
-        <div class="package-icon">🪣</div>
-        <div class="package-name">897+144 💎</div>
-        <div class="package-price">202 011 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-TURK','2242+403 diamond','504203')">
-        <div class="package-icon">🚛</div>
-        <div class="package-name">2242+403 💎</div>
-        <div class="package-price">504 203 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('MLBB-TURK','5122+1024 diamond','1150000')">
-        <div class="package-icon">🏛️</div>
-        <div class="package-name">5122+1024 💎</div>
-        <div class="package-price">1 150 000 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
+      <div class="packages-grid">
+        <div class="package-card" onclick="buyPackage('PUBG-SUB','Royal Pass','120000')">
+          <div class="package-icon">👑</div>
+          <div class="package-name">Royal Pass</div>
+          <div class="package-price">120 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG-SUB','Elite Pass','60000')">
+          <div class="package-icon">⭐</div>
+          <div class="package-name">Elite Pass</div>
+          <div class="package-price">60 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
       </div>
     </div>
   </div>
@@ -681,11 +557,9 @@ body {
       <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
     </div>
     
-    <div style="padding:16px;background:var(--dark2);border-bottom:1px solid var(--border);">
-      <div style="display:flex;align-items:center;gap:8px;color:var(--gold);font-size:14px;">
-        <span>ℹ️</span>
-        <span>Izoh: Top Up RU/CIS</span>
-      </div>
+    <div class="pubg-info-bar">
+      <span>ℹ️</span>
+      <span>Izoh: Top Up RU/CIS</span>
     </div>
     
     <div class="packages-grid">
@@ -707,22 +581,40 @@ body {
         <div class="package-price">56 354 UZS</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
-      <div class="package-card" onclick="buyPackage('FREEFIRE','1166 Almaz CIS','112000')">
+      <div class="package-card" onclick="buyPackage('FREEFIRE','1166 Almaz CIS','113614')">
         <div class="package-icon">💎</div>
         <div class="package-name">Free Fire 1166 Almaz CIS</div>
-        <div class="package-price">112 000 UZS</div>
+        <div class="package-price">113 614 UZS</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
-      <div class="package-card" onclick="buyPackage('FREEFIRE','2398 Almaz CIS','220000')">
+      <div class="package-card" onclick="buyPackage('FREEFIRE','2398 Almaz CIS','227242')">
         <div class="package-icon">💎</div>
         <div class="package-name">Free Fire 2398 Almaz CIS</div>
-        <div class="package-price">220 000 UZS</div>
+        <div class="package-price">227 242 UZS</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
-      <div class="package-card" onclick="buyPackage('FREEFIRE','6160 Almaz CIS','550000')">
+      <div class="package-card" onclick="buyPackage('FREEFIRE','6160 Almaz CIS','568099')">
         <div class="package-icon">💎</div>
         <div class="package-name">Free Fire 6160 Almaz CIS</div>
-        <div class="package-price">550 000 UZS</div>
+        <div class="package-price">568 099 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('FREEFIRE','Weekly Membership','22717')">
+        <div class="package-icon"></div>
+        <div class="package-name">Free Fire Weekly Membership RU/CIS</div>
+        <div class="package-price">22 717 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('FREEFIRE','Monthly Membership','90897')">
+        <div class="package-icon">👑</div>
+        <div class="package-name">Free Fire Monthly Membership RU/CIS</div>
+        <div class="package-price">90 897 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('FREEFIRE','Weekly Lite','5373')">
+        <div class="package-icon">⭐</div>
+        <div class="package-name">Free Fire Weekly Lite RU/CIS</div>
+        <div class="package-price">5 373 UZS</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
     </div>
@@ -736,11 +628,9 @@ body {
       <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
     </div>
     
-    <div style="padding:16px;background:var(--dark2);border-bottom:1px solid var(--border);">
-      <div style="display:flex;align-items:center;gap:8px;color:var(--gold);font-size:14px;">
-        <span>ℹ️</span>
-        <span>Izoh: 2</span>
-      </div>
+    <div class="pubg-info-bar">
+      <span>ℹ️</span>
+      <span>Izoh: 2</span>
     </div>
     
     <div class="packages-grid">
@@ -762,63 +652,25 @@ body {
         <div class="package-price">160 000 UZS</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
-      <div class="package-card" onclick="buyPackage('STANDOFF','3000 G','450000')">
+      <div class="package-card" onclick="buyPackage('STANDOFF','3000 G','360000')">
         <div class="package-icon">🥇</div>
         <div class="package-name">3000 G</div>
-        <div class="package-price">450 000 UZS</div>
+        <div class="package-price">360 000 UZS</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
-      <div class="package-card" onclick="buyPackage('STANDOFF','Gold Pass','120000')">
+      <div class="package-card" onclick="buyPackage('STANDOFF','Gold Pass','110000')">
         <div class="package-icon">🎫</div>
         <div class="package-name">Gold Pass</div>
-        <div class="package-price">120 000 UZS</div>
+        <div class="package-price">110 000 UZS</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
-      <div class="package-card" onclick="buyPackage('STANDOFF','Gold Pass +10','130000')">
+      <div class="package-card" onclick="buyPackage('STANDOFF','Gold Pass +10','200000')">
         <div class="package-icon">🎫</div>
         <div class="package-name">Gold Pass +10</div>
-        <div class="package-price">130 000 UZS</div>
+        <div class="package-price">200 000 UZS</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
     </div>
-  </div>
-
-  <!-- TELEGRAM PREMIUM PAGE -->
-  <div class="page scroll-content" id="page-telegram">
-    <div class="game-banner" style="background:linear-gradient(135deg,#8e44ad,#3498db);">
-      <img src="telegram-banner.jpg" alt="Telegram Premium">
-      <div class="game-banner-title">Telegram Premium</div>
-      <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
-    </div>
-    
-    <div class="username-input-section">
-      <div class="username-label">@USERNAME</div>
-      <input type="text" class="username-input" id="tg-username" placeholder="@username">
-      <button class="check-btn" onclick="checkUsername()">Tekshirish</button>
-    </div>
-    
-    <div style="padding:0 16px 10px;font-size:14px;color:var(--muted);font-weight:600;">MAHSULOTNI TANLANG</div>
-    
-    <div class="game-tabs" style="padding:0 16px 16px;">
-      <div class="game-tab active">Global</div>
-    </div>
-    
-    <div class="premium-options">
-      <div class="premium-option" onclick="selectPremium(this,'3 oy','196507')">
-        <div class="premium-option-name">Premium 3 oy</div>
-        <div class="premium-option-price">196 507 UZS</div>
-      </div>
-      <div class="premium-option" onclick="selectPremium(this,'6 oy','238600')">
-        <div class="premium-option-name">Premium 6 oy</div>
-        <div class="premium-option-price">238 600 UZS</div>
-      </div>
-      <div class="premium-option" onclick="selectPremium(this,'12 oy','435100')">
-        <div class="premium-option-name">Premium 12 oy</div>
-        <div class="premium-option-price">435 100 UZS</div>
-      </div>
-    </div>
-    
-    <button class="buy-premium-btn" id="buy-premium-btn" disabled onclick="buyPremium()">Sotib olish</button>
   </div>
 
   <!-- HAMYON -->
@@ -873,15 +725,6 @@ body {
       <div class="game-card" onclick="openGamePage('telegram')">
         <div class="game-img">⭐</div>
         <div class="game-name">Telegram Premium</div>
-      </div>
-      <div class="game-card" onclick="selectGame(event,this,'Steam Gift Card')">
-        <div class="game-img">🎮</div>
-        <div class="game-name">Steam Gift Card</div>
-      </div>
-      <div class="game-card" onclick="selectGame(event,this,'Magic Chess')">
-        <div class="new-badge">NEW</div>
-        <div class="game-img">♟️</div>
-        <div class="game-name">Magic Chess</div>
       </div>
     </div>
   </div>
@@ -1227,7 +1070,6 @@ const translations = {
 
 let currentLang = 'uz';
 let pendingBuy = {};
-let selectedPremium = null;
 
 function setLang(lang) {
   currentLang = lang;
@@ -1302,12 +1144,14 @@ function openGamePage(game) {
   document.getElementById('page-'+game).classList.add('active');
 }
 
-// MLBB Tabs
-function showMLBBTab(tabName) {
-  document.querySelectorAll('#page-mlbb .packages-grid').forEach(grid => grid.style.display = 'none');
-  document.getElementById('mlbb-'+tabName).style.display = 'grid';
+// PUBG Tabs
+function showPUBGTab(tabName) {
+  document.getElementById('pubg-promocod').style.display = tabName === 'promocod' ? 'block' : 'none';
+  document.getElementById('pubg-iduc').style.display = tabName === 'iduc' ? 'block' : 'none';
+  document.getElementById('pubg-arzonroq').style.display = tabName === 'arzonroq' ? 'block' : 'none';
+  document.getElementById('pubg-obunalar').style.display = tabName === 'obunalar' ? 'block' : 'none';
   
-  document.querySelectorAll('#page-mlbb .game-tab').forEach(tab => tab.classList.remove('active'));
+  document.querySelectorAll('#page-pubg .game-tab').forEach(tab => tab.classList.remove('active'));
   event.target.classList.add('active');
 }
 
@@ -1361,48 +1205,6 @@ function confirmBuy() {
   const msg = `${pendingBuy.game}|${pendingBuy.packageName}|${pendingBuy.price}|${playerId}`;
   if (tg) tg.sendData(msg);
   else alert('Покупка: ' + msg + ' (demo)');
-}
-
-// Telegram Premium functions
-function checkUsername() {
-  const username = document.getElementById('tg-username').value.trim();
-  if (!username) {
-    alert('Username kiriting!');
-    return;
-  }
-  alert('Username tekshirildi: ' + username);
-}
-
-function selectPremium(el, duration, price) {
-  document.querySelectorAll('.premium-option').forEach(opt => opt.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedPremium = { duration, price };
-  document.getElementById('buy-premium-btn').disabled = false;
-}
-
-function buyPremium() {
-  if (!selectedPremium) return;
-  const username = document.getElementById('tg-username').value.trim();
-  if (!username) {
-    alert('Username kiriting!');
-    return;
-  }
-  const msg = `TELEGRAM|Premium ${selectedPremium.duration}|${selectedPremium.price}|${username}`;
-  if (tg) tg.sendData(msg);
-  else alert('Покупка: ' + msg + ' (demo)');
-}
-
-function selectGame(e, card, name) {
-  ripple(card, e);
-  if (tg) {
-    tg.showPopup({
-      title: name,
-      message: name+" uchun to'ldirmoqchimisiz?",
-      buttons: [{type:'default',text:'Ha'},{type:'cancel',text:'Bekor qilish'}]
-    }, (id) => { if(id==='default') tg.sendData('Game:'+name); });
-  } else {
-    alert('Game: '+name+' (demo)');
-  }
 }
 
 function openLang() { openSheet('sheet-lang'); }
