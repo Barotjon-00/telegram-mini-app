@@ -123,9 +123,9 @@ body {
 .nav-item.active .nav-active-bar{opacity:1;}
 
 /* GAME PAGE STYLES */
-.game-banner{width:100%;height:200px;background:linear-gradient(135deg,#F5A623,#E8941A);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.game-banner{width:100%;height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .game-banner img{width:100%;height:100%;object-fit:cover;opacity:0.3;}
-.game-banner-title{position:absolute;font-family:'Rajdhani',sans-serif;font-size:48px;font-weight:700;color:#fff;text-shadow:0 4px 8px rgba(0,0,0,0.5);z-index:1;}
+.game-banner-title{position:absolute;font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:#fff;text-shadow:0 4px 8px rgba(0,0,0,0.5);z-index:1;text-align:center;padding:0 20px;}
 .back-btn-game{position:absolute;top:16px;left:16px;width:40px;height:40px;background:rgba(0,0,0,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;font-size:20px;color:#fff;backdrop-filter:blur(10px);}
 .back-btn-game:active{transform:scale(0.9);}
 
@@ -138,11 +138,24 @@ body {
 .package-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:16px;text-align:center;transition:transform 0.15s,border-color 0.15s;}
 .package-card:active{transform:scale(0.95);border-color:rgba(245,166,35,0.4);}
 .package-icon{width:80px;height:80px;margin:0 auto 12px;background:var(--dark4);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:40px;}
-.package-name{font-size:14px;font-weight:600;margin-bottom:8px;color:var(--text);}
-.package-price{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:4px;}
+.package-name{font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text);line-height:1.3;}
+.package-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--gold);margin-bottom:4px;}
 .package-stock{font-size:11px;color:var(--muted);margin-bottom:12px;}
-.package-buy-btn{width:100%;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:10px;padding:10px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:transform 0.1s;}
+.package-buy-btn{width:100%;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:10px;padding:10px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform 0.1s;}
 .package-buy-btn:active{transform:scale(0.95);}
+
+/* Telegram Premium specific */
+.username-input-section{padding:16px;}
+.username-label{font-size:14px;color:var(--muted);margin-bottom:8px;}
+.username-input{width:100%;padding:14px;background:var(--dark4);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;}
+.check-btn{width:100%;background:var(--gold);border:none;border-radius:10px;padding:14px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:20px;}
+.premium-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;padding:0 16px;}
+.premium-option{background:var(--dark3);border:2px solid transparent;border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;}
+.premium-option.selected{border-color:var(--gold);background:rgba(245,166,35,0.1);}
+.premium-option-name{font-size:14px;font-weight:600;margin-bottom:8px;}
+.premium-option-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--gold);}
+.buy-premium-btn{width:calc(100% - 32px);margin:0 16px 20px;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:12px;padding:16px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;cursor:pointer;}
+.buy-premium-btn:disabled{opacity:0.5;cursor:not-allowed;}
 
 .hamyon-card{margin:16px;background:linear-gradient(135deg,rgba(245,166,35,0.1),rgba(245,166,35,0.03));border:1px solid rgba(245,166,35,0.3);border-radius:24px;padding:30px 20px;text-align:center;position:relative;overflow:hidden;}
 .hamyon-label{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
@@ -397,55 +410,415 @@ body {
     </div>
     
     <div class="game-tabs">
-      <div class="game-tab active">UZ/Global</div>
-      <div class="game-tab">MLBB UZ</div>
-      <div class="game-tab">MLBB Ru</div>
+      <div class="game-tab active" onclick="showMLBBTab('uzglobal')">UZ/Global</div>
+      <div class="game-tab" onclick="showMLBBTab('mlbbuz')">MLBB UZ</div>
+      <div class="game-tab" onclick="showMLBBTab('mlbbru')">MLBB Ru</div>
+      <div class="game-tab" onclick="showMLBBTab('turk')">Turk</div>
     </div>
     
-    <div class="packages-grid">
+    <!-- UZ/Global Tab -->
+    <div class="packages-grid" id="mlbb-uzglobal">
       <div class="package-card" onclick="buyPackage('MLBB','Vaqtinchalik paket','3100')">
-        <div class="package-icon">💠</div>
+        <div class="package-icon">📦</div>
         <div class="package-name">Vaqtinchalik paket</div>
         <div class="package-price">3 100 UZS</div>
-        <div class="package-stock">Mavjud: 500+</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
       <div class="package-card" onclick="buyPackage('MLBB','Oylik elit pack','53200')">
-        <div class="package-icon">💠</div>
+        <div class="package-icon">👑</div>
         <div class="package-name">Oylik elit pack</div>
         <div class="package-price">53 200 UZS</div>
-        <div class="package-stock">Mavjud: 300+</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
       <div class="package-card" onclick="buyPackage('MLBB','Haftalik elit pack','10600')">
-        <div class="package-icon">💠</div>
+        <div class="package-icon">⭐</div>
         <div class="package-name">Haftalik elit pack</div>
         <div class="package-price">10 600 UZS</div>
-        <div class="package-stock">Mavjud: 400+</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
       <div class="package-card" onclick="buyPackage('MLBB','Almaz propusk y3','19800')">
-        <div class="package-icon">💠</div>
+        <div class="package-icon">🎫</div>
         <div class="package-name">Almaz propusk y3</div>
         <div class="package-price">19 800 UZS</div>
-        <div class="package-stock">Mavjud: 200+</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
       <div class="package-card" onclick="buyPackage('MLBB','50+5 diamond','10500')">
-        <div class="package-icon">💠</div>
+        <div class="package-icon">💎</div>
         <div class="package-name">50+5 💎 (+45 birinchi harid)</div>
         <div class="package-price">10 500 UZS</div>
-        <div class="package-stock">Mavjud: 600+</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
       <div class="package-card" onclick="buyPackage('MLBB','150+15 diamond','31400')">
-        <div class="package-icon">💠</div>
+        <div class="package-icon">💎</div>
         <div class="package-name">150+15 💎 (+135 birinchi harid)</div>
         <div class="package-price">31 400 UZS</div>
-        <div class="package-stock">Mavjud: 450+</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB','250+25 diamond','49900')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">250+25 💎 (+225 birinchi harid)</div>
+        <div class="package-price">49 900 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB','500+65 diamond','102400')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">500+65 💎 (+435 birinchi harid)</div>
+        <div class="package-price">102 400 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB','172 diamond y3','32500')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">172 💎 (156+16) y3</div>
+        <div class="package-price">32 500 UZS</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
     </div>
+
+    <!-- MLBB UZ Tab -->
+    <div class="packages-grid" id="mlbb-mlbbuz" style="display:none;">
+      <div class="package-card" onclick="buyPackage('MLBB-UZ','11 diamond','2292')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">11 💎 (10+1 Bonus)</div>
+        <div class="package-price">2 292 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-UZ','22 diamond','4546')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">22 💎 (20+2 Bonus)</div>
+        <div class="package-price">4 546 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-UZ','56 diamond','11364')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">56 💎 (51+5 Bonus)</div>
+        <div class="package-price">11 364 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-UZ','112 diamond','22881')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">112 💎 (102+10 Bonus)</div>
+        <div class="package-price">22 881 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-UZ','223 diamond','45800')">
+        <div class="package-icon">💰</div>
+        <div class="package-name">223 💎 (203+20 Bonus)</div>
+        <div class="package-price">45 800 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-UZ','336 diamond','68719')">
+        <div class="package-icon">🪣</div>
+        <div class="package-name">336 💎 (303+33 Bonus)</div>
+        <div class="package-price">68 719 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-UZ','570 diamond','114519')">
+        <div class="package-icon">🪣</div>
+        <div class="package-name">570 💎 (504+66 Bonus)</div>
+        <div class="package-price">114 519 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-UZ','1163 diamond','229038')">
+        <div class="package-icon">🚛</div>
+        <div class="package-name">1163 💎 (1007+156 Bonus)</div>
+        <div class="package-price">229 038 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-UZ','2398 diamond','450441')">
+        <div class="package-icon">🚛</div>
+        <div class="package-name">2398 💎 (2015+383 Bonus)</div>
+        <div class="package-price">450 441 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-UZ','6042 diamond','1125000')">
+        <div class="package-icon">🏛️</div>
+        <div class="package-name">6042 💎 (5035+1007 Bonus)</div>
+        <div class="package-price">1 125 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+    </div>
+
+    <!-- MLBB Ru Tab -->
+    <div class="packages-grid" id="mlbb-mlbbru" style="display:none;">
+      <div class="package-card" onclick="buyPackage('MLBB-RU','Limited Time','4100')">
+        <div class="package-icon">🎫</div>
+        <div class="package-name">mobilelegends RU Limited-Time</div>
+        <div class="package-price">4 100 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-RU','Almazny propusk','32726')">
+        <div class="package-icon">🎫</div>
+        <div class="package-name">Алмазный пропуск (неделя)</div>
+        <div class="package-price">32 726 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-RU','35 diamond','10358')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">35 💎</div>
+        <div class="package-price">10 358 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-RU','55 diamond','15681')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">55 💎</div>
+        <div class="package-price">15 681 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-RU','165 diamond','46756')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">165 💎</div>
+        <div class="package-price">46 756 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-RU','275 diamond','74585')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">275 💎</div>
+        <div class="package-price">74 585 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-RU','565 diamond','149995')">
+        <div class="package-icon">💰</div>
+        <div class="package-name">565 💎</div>
+        <div class="package-price">149 995 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-RU','1155 diamond','301091')">
+        <div class="package-icon">🔐</div>
+        <div class="package-name">1155 💎</div>
+        <div class="package-price">301 091 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-RU','1765 diamond','450260')">
+        <div class="package-icon">🪣</div>
+        <div class="package-name">1765 💎</div>
+        <div class="package-price">450 260 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-RU','2975 diamond','750000')">
+        <div class="package-icon">🚛</div>
+        <div class="package-name">2975 💎</div>
+        <div class="package-price">750 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-RU','6000 diamond','1500000')">
+        <div class="package-icon">🏛️</div>
+        <div class="package-name">6000 💎</div>
+        <div class="package-price">1 500 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+    </div>
+
+    <!-- Turk Tab -->
+    <div class="packages-grid" id="mlbb-turk" style="display:none;">
+      <div class="package-card" onclick="buyPackage('MLBB-TURK','Haftalik propusk','22430')">
+        <div class="package-icon">🎫</div>
+        <div class="package-name">haftalik propusk</div>
+        <div class="package-price">22 430 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-TURK','22+2 diamond','5179')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">22+2 💎</div>
+        <div class="package-price">5 179 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-TURK','40+4 diamond','9082')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">40+4 💎</div>
+        <div class="package-price">9 082 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-TURK','80+8 diamond','18165')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">80+8 💎</div>
+        <div class="package-price">18 165 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-TURK','121+12 diamond','27384')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">121+12 💎</div>
+        <div class="package-price">27 384 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-TURK','201+12 diamond','45411')">
+        <div class="package-icon">💰</div>
+        <div class="package-name">201+12 💎</div>
+        <div class="package-price">45 411 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-TURK','449+45 diamond','100868')">
+        <div class="package-icon">💰</div>
+        <div class="package-name">449+45 💎</div>
+        <div class="package-price">100 868 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-TURK','897+144 diamond','202011')">
+        <div class="package-icon">🪣</div>
+        <div class="package-name">897+144 💎</div>
+        <div class="package-price">202 011 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-TURK','2242+403 diamond','504203')">
+        <div class="package-icon">🚛</div>
+        <div class="package-name">2242+403 💎</div>
+        <div class="package-price">504 203 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('MLBB-TURK','5122+1024 diamond','1150000')">
+        <div class="package-icon">🏛️</div>
+        <div class="package-name">5122+1024 💎</div>
+        <div class="package-price">1 150 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FREE FIRE PAGE -->
+  <div class="page scroll-content" id="page-freefire">
+    <div class="game-banner" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24);">
+      <img src="freefire-banner.jpg" alt="Free Fire">
+      <div class="game-banner-title">Free Fire Top Up RU/CIS</div>
+      <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
+    </div>
+    
+    <div style="padding:16px;background:var(--dark2);border-bottom:1px solid var(--border);">
+      <div style="display:flex;align-items:center;gap:8px;color:var(--gold);font-size:14px;">
+        <span>ℹ️</span>
+        <span>Izoh: Top Up RU/CIS</span>
+      </div>
+    </div>
+    
+    <div class="packages-grid">
+      <div class="package-card" onclick="buyPackage('FREEFIRE','110 Almaz CIS','11427')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">Free Fire 110 Almaz CIS</div>
+        <div class="package-price">11 427 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('FREEFIRE','341 Almaz CIS','34158')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">Free Fire 341 Almaz CIS</div>
+        <div class="package-price">34 158 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('FREEFIRE','572 Almaz CIS','56354')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">Free Fire 572 Almaz CIS</div>
+        <div class="package-price">56 354 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('FREEFIRE','1166 Almaz CIS','112000')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">Free Fire 1166 Almaz CIS</div>
+        <div class="package-price">112 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('FREEFIRE','2398 Almaz CIS','220000')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">Free Fire 2398 Almaz CIS</div>
+        <div class="package-price">220 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('FREEFIRE','6160 Almaz CIS','550000')">
+        <div class="package-icon">💎</div>
+        <div class="package-name">Free Fire 6160 Almaz CIS</div>
+        <div class="package-price">550 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STANDOFF 2 PAGE -->
+  <div class="page scroll-content" id="page-standoff">
+    <div class="game-banner" style="background:linear-gradient(135deg,#f39c12,#e74c3c);">
+      <img src="standoff-banner.jpg" alt="Standoff 2">
+      <div class="game-banner-title">Standoff 2</div>
+      <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
+    </div>
+    
+    <div style="padding:16px;background:var(--dark2);border-bottom:1px solid var(--border);">
+      <div style="display:flex;align-items:center;gap:8px;color:var(--gold);font-size:14px;">
+        <span>ℹ️</span>
+        <span>Izoh: 2</span>
+      </div>
+    </div>
+    
+    <div class="packages-grid">
+      <div class="package-card" onclick="buyPackage('STANDOFF','100 G','25000')">
+        <div class="package-icon">🥇</div>
+        <div class="package-name">100 G</div>
+        <div class="package-price">25 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('STANDOFF','500 G','95000')">
+        <div class="package-icon">🥇</div>
+        <div class="package-name">500 G</div>
+        <div class="package-price">95 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('STANDOFF','1000 G','160000')">
+        <div class="package-icon">🥇</div>
+        <div class="package-name">1000 G</div>
+        <div class="package-price">160 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('STANDOFF','3000 G','450000')">
+        <div class="package-icon">🥇</div>
+        <div class="package-name">3000 G</div>
+        <div class="package-price">450 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('STANDOFF','Gold Pass','120000')">
+        <div class="package-icon">🎫</div>
+        <div class="package-name">Gold Pass</div>
+        <div class="package-price">120 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+      <div class="package-card" onclick="buyPackage('STANDOFF','Gold Pass +10','130000')">
+        <div class="package-icon">🎫</div>
+        <div class="package-name">Gold Pass +10</div>
+        <div class="package-price">130 000 UZS</div>
+        <button class="package-buy-btn">Sotib olish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TELEGRAM PREMIUM PAGE -->
+  <div class="page scroll-content" id="page-telegram">
+    <div class="game-banner" style="background:linear-gradient(135deg,#8e44ad,#3498db);">
+      <img src="telegram-banner.jpg" alt="Telegram Premium">
+      <div class="game-banner-title">Telegram Premium</div>
+      <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
+    </div>
+    
+    <div class="username-input-section">
+      <div class="username-label">@USERNAME</div>
+      <input type="text" class="username-input" id="tg-username" placeholder="@username">
+      <button class="check-btn" onclick="checkUsername()">Tekshirish</button>
+    </div>
+    
+    <div style="padding:0 16px 10px;font-size:14px;color:var(--muted);font-weight:600;">MAHSULOTNI TANLANG</div>
+    
+    <div class="game-tabs" style="padding:0 16px 16px;">
+      <div class="game-tab active">Global</div>
+    </div>
+    
+    <div class="premium-options">
+      <div class="premium-option" onclick="selectPremium(this,'3 oy','196507')">
+        <div class="premium-option-name">Premium 3 oy</div>
+        <div class="premium-option-price">196 507 UZS</div>
+      </div>
+      <div class="premium-option" onclick="selectPremium(this,'6 oy','238600')">
+        <div class="premium-option-name">Premium 6 oy</div>
+        <div class="premium-option-price">238 600 UZS</div>
+      </div>
+      <div class="premium-option" onclick="selectPremium(this,'12 oy','435100')">
+        <div class="premium-option-name">Premium 12 oy</div>
+        <div class="premium-option-price">435 100 UZS</div>
+      </div>
+    </div>
+    
+    <button class="buy-premium-btn" id="buy-premium-btn" disabled onclick="buyPremium()">Sotib olish</button>
   </div>
 
   <!-- HAMYON -->
@@ -489,9 +862,17 @@ body {
         <div class="game-img">⚔️</div>
         <div class="game-name">Mobile Legends</div>
       </div>
-      <div class="game-card" onclick="selectGame(event,this,'Free Fire RU/CIS')">
+      <div class="game-card" onclick="openGamePage('freefire')">
         <div class="game-img">🔥</div>
         <div class="game-name">Free Fire RU/CIS</div>
+      </div>
+      <div class="game-card" onclick="openGamePage('standoff')">
+        <div class="game-img">🎯</div>
+        <div class="game-name">Standoff 2</div>
+      </div>
+      <div class="game-card" onclick="openGamePage('telegram')">
+        <div class="game-img">⭐</div>
+        <div class="game-name">Telegram Premium</div>
       </div>
       <div class="game-card" onclick="selectGame(event,this,'Steam Gift Card')">
         <div class="game-img">🎮</div>
@@ -501,14 +882,6 @@ body {
         <div class="new-badge">NEW</div>
         <div class="game-img">♟️</div>
         <div class="game-name">Magic Chess</div>
-      </div>
-      <div class="game-card" onclick="selectGame(event,this,'Standoff 2')">
-        <div class="game-img">🎯</div>
-        <div class="game-name">Standoff 2</div>
-      </div>
-      <div class="game-card" onclick="selectGame(event,this,'Telegram Stars & Premium')">
-        <div class="game-img">⭐</div>
-        <div class="game-name">Telegram Stars</div>
       </div>
     </div>
   </div>
@@ -854,6 +1227,7 @@ const translations = {
 
 let currentLang = 'uz';
 let pendingBuy = {};
+let selectedPremium = null;
 
 function setLang(lang) {
   currentLang = lang;
@@ -928,6 +1302,15 @@ function openGamePage(game) {
   document.getElementById('page-'+game).classList.add('active');
 }
 
+// MLBB Tabs
+function showMLBBTab(tabName) {
+  document.querySelectorAll('#page-mlbb .packages-grid').forEach(grid => grid.style.display = 'none');
+  document.getElementById('mlbb-'+tabName).style.display = 'grid';
+  
+  document.querySelectorAll('#page-mlbb .game-tab').forEach(tab => tab.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
 function ripple(el, e) {
   const r=document.createElement('span'); r.className='ripple';
   const rect=el.getBoundingClientRect();
@@ -960,7 +1343,7 @@ function doTopup(val) {
 
 function buyPackage(game, packageName, price) {
   pendingBuy = { game, packageName, price };
-  const icons = { 'PUBG': '🪖', 'MLBB': '⚔️' };
+  const icons = { 'PUBG': '🪖', 'MLBB': '⚔️', 'FREEFIRE': '🔥', 'STANDOFF': '🎯', 'TELEGRAM': '⭐' };
   document.getElementById('buy-package-icon').textContent = icons[game] || '💎';
   document.getElementById('buy-package-name').textContent = packageName;
   document.getElementById('buy-package-price').textContent = parseInt(price).toLocaleString() + ' UZS';
@@ -976,6 +1359,35 @@ function confirmBuy() {
   }
   closeSheet();
   const msg = `${pendingBuy.game}|${pendingBuy.packageName}|${pendingBuy.price}|${playerId}`;
+  if (tg) tg.sendData(msg);
+  else alert('Покупка: ' + msg + ' (demo)');
+}
+
+// Telegram Premium functions
+function checkUsername() {
+  const username = document.getElementById('tg-username').value.trim();
+  if (!username) {
+    alert('Username kiriting!');
+    return;
+  }
+  alert('Username tekshirildi: ' + username);
+}
+
+function selectPremium(el, duration, price) {
+  document.querySelectorAll('.premium-option').forEach(opt => opt.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPremium = { duration, price };
+  document.getElementById('buy-premium-btn').disabled = false;
+}
+
+function buyPremium() {
+  if (!selectedPremium) return;
+  const username = document.getElementById('tg-username').value.trim();
+  if (!username) {
+    alert('Username kiriting!');
+    return;
+  }
+  const msg = `TELEGRAM|Premium ${selectedPremium.duration}|${selectedPremium.price}|${username}`;
   if (tg) tg.sendData(msg);
   else alert('Покупка: ' + msg + ' (demo)');
 }
