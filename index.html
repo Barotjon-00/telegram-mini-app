@@ -6,7 +6,6 @@
 <title>Arena X Donate</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-    /* ... (Ваши стили остаются без изменений, я их сократил для удобства копирования, но используйте ваши полные стили из предыдущего ответа) ... */
     @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
     :root { --primary: #8B5CF6; --primary-dark: #7C3AED; --primary-light: #A78BFA; --dark1: #0F0A1A; --dark2: #1A1128; --dark3: #241835; --dark4: #2D1F42; --green: #10B981; --text: #F3E8FF; --muted: #9CA3AF; --border: rgba(139,92,246,0.2); --success: #10B981; --pending: #F59E0B; --error: #EF4444; }
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -790,7 +789,8 @@
         <div class="menu-text"><div class="mtitle">Valyutani o'zgartirish</div><div class="msub" id="currency-sub">UZS — so'm</div></div>
         <div class="menu-arrow">›</div>
       </div>
-      <div class="menu-item" onclick="openAdmin()" style="border-color:var(--primary);">
+      <!-- Кнопка Admin Panel скрыта по умолчанию, показывается только админу через JS -->
+      <div class="menu-item" id="admin-menu-item" style="display:none; border-color:var(--primary);" onclick="openAdmin()">
         <div class="menu-text"><div class="mtitle" style="color:var(--primary-light);">🔐 Admin Panel</div><div class="msub">Boshqaruv paneli</div></div>
         <div class="menu-arrow" style="color:var(--primary);">›</div>
       </div>
@@ -990,25 +990,33 @@ try { tg = window.Telegram?.WebApp || null; if(tg){tg.expand();tg.ready();} } ca
 
 let navigationHistory = ['home'];
 let isAdminLoggedIn = false;
-const ADMIN_PASSWORD = 'admin123'; // Пароль админа (измените!)
+const ADMIN_PASSWORD = 'admin123'; // Пароль для входа в админку внутри приложения
 
-// Инициализация пустой истории, если нет данных
-if (!localStorage.getItem('purchaseHistory')) {
-    localStorage.setItem('purchaseHistory', JSON.stringify([]));
+// ВАЖНО: Замените этот ID на ваш реальный Telegram ID
+const MY_ADMIN_ID = 5273703401; 
+
+// Проверяем, является ли текущий пользователь админом
+function isUserAdmin() {
+    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        return tg.initDataUnsafe.user.id === MY_ADMIN_ID;
+    }
+    return false;
+}
+
+// История заказов (загружаем из localStorage)
+function getPurchaseHistory() {
+    const history = localStorage.getItem('purchaseHistory');
+    return history ? JSON.parse(history) : [];
+}
+
+function savePurchaseHistory(history) {
+    localStorage.setItem('purchaseHistory', JSON.stringify(history));
 }
 
 let currentLang = 'uz';
 let pendingBuy = {};
 let selectedPremium = null;
 let currentFilter = 'all';
-
-function getPurchaseHistory() {
-    return JSON.parse(localStorage.getItem('purchaseHistory') || '[]');
-}
-
-function savePurchaseHistory(history) {
-    localStorage.setItem('purchaseHistory', JSON.stringify(history));
-}
 
 function setLang(lang) {
   currentLang = lang;
@@ -1041,6 +1049,11 @@ function loadUserData() {
     else { el.appendChild(document.createTextNode(initials)); }
     if (dot) el.appendChild(dot);
   });
+  
+  // Показываем кнопку админки только если это админ
+  if (isUserAdmin()) {
+      document.getElementById('admin-menu-item').style.display = 'flex';
+  }
 }
 loadUserData();
 
@@ -1103,15 +1116,22 @@ function goBack() {
 
 // ADMIN FUNCTIONS
 function checkAdminAuth() {
-  if (!isAdminLoggedIn) {
-    document.getElementById('admin-login').style.display = 'block';
-    document.getElementById('admin-dashboard').style.display = 'none';
-  } else {
-    document.getElementById('admin-login').style.display = 'none';
-    document.getElementById('admin-dashboard').style.display = 'block';
-    updateAdminStats();
-    loadAdminOrders();
-  }
+    // Дополнительная проверка при открытии страницы админки
+    if (!isUserAdmin()) {
+        alert('❌ Siz admin emassiz! Kirish taqiqlangan.');
+        goBack();
+        return;
+    }
+
+    if (!isAdminLoggedIn) {
+        document.getElementById('admin-login').style.display = 'block';
+        document.getElementById('admin-dashboard').style.display = 'none';
+    } else {
+        document.getElementById('admin-login').style.display = 'none';
+        document.getElementById('admin-dashboard').style.display = 'block';
+        updateAdminStats();
+        loadAdminOrders();
+    }
 }
 
 function loginAdmin() {
@@ -1150,6 +1170,11 @@ function loadAdminOrders() {
   ordersList.innerHTML = '';
   const history = getPurchaseHistory();
   
+  if (history.length === 0) {
+    ordersList.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Buyurtmalar yo\'q</div></div>';
+    return;
+  }
+  
   history.forEach(order => {
     const statusClass = order.status === 'success' ? 'status-success' : 
                        order.status === 'pending' ? 'status-pending' : 'status-error';
@@ -1171,6 +1196,7 @@ function loadAdminOrders() {
         <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--primary-light);">${order.price}</div>
       </div>
       <div style="font-size:11px;color:var(--muted);margin-top:4px;">${order.date}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px;">👤 @${order.username || 'unknown'}</div>
       ${order.status === 'pending' ? `
         <div class="order-actions">
           <button class="order-btn order-btn-success" onclick="updateOrderStatus(${order.id}, 'success')">✅ Tasdiqlash</button>
@@ -1195,7 +1221,11 @@ function updateOrderStatus(orderId, newStatus) {
 }
 
 function openAdmin() {
-  switchPage('admin');
+    if (!isUserAdmin()) {
+        alert('❌ Siz admin emassiz! Kirish taqiqlangan.');
+        return;
+    }
+    switchPage('admin');
 }
 
 function loadHistory() {
@@ -1287,7 +1317,6 @@ function topupBalance(e, btn) {
 }
 function doTopup(val) {
   closeSheet();
-  // Для пополнения баланса тоже можно отправлять данные, если нужно
   if (tg) tg.sendData(`Topup|Balance|${val}|UserBalance`);
   else alert('Topup: '+val+' UZS (demo)');
 }
@@ -1311,31 +1340,42 @@ function confirmBuy() {
   
   closeSheet();
   
+  // Получаем данные пользователя
+  let username = 'unknown';
+  let userId = 0;
+  if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+      username = tg.initDataUnsafe.user.username || `user_${tg.initDataUnsafe.user.id}`;
+      userId = tg.initDataUnsafe.user.id;
+  }
+  
   // Формируем сообщение для бота
   const msg = `${pendingBuy.game}|${pendingBuy.packageName}|${pendingBuy.price}|${playerId}`;
   
   // Отправляем данные боту
   if (tg) {
       tg.sendData(msg);
-      // Закрываем приложение после отправки (опционально)
-      // tg.close(); 
   } else {
       alert('Данные отправлены боту: ' + msg);
   }
   
-  // Сохраняем в локальную историю (для демонстрации в самом приложении)
+  // Сохраняем в локальную историю
   let history = getPurchaseHistory();
   const newPurchase = {
-    id: Date.now(), // Уникальный ID на основе времени
-    game: pendingBuy.game,
-    package: pendingBuy.packageName,
-    price: parseInt(pendingBuy.price).toLocaleString() + ' UZS',
-    status: 'pending',
-    date: new Date().toLocaleString('uz-UZ'),
-    playerId: playerId
+      id: Date.now(),
+      user_id: userId,
+      username: username,
+      game: pendingBuy.game,
+      package: pendingBuy.packageName,
+      price: parseInt(pendingBuy.price).toLocaleString() + ' UZS',
+      status: 'pending',
+      date: new Date().toLocaleString('uz-UZ'),
+      playerId: playerId
   };
   history.unshift(newPurchase);
   savePurchaseHistory(history);
+  
+  // Показываем подтверждение
+  alert('✅ Buyurtma qabul qilindi! Operator tez orada aloqaga chiqadi.');
 }
 
 function checkUsername() {
@@ -1356,7 +1396,12 @@ function buyPremium() {
   const username = document.getElementById('tg-username').value.trim();
   if (!username) { alert('Username kiriting!'); return; }
   
-  closeSheet(); // Если есть открытый sheet
+  closeSheet();
+  
+  let userId = 0;
+  if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+      userId = tg.initDataUnsafe.user.id;
+  }
   
   const msg = `TELEGRAM|Premium ${selectedPremium.duration}|${selectedPremium.price}|${username}`;
   
@@ -1368,16 +1413,20 @@ function buyPremium() {
   
   let history = getPurchaseHistory();
   const newPurchase = {
-    id: Date.now(),
-    game: 'Telegram Premium',
-    package: 'Premium ' + selectedPremium.duration,
-    price: parseInt(selectedPremium.price).toLocaleString() + ' UZS',
-    status: 'pending',
-    date: new Date().toLocaleString('uz-UZ'),
-    playerId: username
+      id: Date.now(),
+      user_id: userId,
+      username: username,
+      game: 'Telegram Premium',
+      package: 'Premium ' + selectedPremium.duration,
+      price: parseInt(selectedPremium.price).toLocaleString() + ' UZS',
+      status: 'pending',
+      date: new Date().toLocaleString('uz-UZ'),
+      playerId: username
   };
   history.unshift(newPurchase);
   savePurchaseHistory(history);
+  
+  alert('✅ Buyurtma qabul qilindi!');
 }
 
 function openLang() { openSheet('sheet-lang'); }
