@@ -102,7 +102,7 @@ body {
 
 .games-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 16px 20px;}
 .game-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:14px;padding:12px 8px 10px;text-align:center;cursor:pointer;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),border-color 0.2s;position:relative;overflow:hidden;animation:cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;}
-.game-card:nth-child(1){animation-delay:0.1s}.game-card:nth-child(2){animation-delay:0.15s}.game-card:nth-child(3){animation-delay:0.2s}.game-card:nth-child(4){animation-delay:0.25s}.game-card:nth-child(5){animation-delay:0.3s}.game-card:nth-child(6){animation-delay:0.35s}.game-card:nth-child(7){animation-delay:0.4s}
+.game-card:nth-child(1){animation-delay:0.1s}.game-card:nth-child(2){animation-delay:0.15s}.game-card:nth-child(3){animation-delay:0.2s}.game-card:nth-child(4){animation-delay:0.25s}.game-card:nth-child(5){animation-delay:0.3s}
 @keyframes cardIn{from{opacity:0;transform:scale(0.8) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
 .game-card:active{transform:scale(0.93);border-color:rgba(245,166,35,0.6);}
 .game-card.featured{border-color:rgba(245,166,35,0.4);background:linear-gradient(135deg,var(--dark4),#1D2445);}
@@ -144,22 +144,8 @@ body {
 .package-buy-btn{width:100%;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:10px;padding:10px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform 0.1s;}
 .package-buy-btn:active{transform:scale(0.95);}
 
-/* PUBG Specific Styles */
 .pubg-info-bar{padding:12px 16px;background:var(--dark2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:14px;color:var(--gold);}
 .pack-section-title{padding:16px 16px 8px;font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-
-/* Telegram Premium specific */
-.username-input-section{padding:16px;}
-.username-label{font-size:14px;color:var(--muted);margin-bottom:8px;}
-.username-input{width:100%;padding:14px;background:var(--dark4);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;}
-.check-btn{width:100%;background:var(--gold);border:none;border-radius:10px;padding:14px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:20px;}
-.premium-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;padding:0 16px;}
-.premium-option{background:var(--dark3);border:2px solid transparent;border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;}
-.premium-option.selected{border-color:var(--gold);background:rgba(245,166,35,0.1);}
-.premium-option-name{font-size:14px;font-weight:600;margin-bottom:8px;}
-.premium-option-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--gold);}
-.buy-premium-btn{width:calc(100% - 32px);margin:0 16px 20px;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:12px;padding:16px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;cursor:pointer;}
-.buy-premium-btn:disabled{opacity:0.5;cursor:not-allowed;}
 
 .hamyon-card{margin:16px;background:linear-gradient(135deg,rgba(245,166,35,0.1),rgba(245,166,35,0.03));border:1px solid rgba(245,166,35,0.3);border-radius:24px;padding:30px 20px;text-align:center;position:relative;overflow:hidden;}
 .hamyon-label{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
@@ -350,18 +336,17 @@ body {
     <div class="game-banner" style="background:linear-gradient(135deg,#f39c12,#e74c3c);">
       <img src="pubg-banner.jpg" alt="PUBG">
       <div class="game-banner-title">PUBG Mobile</div>
-      <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
+      <div class="back-btn-game" onclick="goBack()">←</div>
     </div>
     
     <div class="game-tabs">
-      <div class="game-tab active" onclick="showPUBGTab('promocod')">PUBG PROMOCOD</div>
-      <div class="game-tab" onclick="showPUBGTab('iduc')">ID orqali UC</div>
-      <div class="game-tab" onclick="showPUBGTab('arzonroq')">ID orqali ARZONROQ</div>
-      <div class="game-tab" onclick="showPUBGTab('obunalar')">OBUNALAR va PACKLAR</div>
+      <div class="game-tab active" onclick="showPUBGTab('ucvoucher')">UC VOUCHER</div>
+      <div class="game-tab" onclick="showPUBGTab('royalpass')">ROYAL PASS</div>
+      <div class="game-tab" onclick="showPUBGTab('promocod')">PROMOCOD</div>
     </div>
     
-    <!-- PUBG PROMOCOD Tab -->
-    <div id="pubg-promocod">
+    <!-- UC VOUCHER Tab -->
+    <div id="pubg-ucvoucher">
       <div class="pubg-info-bar">
         <span>ℹ️</span>
         <span>PUBG PROMOCOD</span>
@@ -409,140 +394,48 @@ body {
           <div class="package-stock">Mavjud: 75</div>
           <button class="package-buy-btn">Sotib olish</button>
         </div>
-        <div class="package-card" onclick="buyPackage('PUBG','16200 UC','2311844')">
-          <div class="package-icon">🎫</div>
-          <div class="package-name">16200 UC</div>
-          <div class="package-price">2 311 844 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-        <div class="package-card" onclick="buyPackage('PUBG','24300 UC','3528604')">
-          <div class="package-icon">🎫</div>
-          <div class="package-name">24300 UC</div>
-          <div class="package-price">3 528 604 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-        <div class="package-card" onclick="buyPackage('PUBG','32400 UC','4836716')">
-          <div class="package-icon">🎫</div>
-          <div class="package-name">32400 UC</div>
-          <div class="package-price">4 836 716 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
       </div>
     </div>
 
-    <!-- ID orqali UC Tab -->
-    <div id="pubg-iduc" style="display:none;">
+    <!-- ROYAL PASS Tab -->
+    <div id="pubg-royalpass" style="display:none;">
       <div class="pubg-info-bar">
         <span>ℹ️</span>
-        <span>ID orqali UC</span>
+        <span>ROYAL PASS</span>
       </div>
       <div class="packages-grid">
-        <div class="package-card" onclick="buyPackage('PUBG-ID','60 UC','12500')">
-          <div class="package-icon">💎</div>
-          <div class="package-name">60 UC</div>
-          <div class="package-price">12 500 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-        <div class="package-card" onclick="buyPackage('PUBG-ID','325 UC','59800')">
-          <div class="package-icon">💎</div>
-          <div class="package-name">325 UC</div>
-          <div class="package-price">59 800 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-        <div class="package-card" onclick="buyPackage('PUBG-ID','660 UC','117400')">
-          <div class="package-icon">💎</div>
-          <div class="package-name">660 UC</div>
-          <div class="package-price">117 400 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-        <div class="package-card" onclick="buyPackage('PUBG-ID','1800 UC','289000')">
-          <div class="package-icon">💎</div>
-          <div class="package-name">1800 UC</div>
-          <div class="package-price">289 000 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-        <div class="package-card" onclick="buyPackage('PUBG-ID','3850 UC','576000')">
-          <div class="package-icon">💎</div>
-          <div class="package-name">3850 UC</div>
-          <div class="package-price">576 000 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-        <div class="package-card" onclick="buyPackage('PUBG-ID','8100 UC','1149200')">
-          <div class="package-icon">💎</div>
-          <div class="package-name">8100 UC</div>
-          <div class="package-price">1 149 200 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ID orqali ARZONROQ Tab -->
-    <div id="pubg-arzonroq" style="display:none;">
-      <div class="pubg-info-bar">
-        <span>ℹ️</span>
-        <span>ID orqali ARZONROQ</span>
-      </div>
-      <div class="packages-grid">
-        <div class="package-card" onclick="buyPackage('PUBG-ARZON','1800 UC','280000')">
-          <div class="package-icon">💰</div>
-          <div class="package-name">1800 UC</div>
-          <div class="package-price">280 000 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-        <div class="package-card" onclick="buyPackage('PUBG-ARZON','3850 UC','570000')">
-          <div class="package-icon">💰</div>
-          <div class="package-name">3850 UC</div>
-          <div class="package-price">570 000 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-        <div class="package-card" onclick="buyPackage('PUBG-ARZON','8100 UC','1120000')">
-          <div class="package-icon">👑</div>
-          <div class="package-name">8100 UC</div>
-          <div class="package-price">1 120 000 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-      </div>
-      
-      <div class="pack-section-title">OBUNALAR va PACKLAR</div>
-      <div class="packages-grid">
-        <div class="package-card" onclick="buyPackage('PUBG-PACK','Mifik ramz paketi','70000')">
-          <div class="package-icon">🎁</div>
-          <div class="package-name">Mifik ramz paketi</div>
-          <div class="package-price">70 000 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-        <div class="package-card" onclick="buyPackage('PUBG-PACK','Material Paket','45000')">
-          <div class="package-icon">📦</div>
-          <div class="package-name">Material Paket</div>
-          <div class="package-price">45 000 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-        <div class="package-card" onclick="buyPackage('PUBG-PACK','Ilk harid paketi','20000')">
-          <div class="package-icon">🎯</div>
-          <div class="package-name">Ilk harid paketi</div>
-          <div class="package-price">20 000 UZS</div>
-          <button class="package-buy-btn">Sotib olish</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- OBUNALAR va PACKLAR Tab -->
-    <div id="pubg-obunalar" style="display:none;">
-      <div class="pubg-info-bar">
-        <span>ℹ️</span>
-        <span>OBUNALAR va PACKLAR</span>
-      </div>
-      <div class="packages-grid">
-        <div class="package-card" onclick="buyPackage('PUBG-SUB','Royal Pass','120000')">
+        <div class="package-card" onclick="buyPackage('PUBG-RP','Royal Pass','120000')">
           <div class="package-icon">👑</div>
           <div class="package-name">Royal Pass</div>
           <div class="package-price">120 000 UZS</div>
           <button class="package-buy-btn">Sotib olish</button>
         </div>
-        <div class="package-card" onclick="buyPackage('PUBG-SUB','Elite Pass','60000')">
+        <div class="package-card" onclick="buyPackage('PUBG-RP','Elite Pass','60000')">
           <div class="package-icon">⭐</div>
           <div class="package-name">Elite Pass</div>
           <div class="package-price">60 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROMOCOD Tab -->
+    <div id="pubg-promocod" style="display:none;">
+      <div class="pubg-info-bar">
+        <span>ℹ️</span>
+        <span>PROMOCOD</span>
+      </div>
+      <div class="packages-grid">
+        <div class="package-card" onclick="buyPackage('PUBG-PROMO','Promocode 100 UC','10000')">
+          <div class="package-icon">🎁</div>
+          <div class="package-name">Promocode 100 UC</div>
+          <div class="package-price">10 000 UZS</div>
+          <button class="package-buy-btn">Sotib olish</button>
+        </div>
+        <div class="package-card" onclick="buyPackage('PUBG-PROMO','Promocode 300 UC','28000')">
+          <div class="package-icon">🎁</div>
+          <div class="package-name">Promocode 300 UC</div>
+          <div class="package-price">28 000 UZS</div>
           <button class="package-buy-btn">Sotib olish</button>
         </div>
       </div>
@@ -554,7 +447,7 @@ body {
     <div class="game-banner" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24);">
       <img src="freefire-banner.jpg" alt="Free Fire">
       <div class="game-banner-title">Free Fire Top Up RU/CIS</div>
-      <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
+      <div class="back-btn-game" onclick="goBack()">←</div>
     </div>
     
     <div class="pubg-info-bar">
@@ -599,24 +492,6 @@ body {
         <div class="package-price">568 099 UZS</div>
         <button class="package-buy-btn">Sotib olish</button>
       </div>
-      <div class="package-card" onclick="buyPackage('FREEFIRE','Weekly Membership','22717')">
-        <div class="package-icon"></div>
-        <div class="package-name">Free Fire Weekly Membership RU/CIS</div>
-        <div class="package-price">22 717 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('FREEFIRE','Monthly Membership','90897')">
-        <div class="package-icon">👑</div>
-        <div class="package-name">Free Fire Monthly Membership RU/CIS</div>
-        <div class="package-price">90 897 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
-      <div class="package-card" onclick="buyPackage('FREEFIRE','Weekly Lite','5373')">
-        <div class="package-icon">⭐</div>
-        <div class="package-name">Free Fire Weekly Lite RU/CIS</div>
-        <div class="package-price">5 373 UZS</div>
-        <button class="package-buy-btn">Sotib olish</button>
-      </div>
     </div>
   </div>
 
@@ -625,7 +500,7 @@ body {
     <div class="game-banner" style="background:linear-gradient(135deg,#f39c12,#e74c3c);">
       <img src="standoff-banner.jpg" alt="Standoff 2">
       <div class="game-banner-title">Standoff 2</div>
-      <div class="back-btn-game" onclick="switchPage('home',document.querySelector('.nav-item'))">←</div>
+      <div class="back-btn-game" onclick="goBack()">←</div>
     </div>
     
     <div class="pubg-info-bar">
@@ -960,6 +835,9 @@ body {
 let tg = null;
 try { tg = window.Telegram?.WebApp || null; if(tg){tg.expand();tg.ready();} } catch(e){}
 
+// История навигации для кнопки "Назад"
+let navigationHistory = ['home'];
+
 const translations = {
   uz: {
     tagline: 'Biz bilamiz — oson va qulay!',
@@ -1130,7 +1008,13 @@ function nextSlide() {
 }
 setInterval(nextSlide, 5000);
 
+// Функция для перехода на страницу с сохранением истории
 function switchPage(name, el) {
+  // Добавляем в историю только если это не текущая страница
+  if (navigationHistory[navigationHistory.length - 1] !== name) {
+    navigationHistory.push(name);
+  }
+  
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
@@ -1138,18 +1022,46 @@ function switchPage(name, el) {
   else document.querySelector('.nav-item').classList.add('active');
 }
 
+// Функция для открытия игровой страницы
 function openGamePage(game) {
+  // Добавляем в историю
+  navigationHistory.push(game);
+  
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+game).classList.add('active');
 }
 
+// Функция "Назад" - возвращает на предыдущую страницу
+function goBack() {
+  if (navigationHistory.length > 1) {
+    navigationHistory.pop(); // Удаляем текущую страницу
+    const previousPage = navigationHistory[navigationHistory.length - 1]; // Получаем предыдущую
+    
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    document.getElementById('page-'+previousPage).classList.add('active');
+    
+    // Если предыдущая страница - одна из основных, активируем соответствующую кнопку навигации
+    const navMapping = {
+      'home': 0,
+      'hamyon': 1,
+      'oyinlar': 2,
+      'tarix': 3,
+      'profil': 4
+    };
+    
+    if (navMapping[previousPage] !== undefined) {
+      document.querySelectorAll('.nav-item')[navMapping[previousPage]].classList.add('active');
+    }
+  }
+}
+
 // PUBG Tabs
 function showPUBGTab(tabName) {
+  document.getElementById('pubg-ucvoucher').style.display = tabName === 'ucvoucher' ? 'block' : 'none';
+  document.getElementById('pubg-royalpass').style.display = tabName === 'royalpass' ? 'block' : 'none';
   document.getElementById('pubg-promocod').style.display = tabName === 'promocod' ? 'block' : 'none';
-  document.getElementById('pubg-iduc').style.display = tabName === 'iduc' ? 'block' : 'none';
-  document.getElementById('pubg-arzonroq').style.display = tabName === 'arzonroq' ? 'block' : 'none';
-  document.getElementById('pubg-obunalar').style.display = tabName === 'obunalar' ? 'block' : 'none';
   
   document.querySelectorAll('#page-pubg .game-tab').forEach(tab => tab.classList.remove('active'));
   event.target.classList.add('active');
