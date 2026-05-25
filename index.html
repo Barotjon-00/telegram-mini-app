@@ -19,6 +19,9 @@
   --text: #E8EDF5;
   --muted: #6B7A99;
   --border: rgba(245,166,35,0.12);
+  --success: #00E676;
+  --pending: #FFA726;
+  --error: #EF5350;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -146,6 +149,26 @@ body {
 
 .pubg-info-bar{padding:12px 16px;background:var(--dark2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:14px;color:var(--gold);}
 .pack-section-title{padding:16px 16px 8px;font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+
+/* HISTORY STYLES */
+.history-filters{display:flex;gap:8px;padding:16px;overflow-x:auto;background:var(--dark2);}
+.history-filter{padding:8px 16px;background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:20px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.2s;}
+.history-filter.active{background:var(--gold);color:#090E1A;border-color:var(--gold);}
+.history-filter:active{transform:scale(0.95);}
+
+.history-list{padding:16px;}
+.history-item{background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:14px;padding:16px;margin-bottom:12px;transition:transform 0.15s;}
+.history-item:active{transform:scale(0.98);}
+.history-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.history-game-name{font-size:15px;font-weight:600;color:var(--text);}
+.history-status{padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;text-transform:uppercase;}
+.status-success{background:rgba(0,230,118,0.15);color:var(--success);}
+.status-pending{background:rgba(255,167,38,0.15);color:var(--pending);}
+.status-error{background:rgba(239,83,80,0.15);color:var(--error);}
+.history-item-details{display:flex;justify-content:space-between;align-items:center;}
+.history-package{font-size:13px;color:var(--muted);}
+.history-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--gold);}
+.history-date{font-size:11px;color:var(--muted);margin-top:8px;}
 
 /* Telegram Premium specific */
 .username-input-section{padding:16px;}
@@ -730,13 +753,24 @@ body {
     </div>
   </div>
 
-  <!-- TARIX -->
+  <!-- TARIX (ИСТОРИЯ ПОКУПОК) -->
   <div class="page scroll-content" id="page-tarix">
-    <div class="page-header"><div class="page-title" data-translate="history">Tarix</div></div>
-    <div class="empty-state" style="padding-top:80px">
-      <div class="empty-icon" style="font-size:56px">📋</div>
-      <div class="empty-text" data-translate="noData">Ma'lumot topilmadi</div>
-      <div class="empty-sub" data-translate="nothingYet">Hozircha hech narsa yo'q</div>
+    <div class="page-header">
+      <div class="page-title" data-translate="history">Tarix</div>
+      <div class="refresh-btn" onclick="loadHistory()">↻</div>
+    </div>
+    
+    <!-- Фильтры истории -->
+    <div class="history-filters">
+      <div class="history-filter active" onclick="filterHistory('all', this)">Barchasi</div>
+      <div class="history-filter" onclick="filterHistory('success', this)">✅ Muvaffaqiyatli</div>
+      <div class="history-filter" onclick="filterHistory('pending', this)">⏳ Kutishda</div>
+      <div class="history-filter" onclick="filterHistory('error', this)">❌ Xato</div>
+    </div>
+    
+    <!-- Список истории -->
+    <div class="history-list" id="history-list">
+      <!-- История будет загружена через JavaScript -->
     </div>
   </div>
 
@@ -964,6 +998,55 @@ try { tg = window.Telegram?.WebApp || null; if(tg){tg.expand();tg.ready();} } ca
 // История навигации для кнопки "Назад"
 let navigationHistory = ['home'];
 
+// Демо-данные истории покупок
+let purchaseHistory = [
+  {
+    id: 1,
+    game: 'PUBG Mobile',
+    package: '60 UC VOUCHER',
+    price: '12 430 UZS',
+    status: 'success',
+    date: '2026-05-21 14:30',
+    playerId: '5123456789'
+  },
+  {
+    id: 2,
+    game: 'Mobile Legends',
+    package: '50+5 diamond',
+    price: '10 500 UZS',
+    status: 'pending',
+    date: '2026-05-21 15:45',
+    playerId: '123456789'
+  },
+  {
+    id: 3,
+    game: 'Free Fire',
+    package: '110 Almaz CIS',
+    price: '11 427 UZS',
+    status: 'error',
+    date: '2026-05-21 16:20',
+    playerId: '987654321'
+  },
+  {
+    id: 4,
+    game: 'Standoff 2',
+    package: '100 G',
+    price: '25 000 UZS',
+    status: 'success',
+    date: '2026-05-21 17:10',
+    playerId: '456789123'
+  },
+  {
+    id: 5,
+    game: 'Telegram Premium',
+    package: 'Premium 3 oy',
+    price: '196 507 UZS',
+    status: 'pending',
+    date: '2026-05-21 18:00',
+    playerId: '@username'
+  }
+];
+
 const translations = {
   uz: {
     tagline: 'Biz bilamiz — oson va qulay!',
@@ -1075,6 +1158,7 @@ const translations = {
 let currentLang = 'uz';
 let pendingBuy = {};
 let selectedPremium = null;
+let currentFilter = 'all';
 
 function setLang(lang) {
   currentLang = lang;
@@ -1147,6 +1231,11 @@ function switchPage(name, el) {
   document.getElementById('page-'+name).classList.add('active');
   if(el && el.classList.contains('nav-item')) el.classList.add('active');
   else document.querySelector('.nav-item').classList.add('active');
+  
+  // Если открыли страницу истории, загружаем данные
+  if (name === 'tarix') {
+    loadHistory();
+  }
 }
 
 // Функция для открытия игровой страницы
@@ -1182,6 +1271,65 @@ function goBack() {
       document.querySelectorAll('.nav-item')[navMapping[previousPage]].classList.add('active');
     }
   }
+}
+
+// Загрузка истории покупок
+function loadHistory() {
+  filterHistory(currentFilter);
+}
+
+// Фильтрация истории
+function filterHistory(filter, el) {
+  currentFilter = filter;
+  
+  // Обновляем активный фильтр
+  if (el) {
+    document.querySelectorAll('.history-filter').forEach(f => f.classList.remove('active'));
+    el.classList.add('active');
+  }
+  
+  const historyList = document.getElementById('history-list');
+  historyList.innerHTML = '';
+  
+  // Фильтруем данные
+  let filteredHistory = purchaseHistory;
+  if (filter !== 'all') {
+    filteredHistory = purchaseHistory.filter(item => item.status === filter);
+  }
+  
+  if (filteredHistory.length === 0) {
+    historyList.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <div class="empty-text">Ma'lumot topilmadi</div>
+        <div class="empty-sub">Hozircha hech narsa yo'q</div>
+      </div>
+    `;
+    return;
+  }
+  
+  // Отображаем историю
+  filteredHistory.forEach(item => {
+    const statusClass = item.status === 'success' ? 'status-success' : 
+                       item.status === 'pending' ? 'status-pending' : 'status-error';
+    const statusText = item.status === 'success' ? '✅ Muvaffaqiyatli' : 
+                      item.status === 'pending' ? '⏳ Kutishda' : '❌ Xato';
+    
+    const historyItem = document.createElement('div');
+    historyItem.className = 'history-item';
+    historyItem.innerHTML = `
+      <div class="history-item-header">
+        <div class="history-game-name">${item.game}</div>
+        <div class="history-status ${statusClass}">${statusText}</div>
+      </div>
+      <div class="history-item-details">
+        <div class="history-package">${item.package}</div>
+        <div class="history-price">${item.price}</div>
+      </div>
+      <div class="history-date">${item.date} • ID: ${item.playerId}</div>
+    `;
+    historyList.appendChild(historyItem);
+  });
 }
 
 // PUBG Tabs
@@ -1253,6 +1401,18 @@ function confirmBuy() {
   const msg = `${pendingBuy.game}|${pendingBuy.packageName}|${pendingBuy.price}|${playerId}`;
   if (tg) tg.sendData(msg);
   else alert('Покупка: ' + msg + ' (demo)');
+  
+  // Добавляем покупку в историю (демо)
+  const newPurchase = {
+    id: purchaseHistory.length + 1,
+    game: pendingBuy.game,
+    package: pendingBuy.packageName,
+    price: parseInt(pendingBuy.price).toLocaleString() + ' UZS',
+    status: 'pending',
+    date: new Date().toLocaleString('uz-UZ'),
+    playerId: playerId
+  };
+  purchaseHistory.unshift(newPurchase);
 }
 
 // Telegram Premium functions
@@ -1282,6 +1442,18 @@ function buyPremium() {
   const msg = `TELEGRAM|Premium ${selectedPremium.duration}|${selectedPremium.price}|${username}`;
   if (tg) tg.sendData(msg);
   else alert('Покупка: ' + msg + ' (demo)');
+  
+  // Добавляем покупку в историю (демо)
+  const newPurchase = {
+    id: purchaseHistory.length + 1,
+    game: 'Telegram Premium',
+    package: 'Premium ' + selectedPremium.duration,
+    price: parseInt(selectedPremium.price).toLocaleString() + ' UZS',
+    status: 'pending',
+    date: new Date().toLocaleString('uz-UZ'),
+    playerId: username
+  };
+  purchaseHistory.unshift(newPurchase);
 }
 
 function openLang() { openSheet('sheet-lang'); }
