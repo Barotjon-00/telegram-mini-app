@@ -9,19 +9,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 
 :root {
-  --gold: #F5A623;
-  --gold2: #FFD700;
-  --dark1: #090E1A;
-  --dark2: #0E1525;
-  --dark3: #141B2D;
-  --dark4: #1A2235;
-  --green: #00E676;
-  --text: #E8EDF5;
-  --muted: #6B7A99;
-  --border: rgba(245,166,35,0.12);
-  --success: #00E676;
-  --pending: #FFA726;
-  --error: #EF5350;
+  --primary: #8B5CF6;
+  --primary-dark: #7C3AED;
+  --primary-light: #A78BFA;
+  --dark1: #0F0A1A;
+  --dark2: #1A1128;
+  --dark3: #241835;
+  --dark4: #2D1F42;
+  --green: #10B981;
+  --text: #F3E8FF;
+  --muted: #9CA3AF;
+  --border: rgba(139,92,246,0.2);
+  --success: #10B981;
+  --pending: #F59E0B;
+  --error: #EF4444;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -35,15 +36,15 @@ body {
 }
 
 .bg-canvas { position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden; }
-.bg-orb { position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;animation:orbFloat 8s ease-in-out infinite; }
-.bg-orb:nth-child(1){width:300px;height:300px;background:#F5A623;top:-80px;left:-60px;animation-delay:0s;}
-.bg-orb:nth-child(2){width:200px;height:200px;background:#764BA2;top:40%;right:-60px;animation-delay:-3s;}
-.bg-orb:nth-child(3){width:250px;height:250px;background:#00B4D8;bottom:-80px;left:20%;animation-delay:-5s;}
+.bg-orb { position:absolute;border-radius:50%;filter:blur(80px);opacity:0.15;animation:orbFloat 8s ease-in-out infinite; }
+.bg-orb:nth-child(1){width:300px;height:300px;background:#8B5CF6;top:-80px;left:-60px;animation-delay:0s;}
+.bg-orb:nth-child(2){width:200px;height:200px;background:#EC4899;top:40%;right:-60px;animation-delay:-3s;}
+.bg-orb:nth-child(3){width:250px;height:250px;background:#06B6D4;bottom:-80px;left:20%;animation-delay:-5s;}
 @keyframes orbFloat { 0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-30px) scale(1.08);} }
 
 .stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
 .star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle var(--dur) ease-in-out infinite;opacity:0;}
-@keyframes twinkle{0%,100%{opacity:0;transform:scale(1);}50%{opacity:0.6;transform:scale(1.5);}}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(1);}50%{opacity:0.5;transform:scale(1.3);}}
 
 .app{position:relative;z-index:1;max-width:420px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
 
@@ -53,38 +54,38 @@ body {
 
 .header{padding:18px 16px 10px;display:flex;align-items:center;justify-content:space-between;}
 .user-row{display:flex;align-items:center;gap:10px;}
-.avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#F5A623,#E8941A);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:17px;color:#090E1A;border:2px solid rgba(245,166,35,0.5);position:relative;overflow:hidden;flex-shrink:0;}
+.avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#8B5CF6,#EC4899);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:17px;color:#fff;border:2px solid rgba(139,92,246,0.5);position:relative;overflow:hidden;flex-shrink:0;}
 .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
 .online-dot{position:absolute;bottom:2px;right:2px;width:10px;height:10px;background:var(--green);border-radius:50%;border:2px solid var(--dark1);animation:pulseDot 2s infinite;}
-@keyframes pulseDot{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,0.4);}50%{box-shadow:0 0 0 4px rgba(0,230,118,0);}}
+@keyframes pulseDot{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0.4);}50%{box-shadow:0 0 0 4px rgba(16,185,129,0);}}
 .user-meta .name{font-size:14px;font-weight:600;}
 .user-meta .handle{font-size:11px;color:var(--muted);margin-top:1px;}
-.gold-badge{background:linear-gradient(135deg,#F5A623,#E8941A);color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.5px;text-transform:uppercase;animation:badgeGlow 3s ease-in-out infinite;}
-@keyframes badgeGlow{0%,100%{box-shadow:0 0 8px rgba(245,166,35,0.3);}50%{box-shadow:0 0 16px rgba(245,166,35,0.6);}}
+.gold-badge{background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff;font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.5px;text-transform:uppercase;animation:badgeGlow 3s ease-in-out infinite;}
+@keyframes badgeGlow{0%,100%{box-shadow:0 0 8px rgba(139,92,246,0.3);}50%{box-shadow:0 0 16px rgba(139,92,246,0.6);}}
 
 .logo-section{text-align:center;padding:8px 0 16px;}
-.logo{font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;letter-spacing:3px;background:linear-gradient(90deg,#F5A623 0%,#FFD700 50%,#F5A623 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite;}
+.logo{font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;letter-spacing:3px;background:linear-gradient(90deg,#8B5CF6 0%,#EC4899 50%,#8B5CF6 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite;}
 @keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
 .tagline{font-size:11px;color:var(--muted);letter-spacing:0.5px;margin-top:2px;}
 
-.balance-card{margin:0 16px 16px;background:linear-gradient(135deg,rgba(245,166,35,0.08),rgba(245,166,35,0.03));border:1px solid rgba(245,166,35,0.25);border-radius:20px;padding:20px;position:relative;overflow:hidden;animation:cardEntrance 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;}
+.balance-card{margin:0 16px 16px;background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(236,72,153,0.05));border:1px solid rgba(139,92,246,0.3);border-radius:20px;padding:20px;position:relative;overflow:hidden;animation:cardEntrance 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;}
 @keyframes cardEntrance{from{opacity:0;transform:scale(0.9) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
 .bal-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
 .bal-amount{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:var(--green);line-height:1;margin-bottom:16px;}
-.topup-btn{width:100%;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:14px;padding:14px;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:#090E1A;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform 0.15s;position:relative;overflow:hidden;}
-.topup-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);transform:translateX(-100%);animation:btnShine 4s ease-in-out infinite 1s;}
+.topup-btn{width:100%;background:linear-gradient(135deg,#8B5CF6,#EC4899);border:none;border-radius:14px;padding:14px;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform 0.15s;position:relative;overflow:hidden;}
+.topup-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transform:translateX(-100%);animation:btnShine 4s ease-in-out infinite 1s;}
 @keyframes btnShine{0%,80%,100%{transform:translateX(-100%);}40%{transform:translateX(100%);}}
 .topup-btn:active{transform:scale(0.97);}
 
 .carousel{margin:0 16px 20px;border-radius:16px;overflow:hidden;position:relative;height:180px;background:var(--dark3);box-shadow:0 4px 12px rgba(0,0,0,0.3);}
-.carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease-in-out;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0f1419);}
+.carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease-in-out;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1025,#0f0a1a);}
 .carousel-slide.active{opacity:1;}
 .carousel-slide img{width:100%;height:100%;object-fit:cover;}
 .carousel-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
 .carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);transition:all 0.3s;}
-.carousel-dot.active{background:var(--gold);width:24px;border-radius:4px;}
+.carousel-dot.active{background:var(--primary);width:24px;border-radius:4px;}
 
-.channel-btn{margin:0 16px 20px;background:linear-gradient(135deg,#229ED9,#1a7fb0);border:none;border-radius:14px;padding:16px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 4px 12px rgba(34,158,217,0.3);}
+.channel-btn{margin:0 16px 20px;background:linear-gradient(135deg,#8B5CF6,#EC4899);border:none;border-radius:14px;padding:16px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 4px 12px rgba(139,92,246,0.3);}
 .channel-btn:active{transform:scale(0.97);box-shadow:none;}
 .channel-icon{font-size:24px;}
 
@@ -92,7 +93,7 @@ body {
 .support-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;margin-bottom:15px;display:flex;align-items:center;gap:8px;}
 .support-links{display:flex;flex-direction:column;gap:10px;}
 .support-link{display:flex;align-items:center;background:var(--dark4);border-radius:12px;padding:14px;text-decoration:none;color:var(--text);transition:background 0.15s,transform 0.1s;}
-.support-link:active{transform:scale(0.98);background:rgba(245,166,35,0.1);}
+.support-link:active{transform:scale(0.98);background:rgba(139,92,246,0.1);}
 .support-link-icon{font-size:20px;margin-right:12px;width:36px;text-align:center;}
 .support-link-text{flex:1;}
 .support-link-label{font-size:14px;font-weight:500;}
@@ -100,29 +101,29 @@ body {
 .support-link-arrow{color:var(--muted);font-size:18px;}
 
 .section-header{padding:0 16px 12px;display:flex;align-items:center;gap:10px;}
-.section-line{width:3px;height:20px;background:var(--gold);border-radius:2px;flex-shrink:0;}
+.section-line{width:3px;height:20px;background:var(--primary);border-radius:2px;flex-shrink:0;}
 .section-title{font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;letter-spacing:1px;}
 
 .games-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 16px 20px;}
 .game-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:14px;padding:12px 8px 10px;text-align:center;cursor:pointer;transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1),border-color 0.2s;position:relative;overflow:hidden;animation:cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;}
 .game-card:nth-child(1){animation-delay:0.1s}.game-card:nth-child(2){animation-delay:0.15s}.game-card:nth-child(3){animation-delay:0.2s}.game-card:nth-child(4){animation-delay:0.25s}.game-card:nth-child(5){animation-delay:0.3s}
 @keyframes cardIn{from{opacity:0;transform:scale(0.8) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
-.game-card:active{transform:scale(0.93);border-color:rgba(245,166,35,0.6);}
-.game-card.featured{border-color:rgba(245,166,35,0.4);background:linear-gradient(135deg,var(--dark4),#1D2445);}
+.game-card:active{transform:scale(0.93);border-color:rgba(139,92,246,0.4);}
+.game-card.featured{border-color:rgba(139,92,246,0.4);background:linear-gradient(135deg,var(--dark4),#3D2860);}
 .game-img{width:54px;height:54px;border-radius:12px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:26px;background:var(--dark4);}
 .game-name{font-size:10px;font-weight:500;color:var(--text);line-height:1.3;}
-.hot-badge{position:absolute;top:6px;right:6px;background:var(--gold);color:#090E1A;font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;font-family:'Rajdhani',sans-serif;animation:hotPulse 1.5s ease-in-out infinite;}
+.hot-badge{position:absolute;top:6px;right:6px;background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;font-family:'Rajdhani',sans-serif;animation:hotPulse 1.5s ease-in-out infinite;}
 @keyframes hotPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
-.new-badge{position:absolute;top:6px;right:6px;background:#00B4D8;color:#090E1A;font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;font-family:'Rajdhani',sans-serif;}
+.new-badge{position:absolute;top:6px;right:6px;background:#06B6D4;color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;font-family:'Rajdhani',sans-serif;}
 
-.bottom-nav{display:flex;background:rgba(14,21,37,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(245,166,35,0.1);padding:10px 0 calc(env(safe-area-inset-bottom,0px) + 8px);position:sticky;bottom:0;z-index:100;}
+.bottom-nav{display:flex;background:rgba(15,10,26,0.95);backdrop-filter:blur(20px);border-top:1px solid rgba(139,92,246,0.1);padding:10px 0 calc(env(safe-area-inset-bottom,0px) + 8px);position:sticky;bottom:0;z-index:100;}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 0;position:relative;transition:transform 0.15s;}
 .nav-item:active{transform:scale(0.9);}
 .nav-icon{font-size:20px;transition:transform 0.2s;}
 .nav-label{font-size:10px;color:var(--muted);font-weight:500;transition:color 0.2s;}
-.nav-item.active .nav-label{color:var(--gold);}
+.nav-item.active .nav-label{color:var(--primary);}
 .nav-item.active .nav-icon{transform:scale(1.15);}
-.nav-active-bar{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:20px;height:3px;background:var(--gold);border-radius:2px;opacity:0;transition:opacity 0.2s;}
+.nav-active-bar{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:20px;height:3px;background:var(--primary);border-radius:2px;opacity:0;transition:opacity 0.2s;}
 .nav-item.active .nav-active-bar{opacity:1;}
 
 /* GAME PAGE STYLES */
@@ -134,26 +135,26 @@ body {
 
 .game-tabs{display:flex;gap:8px;padding:16px;overflow-x:auto;background:var(--dark2);}
 .game-tab{padding:10px 20px;background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:20px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.2s;}
-.game-tab.active{background:var(--gold);color:#090E1A;border-color:var(--gold);}
+.game-tab.active{background:var(--primary);color:#fff;border-color:var(--primary);}
 .game-tab:active{transform:scale(0.95);}
 
 .packages-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px;}
 .package-card{background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:16px;text-align:center;transition:transform 0.15s,border-color 0.15s;}
-.package-card:active{transform:scale(0.95);border-color:rgba(245,166,35,0.4);}
+.package-card:active{transform:scale(0.95);border-color:rgba(139,92,246,0.4);}
 .package-icon{width:80px;height:80px;margin:0 auto 12px;background:var(--dark4);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:40px;}
 .package-name{font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text);line-height:1.3;}
-.package-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--gold);margin-bottom:4px;}
+.package-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--primary-light);margin-bottom:4px;}
 .package-stock{font-size:11px;color:var(--muted);margin-bottom:12px;}
-.package-buy-btn{width:100%;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:10px;padding:10px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform 0.1s;}
+.package-buy-btn{width:100%;background:linear-gradient(135deg,#8B5CF6,#EC4899);border:none;border-radius:10px;padding:10px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform 0.1s;}
 .package-buy-btn:active{transform:scale(0.95);}
 
-.pubg-info-bar{padding:12px 16px;background:var(--dark2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:14px;color:var(--gold);}
+.pubg-info-bar{padding:12px 16px;background:var(--dark2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:14px;color:var(--primary-light);}
 .pack-section-title{padding:16px 16px 8px;font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
 
 /* HISTORY STYLES */
 .history-filters{display:flex;gap:8px;padding:16px;overflow-x:auto;background:var(--dark2);}
 .history-filter{padding:8px 16px;background:var(--dark3);border:1px solid rgba(255,255,255,0.1);border-radius:20px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.2s;}
-.history-filter.active{background:var(--gold);color:#090E1A;border-color:var(--gold);}
+.history-filter.active{background:var(--primary);color:#fff;border-color:var(--primary);}
 .history-filter:active{transform:scale(0.95);}
 
 .history-list{padding:16px;}
@@ -162,33 +163,51 @@ body {
 .history-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
 .history-game-name{font-size:15px;font-weight:600;color:var(--text);}
 .history-status{padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700;text-transform:uppercase;}
-.status-success{background:rgba(0,230,118,0.15);color:var(--success);}
-.status-pending{background:rgba(255,167,38,0.15);color:var(--pending);}
-.status-error{background:rgba(239,83,80,0.15);color:var(--error);}
+.status-success{background:rgba(16,185,129,0.15);color:var(--success);}
+.status-pending{background:rgba(245,158,11,0.15);color:var(--pending);}
+.status-error{background:rgba(239,68,68,0.15);color:var(--error);}
 .history-item-details{display:flex;justify-content:space-between;align-items:center;}
 .history-package{font-size:13px;color:var(--muted);}
-.history-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--gold);}
+.history-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--primary-light);}
 .history-date{font-size:11px;color:var(--muted);margin-top:8px;}
+
+/* ADMIN PANEL STYLES */
+.admin-login{padding:40px 20px;text-align:center;}
+.admin-input{width:100%;max-width:300px;padding:14px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;text-align:center;}
+.admin-btn{width:100%;max-width:300px;background:linear-gradient(135deg,#8B5CF6,#EC4899);border:none;border-radius:10px;padding:14px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;cursor:pointer;}
+.admin-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px;}
+.stat-card{background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;}
+.stat-number{font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:700;color:var(--primary-light);}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px;}
+.admin-orders{padding:16px;}
+.order-item{background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;}
+.order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.order-id{font-size:12px;color:var(--muted);}
+.order-actions{display:flex;gap:8px;margin-top:12px;}
+.order-btn{flex:1;padding:10px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:transform 0.1s;}
+.order-btn:active{transform:scale(0.95);}
+.order-btn-success{background:rgba(16,185,129,0.2);color:var(--success);}
+.order-btn-error{background:rgba(239,68,68,0.2);color:var(--error);}
 
 /* Telegram Premium specific */
 .username-input-section{padding:16px;}
 .username-label{font-size:14px;color:var(--muted);margin-bottom:8px;}
-.username-input{width:100%;padding:14px;background:var(--dark4);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;}
-.check-btn{width:100%;background:var(--gold);border:none;border-radius:10px;padding:14px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:20px;}
+.username-input{width:100%;padding:14px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;}
+.check-btn{width:100%;background:var(--primary);border:none;border-radius:10px;padding:14px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:20px;}
 .premium-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;padding:0 16px;}
 .premium-option{background:var(--dark3);border:2px solid transparent;border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;}
-.premium-option.selected{border-color:var(--gold);background:rgba(245,166,35,0.1);}
+.premium-option.selected{border-color:var(--primary);background:rgba(139,92,246,0.1);}
 .premium-option-name{font-size:14px;font-weight:600;margin-bottom:8px;}
-.premium-option-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--gold);}
-.buy-premium-btn{width:calc(100% - 32px);margin:0 16px 20px;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:12px;padding:16px;color:#090E1A;font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;cursor:pointer;}
+.premium-option-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--primary-light);}
+.buy-premium-btn{width:calc(100% - 32px);margin:0 16px 20px;background:linear-gradient(135deg,#8B5CF6,#EC4899);border:none;border-radius:12px;padding:16px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;cursor:pointer;}
 .buy-premium-btn:disabled{opacity:0.5;cursor:not-allowed;}
 
-.hamyon-card{margin:16px;background:linear-gradient(135deg,rgba(245,166,35,0.1),rgba(245,166,35,0.03));border:1px solid rgba(245,166,35,0.3);border-radius:24px;padding:30px 20px;text-align:center;position:relative;overflow:hidden;}
+.hamyon-card{margin:16px;background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(236,72,153,0.05));border:1px solid rgba(139,92,246,0.3);border-radius:24px;padding:30px 20px;text-align:center;position:relative;overflow:hidden;}
 .hamyon-label{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
 .hamyon-amount{font-family:'Rajdhani',sans-serif;font-size:52px;font-weight:700;color:var(--green);line-height:1;margin-bottom:4px;}
 .hamyon-sub{font-size:12px;color:var(--muted);margin-bottom:24px;}
-.hamyon-topup{width:100%;background:linear-gradient(135deg,#F5A623,#E8941A);border:none;border-radius:14px;padding:15px;font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#090E1A;letter-spacing:1px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform 0.15s;position:relative;overflow:hidden;}
-.hamyon-topup::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);transform:translateX(-100%);animation:btnShine 4s ease-in-out infinite 1s;}
+.hamyon-topup{width:100%;background:linear-gradient(135deg,#8B5CF6,#EC4899);border:none;border-radius:14px;padding:15px;font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:1px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform 0.15s;position:relative;overflow:hidden;}
+.hamyon-topup::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transform:translateX(-100%);animation:btnShine 4s ease-in-out infinite 1s;}
 .hamyon-topup:active{transform:scale(0.97);}
 .history-section{padding:0 16px;}
 .history-title{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
@@ -199,7 +218,7 @@ body {
 .empty-sub{font-size:12px;color:var(--muted);opacity:0.6;margin-top:4px;}
 
 .profile-hero{text-align:center;padding:30px 16px 20px;}
-.profile-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#F5A623,#E8941A);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#090E1A;margin:0 auto 14px;border:3px solid rgba(245,166,35,0.5);overflow:hidden;animation:avatarIn 0.5s cubic-bezier(0.34,1.56,0.64,1);position:relative;}
+.profile-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#8B5CF6,#EC4899);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#fff;margin:0 auto 14px;border:3px solid rgba(139,92,246,0.5);overflow:hidden;animation:avatarIn 0.5s cubic-bezier(0.34,1.56,0.64,1);position:relative;}
 .profile-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
 @keyframes avatarIn{from{transform:scale(0.5);opacity:0;}to{transform:scale(1);opacity:1;}}
 .profile-name{font-size:22px;font-weight:600;margin-bottom:4px;}
@@ -210,17 +229,17 @@ body {
 .menu-item{display:flex;align-items:center;justify-content:space-between;background:var(--dark3);border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:16px 20px;margin-bottom:10px;cursor:pointer;transition:background 0.15s,border-color 0.15s,transform 0.15s;animation:menuIn 0.4s ease both;}
 .menu-item:nth-child(1){animation-delay:0.05s}.menu-item:nth-child(2){animation-delay:0.1s}.menu-item:nth-child(3){animation-delay:0.15s}.menu-item:nth-child(4){animation-delay:0.2s}
 @keyframes menuIn{from{opacity:0;transform:translateX(-12px);}to{opacity:1;transform:translateX(0);}}
-.menu-item:hover{background:var(--dark4);border-color:rgba(245,166,35,0.2);}
+.menu-item:hover{background:var(--dark4);border-color:rgba(139,92,246,0.2);}
 .menu-item:active{transform:scale(0.98);}
 .menu-text{flex:1;}
 .menu-text .mtitle{font-size:15px;font-weight:500;}
 .menu-text .msub{font-size:12px;color:var(--muted);margin-top:2px;}
 .menu-arrow{color:var(--muted);font-size:18px;}
 
-.ripple{position:absolute;border-radius:50%;background:rgba(245,166,35,0.25);transform:scale(0);animation:rippleAnim 0.5s linear;pointer-events:none;}
+.ripple{position:absolute;border-radius:50%;background:rgba(139,92,246,0.25);transform:scale(0);animation:rippleAnim 0.5s linear;pointer-events:none;}
 @keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
 
-::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(245,166,35,0.2);border-radius:2px;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(139,92,246,0.2);border-radius:2px;}
 .page-header{display:flex;align-items:center;padding:18px 16px 12px;gap:12px;}
 .page-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px;}
 .refresh-btn{margin-left:auto;width:36px;height:36px;background:var(--dark3);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:transform 0.4s;}
@@ -229,7 +248,7 @@ body {
 
 .sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px);}
 .sheet-overlay.open{opacity:1;pointer-events:all;}
-.sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:420px;background:#111827;border-radius:24px 24px 0 0;z-index:201;transition:transform 0.35s cubic-bezier(0.34,1.2,0.64,1);padding-bottom:env(safe-area-inset-bottom,0px);}
+.sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:420px;background:#1A1128;border-radius:24px 24px 0 0;z-index:201;transition:transform 0.35s cubic-bezier(0.34,1.2,0.64,1);padding-bottom:env(safe-area-inset-bottom,0px);}
 .sheet.open{transform:translateX(-50%) translateY(0);}
 .sheet-handle{width:40px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:12px auto 0;}
 .sheet-header{padding:16px 20px 8px;text-align:center;}
@@ -238,14 +257,14 @@ body {
 
 .option-item{display:flex;align-items:center;justify-content:space-between;background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px 20px;margin-bottom:10px;cursor:pointer;transition:all 0.2s ease;position:relative;overflow:hidden;}
 .option-item:active{transform:scale(0.98);}
-.option-item.selected{background:linear-gradient(135deg,#F5A623,#E8941A);border-color:transparent;box-shadow:0 4px 12px rgba(245,166,35,0.3);}
+.option-item.selected{background:linear-gradient(135deg,#8B5CF6,#EC4899);border-color:transparent;box-shadow:0 4px 12px rgba(139,92,246,0.3);}
 .opt-row{display:flex;align-items:center;gap:12px;flex:1;}
 .opt-code{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--muted);min-width:30px;}
-.option-item.selected .opt-code{color:#090E1A;}
+.option-item.selected .opt-code{color:#fff;}
 .opt-label{font-size:16px;font-weight:500;flex:1;}
-.option-item.selected .opt-label{color:#090E1A;font-weight:700;}
+.option-item.selected .opt-label{color:#fff;font-weight:700;}
 .opt-check{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,0.2);transition:all 0.2s;}
-.option-item.selected .opt-check{color:#090E1A;}
+.option-item.selected .opt-check{color:#fff;}
 .option-item.selected .opt-check::before{content:'✓';font-weight:bold;}
 .option-item:not(.selected) .opt-check::before{content:'';width:10px;height:10px;border:2px solid rgba(255,255,255,0.2);border-radius:50%;display:block;}
 
@@ -254,7 +273,7 @@ body {
 .support-icon{font-size:20px;margin-right:14px;width:36px;text-align:center;}
 .support-text{flex:1;}
 .support-label{font-size:14px;font-weight:500;color:var(--text);}
-.support-val{font-size:13px;color:var(--gold);margin-top:2px;}
+.support-val{font-size:13px;color:var(--primary-light);margin-top:2px;}
 .support-arrow{font-size:18px;color:var(--muted);}
 
 .about-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
@@ -282,16 +301,16 @@ body {
           <div class="handle" id="home-handle">@username</div>
         </div>
       </div>
-      <div class="gold-badge">Gold ✦</div>
+      <div class="gold-badge">VIP ✦</div>
     </div>
     <div class="logo-section">
       <div class="logo">Arena X Donate</div>
-      <div class="tagline" data-translate="tagline">Biz bilamiz — oson va qulay!</div>
+      <div class="tagline">Biz bilamiz — oson va qulay!</div>
     </div>
     <div class="balance-card">
-      <div class="bal-label" data-translate="balanceLabel">Hisobingiz</div>
+      <div class="bal-label">Hisobingiz</div>
       <div class="bal-amount" id="home-balance">0 UZS</div>
-      <button class="topup-btn" onclick="topupBalance(event,this)"><span>↗</span> <span data-translate="topupBtn">To'ldirish</span></button>
+      <button class="topup-btn" onclick="topupBalance(event,this)"><span>↗</span> To'ldirish</button>
     </div>
     
     <!-- CAROUSEL -->
@@ -337,19 +356,19 @@ body {
 
     <button class="channel-btn" onclick="openChannel()">
       <span class="channel-icon">📢</span>
-      <span data-translate="subscribeChannel">Kanalga obuna bo'ling</span>
+      <span>Kanalga obuna bo'ling</span>
     </button>
 
     <div class="support-section">
       <div class="support-title">
         <span>🎧</span>
-        <span data-translate="supportTitle">Qo'llab-quvvatlash</span>
+        <span>Qo'llab-quvvatlash</span>
       </div>
       <div class="support-links">
         <a class="support-link" onclick="callPhone()">
           <span class="support-link-icon">📞</span>
           <div class="support-link-text">
-            <div class="support-link-label" data-translate="phone">Telefon</div>
+            <div class="support-link-label">Telefon</div>
             <div class="support-link-val">+998 90 589 01 92</div>
           </div>
           <span class="support-link-arrow">›</span>
@@ -357,10 +376,10 @@ body {
         <a class="support-link" onclick="openTelegramSupport()">
           <span class="support-link-icon">✈️</span>
           <div class="support-link-text">
-            <div class="support-link-label">Telegram</div>
-            <div class="support-link-val">@barbossa_gaming</div>
+            <div class="support-label">Telegram</div>
+            <div class="support-val">@barbossa_gaming</div>
           </div>
-          <span class="support-link-arrow" style="color:#229ED9">›</span>
+          <span class="support-link-arrow" style="color:#8B5CF6">›</span>
         </a>
       </div>
     </div>
@@ -369,7 +388,7 @@ body {
 
   <!-- PUBG MOBILE PAGE -->
   <div class="page scroll-content" id="page-pubg">
-    <div class="game-banner" style="background:linear-gradient(135deg,#f39c12,#e74c3c);">
+    <div class="game-banner" style="background:linear-gradient(135deg,#8B5CF6,#EC4899);">
       <img src="pubg-banner.jpg" alt="PUBG">
       <div class="game-banner-title">PUBG Mobile</div>
       <div class="back-btn-game" onclick="goBack()">←</div>
@@ -381,7 +400,6 @@ body {
       <div class="game-tab" onclick="showPUBGTab('promocod')">PROMOCOD</div>
     </div>
     
-    <!-- UC VOUCHER Tab -->
     <div id="pubg-ucvoucher">
       <div class="pubg-info-bar">
         <span>ℹ️</span>
@@ -433,7 +451,6 @@ body {
       </div>
     </div>
 
-    <!-- ROYAL PASS Tab -->
     <div id="pubg-royalpass" style="display:none;">
       <div class="pubg-info-bar">
         <span>ℹ️</span>
@@ -455,7 +472,6 @@ body {
       </div>
     </div>
 
-    <!-- PROMOCOD Tab -->
     <div id="pubg-promocod" style="display:none;">
       <div class="pubg-info-bar">
         <span>ℹ️</span>
@@ -480,7 +496,7 @@ body {
 
   <!-- MOBILE LEGENDS PAGE -->
   <div class="page scroll-content" id="page-mlbb">
-    <div class="game-banner" style="background:linear-gradient(135deg,#4facfe,#00f2fe);">
+    <div class="game-banner" style="background:linear-gradient(135deg,#06B6D4,#8B5CF6);">
       <img src="mlbb-banner.jpg" alt="MLBB">
       <div class="game-banner-title">Mobile Legends</div>
       <div class="back-btn-game" onclick="goBack()">←</div>
@@ -492,7 +508,6 @@ body {
       <div class="game-tab" onclick="showMLBBTab('mlbbru')">MLBB Ru</div>
     </div>
     
-    <!-- UZ/Global Tab -->
     <div class="packages-grid" id="mlbb-uzglobal">
       <div class="package-card" onclick="buyPackage('MLBB','Vaqtinchalik paket','3100')">
         <div class="package-icon">📦</div>
@@ -532,7 +547,6 @@ body {
       </div>
     </div>
 
-    <!-- MLBB UZ Tab -->
     <div class="packages-grid" id="mlbb-mlbbuz" style="display:none;">
       <div class="package-card" onclick="buyPackage('MLBB-UZ','11 diamond','2292')">
         <div class="package-icon">💎</div>
@@ -554,7 +568,6 @@ body {
       </div>
     </div>
 
-    <!-- MLBB Ru Tab -->
     <div class="packages-grid" id="mlbb-mlbbru" style="display:none;">
       <div class="package-card" onclick="buyPackage('MLBB-RU','35 diamond','10358')">
         <div class="package-icon">💎</div>
@@ -579,7 +592,7 @@ body {
 
   <!-- FREE FIRE PAGE -->
   <div class="page scroll-content" id="page-freefire">
-    <div class="game-banner" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24);">
+    <div class="game-banner" style="background:linear-gradient(135deg,#EC4899,#F59E0B);">
       <img src="freefire-banner.jpg" alt="Free Fire">
       <div class="game-banner-title">Free Fire Top Up RU/CIS</div>
       <div class="back-btn-game" onclick="goBack()">←</div>
@@ -614,7 +627,7 @@ body {
 
   <!-- STANDOFF 2 PAGE -->
   <div class="page scroll-content" id="page-standoff">
-    <div class="game-banner" style="background:linear-gradient(135deg,#f39c12,#e74c3c);">
+    <div class="game-banner" style="background:linear-gradient(135deg,#F59E0B,#8B5CF6);">
       <img src="standoff-banner.jpg" alt="Standoff 2">
       <div class="game-banner-title">Standoff 2</div>
       <div class="back-btn-game" onclick="goBack()">←</div>
@@ -661,7 +674,7 @@ body {
 
   <!-- TELEGRAM PREMIUM PAGE -->
   <div class="page scroll-content" id="page-telegram">
-    <div class="game-banner" style="background:linear-gradient(135deg,#8e44ad,#3498db);">
+    <div class="game-banner" style="background:linear-gradient(135deg,#8B5CF6,#06B6D4);">
       <img src="telegram-banner.jpg" alt="Telegram Premium">
       <div class="game-banner-title">Telegram Premium</div>
       <div class="back-btn-game" onclick="goBack()">←</div>
@@ -700,21 +713,21 @@ body {
   <!-- HAMYON -->
   <div class="page scroll-content" id="page-hamyon">
     <div class="page-header">
-      <div class="page-title" data-translate="wallet">Hamyon</div>
+      <div class="page-title">Hamyon</div>
       <div class="refresh-btn" onclick="this.style.transform='rotate(360deg)';setTimeout(()=>this.style.transform='',400)">↻</div>
     </div>
     <div class="hamyon-card">
-      <div class="hamyon-label" data-translate="currentBalance">Joriy balans</div>
+      <div class="hamyon-label">Joriy balans</div>
       <div class="hamyon-amount">0</div>
       <div class="hamyon-sub">UZS</div>
-      <button class="hamyon-topup" onclick="topupBalance(event,this)"><span>+</span> <span data-translate="addBalance">Balansni to'ldirish</span></button>
+      <button class="hamyon-topup" onclick="topupBalance(event,this)"><span>+</span> Balansni to'ldirish</button>
     </div>
     <div class="history-section">
-      <div class="history-title" data-translate="history">Tarix</div>
+      <div class="history-title">Tarix</div>
       <div class="empty-state">
         <div class="empty-icon">📭</div>
-        <div class="empty-text" data-translate="noData">Ma'lumot topilmadi</div>
-        <div class="empty-sub" data-translate="nothingYet">Hozircha hech narsa yo'q</div>
+        <div class="empty-text">Ma'lumot topilmadi</div>
+        <div class="empty-sub">Hozircha hech narsa yo'q</div>
       </div>
     </div>
   </div>
@@ -722,11 +735,11 @@ body {
   <!-- O'YINLAR -->
   <div class="page scroll-content" id="page-oyinlar">
     <div class="page-header">
-      <div class="page-title" data-translate="games">O'yinlar</div>
+      <div class="page-title">O'yinlar</div>
     </div>
     <div class="section-header">
       <div class="section-line"></div>
-      <div class="section-title" data-translate="allGames">Barcha o'yinlar</div>
+      <div class="section-title">Barcha o'yinlar</div>
     </div>
     <div class="games-grid">
       <div class="game-card featured" onclick="openGamePage('pubg')">
@@ -756,11 +769,10 @@ body {
   <!-- TARIX (ИСТОРИЯ ПОКУПОК) -->
   <div class="page scroll-content" id="page-tarix">
     <div class="page-header">
-      <div class="page-title" data-translate="history">Tarix</div>
+      <div class="page-title">Tarix</div>
       <div class="refresh-btn" onclick="loadHistory()">↻</div>
     </div>
     
-    <!-- Фильтры истории -->
     <div class="history-filters">
       <div class="history-filter active" onclick="filterHistory('all', this)">Barchasi</div>
       <div class="history-filter" onclick="filterHistory('success', this)">✅ Muvaffaqiyatli</div>
@@ -768,9 +780,44 @@ body {
       <div class="history-filter" onclick="filterHistory('error', this)">❌ Xato</div>
     </div>
     
-    <!-- Список истории -->
-    <div class="history-list" id="history-list">
-      <!-- История будет загружена через JavaScript -->
+    <div class="history-list" id="history-list"></div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="page scroll-content" id="page-admin">
+    <div class="page-header">
+      <div class="page-title">Admin Panel</div>
+      <div class="refresh-btn" onclick="logoutAdmin()">🚪</div>
+    </div>
+    
+    <div id="admin-login" class="admin-login">
+      <h2 style="margin-bottom:20px;color:var(--primary-light);">Admin Kirish</h2>
+      <input type="password" class="admin-input" id="admin-password" placeholder="Parol kiriting">
+      <button class="admin-btn" onclick="loginAdmin()">Kirish</button>
+    </div>
+    
+    <div id="admin-dashboard" style="display:none;">
+      <div class="admin-stats">
+        <div class="stat-card">
+          <div class="stat-number" id="total-orders">0</div>
+          <div class="stat-label">Jami buyurtmalar</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="pending-orders">0</div>
+          <div class="stat-label">Kutishda</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="success-orders">0</div>
+          <div class="stat-label">Muvaffaqiyatli</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="total-revenue">0</div>
+          <div class="stat-label">Daromad (UZS)</div>
+        </div>
+      </div>
+      
+      <div class="pack-section-title">Buyurtmalar</div>
+      <div class="admin-orders" id="admin-orders-list"></div>
     </div>
   </div>
 
@@ -782,24 +829,28 @@ body {
       <div class="profile-id">
         <span id="profil-id">0000000000</span>
       </div>
-      <div class="profile-badge-row"><div class="gold-badge">Gold Member ✦</div></div>
+      <div class="profile-badge-row"><div class="gold-badge">VIP Member ✦</div></div>
     </div>
     <div class="menu-list">
       <div class="menu-item" onclick="openLang()">
-        <div class="menu-text"><div class="mtitle" data-translate="language">Ilova tili</div><div class="msub" id="lang-sub">O'zbek</div></div>
+        <div class="menu-text"><div class="mtitle">Ilova tili</div><div class="msub" id="lang-sub">O'zbek</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openSupport()">
-        <div class="menu-text"><div class="mtitle" data-translate="support">Qo'llab-quvvatlash</div><div class="msub" data-translate="supportSub">24/7 yordam</div></div>
+        <div class="menu-text"><div class="mtitle">Qo'llab-quvvatlash</div><div class="msub">24/7 yordam</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openAbout()">
-        <div class="menu-text"><div class="mtitle" data-translate="about">Ilova haqida</div><div class="msub">v1.0.0</div></div>
+        <div class="menu-text"><div class="mtitle">Ilova haqida</div><div class="msub">v1.0.0</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openCurrency()">
-        <div class="menu-text"><div class="mtitle" data-translate="currency">Valyutani o'zgartirish</div><div class="msub" id="currency-sub">UZS — so'm</div></div>
+        <div class="menu-text"><div class="mtitle">Valyutani o'zgartirish</div><div class="msub" id="currency-sub">UZS — so'm</div></div>
         <div class="menu-arrow">›</div>
+      </div>
+      <div class="menu-item" onclick="openAdmin()" style="border-color:var(--primary);">
+        <div class="menu-text"><div class="mtitle" style="color:var(--primary-light);">🔐 Admin Panel</div><div class="msub">Boshqaruv paneli</div></div>
+        <div class="menu-arrow" style="color:var(--primary);">›</div>
       </div>
     </div>
   </div>
@@ -807,19 +858,19 @@ body {
   <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <div class="nav-item active" onclick="switchPage('home',this)">
-      <div class="nav-icon">⊞</div><div class="nav-label" data-translate="navHome">Bosh sahifa</div><div class="nav-active-bar"></div>
+      <div class="nav-icon">⊞</div><div class="nav-label">Bosh sahifa</div><div class="nav-active-bar"></div>
     </div>
     <div class="nav-item" onclick="switchPage('hamyon',this)">
-      <div class="nav-icon">💳</div><div class="nav-label" data-translate="navWallet">Hamyon</div><div class="nav-active-bar"></div>
+      <div class="nav-icon">💳</div><div class="nav-label">Hamyon</div><div class="nav-active-bar"></div>
     </div>
     <div class="nav-item" onclick="switchPage('oyinlar',this)">
-      <div class="nav-icon">🎮</div><div class="nav-label" data-translate="navGames">O'yinlar</div><div class="nav-active-bar"></div>
+      <div class="nav-icon">🎮</div><div class="nav-label">O'yinlar</div><div class="nav-active-bar"></div>
     </div>
     <div class="nav-item" onclick="switchPage('tarix',this)">
-      <div class="nav-icon">🕐</div><div class="nav-label" data-translate="navHistory">Tarix</div><div class="nav-active-bar"></div>
+      <div class="nav-icon">🕐</div><div class="nav-label">Tarix</div><div class="nav-active-bar"></div>
     </div>
     <div class="nav-item" onclick="switchPage('profil',this)">
-      <div class="nav-icon">👤</div><div class="nav-label" data-translate="navProfile">Profil</div><div class="nav-active-bar"></div>
+      <div class="nav-icon">👤</div><div class="nav-label">Profil</div><div class="nav-active-bar"></div>
     </div>
   </nav>
 </div>
@@ -831,7 +882,7 @@ body {
 <div class="sheet" id="sheet-lang">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title" data-translate="selectLang">Ilova tili</div>
+    <div class="sheet-title">Ilova tili</div>
   </div>
   <div class="sheet-body">
     <div class="option-item selected" id="lang-uz" onclick="setLang('uz')">
@@ -862,16 +913,16 @@ body {
 <div class="sheet" id="sheet-support">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title" data-translate="support">Qo'llab-quvvatlash</div>
+    <div class="sheet-title">Qo'llab-quvvatlash</div>
   </div>
   <div class="sheet-body">
     <a class="support-item" onclick="callPhone()">
       <span class="support-icon">📞</span>
       <div class="support-text">
-        <div class="support-label" data-translate="phone">Telefon</div>
+        <div class="support-label">Telefon</div>
         <div class="support-val">+998 90 589 01 92</div>
       </div>
-      <span class="support-arrow" style="color:var(--gold)">›</span>
+      <span class="support-arrow">›</span>
     </a>
     <a class="support-item" onclick="openTelegram()">
       <span class="support-icon">✈️</span>
@@ -879,7 +930,7 @@ body {
         <div class="support-label">Telegram</div>
         <div class="support-val">@barbossa_gaming</div>
       </div>
-      <span class="support-arrow" style="color:#229ED9">›</span>
+      <span class="support-arrow" style="color:#8B5CF6">›</span>
     </a>
   </div>
 </div>
@@ -888,13 +939,13 @@ body {
 <div class="sheet" id="sheet-about">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title" data-translate="about">Ilova haqida</div>
+    <div class="sheet-title">Ilova haqida</div>
   </div>
   <div class="sheet-body">
-    <div class="about-row"><span class="about-key" data-translate="appName">Ilova nomi</span><span class="about-val">Arena X Donate</span></div>
-    <div class="about-row"><span class="about-key" data-translate="version">Versiya</span><span class="about-val">v1.0.0</span></div>
-    <div class="about-row"><span class="about-key" data-translate="platform">Platforma</span><span class="about-val">Telegram Mini App</span></div>
-    <div class="about-row"><span class="about-key" data-translate="developer">Ishlab chiquvchi</span><span class="about-val">@barbossa_gaming</span></div>
+    <div class="about-row"><span class="about-key">Ilova nomi</span><span class="about-val">Arena X Donate</span></div>
+    <div class="about-row"><span class="about-key">Versiya</span><span class="about-val">v1.0.0</span></div>
+    <div class="about-row"><span class="about-key">Platforma</span><span class="about-val">Telegram Mini App</span></div>
+    <div class="about-row"><span class="about-key">Ishlab chiquvchi</span><span class="about-val">@barbossa_gaming</span></div>
   </div>
 </div>
 
@@ -902,7 +953,7 @@ body {
 <div class="sheet" id="sheet-currency">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title" data-translate="selectCurrency">Valyutani tanlang</div>
+    <div class="sheet-title">Valyutani tanlang</div>
   </div>
   <div class="sheet-body">
     <div class="option-item selected" id="cur-uzs" onclick="setCurrency('UZS','UZS — so\'m')">
@@ -933,10 +984,10 @@ body {
 <div class="sheet" id="sheet-topup">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title" data-translate="topupTitle">Balansni to'ldirish</div>
+    <div class="sheet-title">Balansni to'ldirish</div>
   </div>
   <div class="sheet-body">
-    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;text-align:center;" data-translate="selectAmount">Summani tanlang</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;text-align:center;">Summani tanlang</div>
     <div class="option-item" onclick="doTopup('10000')">
       <div class="opt-row">
         <span class="opt-label">10,000 UZS</span>
@@ -957,7 +1008,7 @@ body {
     </div>
     <div class="option-item" onclick="doTopup('custom')">
       <div class="opt-row">
-        <span class="opt-label" data-translate="otherAmount">Boshqa summa</span>
+        <span class="opt-label">Boshqa summa</span>
       </div>
       <span class="opt-check" style="color:var(--muted);font-size:14px;">›</span>
     </div>
@@ -974,13 +1025,13 @@ body {
     <div style="text-align:center;margin-bottom:20px;">
       <div style="font-size:48px;margin-bottom:10px;" id="buy-package-icon">💎</div>
       <div style="font-size:18px;font-weight:600;margin-bottom:5px;" id="buy-package-name">60 UC</div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:var(--gold);" id="buy-package-price">12 500 UZS</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:var(--primary-light);" id="buy-package-price">12 500 UZS</div>
     </div>
     <div style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;">ID kiriting:</div>
-    <input type="text" id="player-id-input" placeholder="Player ID" style="width:100%;padding:14px;background:var(--dark4);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;">
-    <div class="option-item" style="background:linear-gradient(135deg,#F5A623,#E8941A);border-color:transparent;" onclick="confirmBuy()">
+    <input type="text" id="player-id-input" placeholder="Player ID" style="width:100%;padding:14px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;">
+    <div class="option-item" style="background:linear-gradient(135deg,#8B5CF6,#EC4899);border-color:transparent;" onclick="confirmBuy()">
       <div class="opt-row">
-        <span class="opt-label" style="color:#090E1A;font-weight:700;">✅ Sotib olish</span>
+        <span class="opt-label" style="color:#fff;font-weight:700;">✅ Sotib olish</span>
       </div>
     </div>
     <div class="option-item" onclick="closeSheet()">
@@ -995,165 +1046,17 @@ body {
 let tg = null;
 try { tg = window.Telegram?.WebApp || null; if(tg){tg.expand();tg.ready();} } catch(e){}
 
-// История навигации для кнопки "Назад"
 let navigationHistory = ['home'];
+let isAdminLoggedIn = false;
+const ADMIN_PASSWORD = 'admin123'; // Пароль админа (измените!)
 
-// Демо-данные истории покупок
 let purchaseHistory = [
-  {
-    id: 1,
-    game: 'PUBG Mobile',
-    package: '60 UC VOUCHER',
-    price: '12 430 UZS',
-    status: 'success',
-    date: '2026-05-21 14:30',
-    playerId: '5123456789'
-  },
-  {
-    id: 2,
-    game: 'Mobile Legends',
-    package: '50+5 diamond',
-    price: '10 500 UZS',
-    status: 'pending',
-    date: '2026-05-21 15:45',
-    playerId: '123456789'
-  },
-  {
-    id: 3,
-    game: 'Free Fire',
-    package: '110 Almaz CIS',
-    price: '11 427 UZS',
-    status: 'error',
-    date: '2026-05-21 16:20',
-    playerId: '987654321'
-  },
-  {
-    id: 4,
-    game: 'Standoff 2',
-    package: '100 G',
-    price: '25 000 UZS',
-    status: 'success',
-    date: '2026-05-21 17:10',
-    playerId: '456789123'
-  },
-  {
-    id: 5,
-    game: 'Telegram Premium',
-    package: 'Premium 3 oy',
-    price: '196 507 UZS',
-    status: 'pending',
-    date: '2026-05-21 18:00',
-    playerId: '@username'
-  }
+  { id: 1, game: 'PUBG Mobile', package: '60 UC VOUCHER', price: '12 430 UZS', status: 'success', date: '2026-05-21 14:30', playerId: '5123456789' },
+  { id: 2, game: 'Mobile Legends', package: '50+5 diamond', price: '10 500 UZS', status: 'pending', date: '2026-05-21 15:45', playerId: '123456789' },
+  { id: 3, game: 'Free Fire', package: '110 Almaz CIS', price: '11 427 UZS', status: 'error', date: '2026-05-21 16:20', playerId: '987654321' },
+  { id: 4, game: 'Standoff 2', package: '100 G', price: '25 000 UZS', status: 'success', date: '2026-05-21 17:10', playerId: '456789123' },
+  { id: 5, game: 'Telegram Premium', package: 'Premium 3 oy', price: '196 507 UZS', status: 'pending', date: '2026-05-21 18:00', playerId: '@username' }
 ];
-
-const translations = {
-  uz: {
-    tagline: 'Biz bilamiz — oson va qulay!',
-    balanceLabel: 'Hisobingiz',
-    topupBtn: "To'ldirish",
-    wallet: 'Hamyon',
-    currentBalance: 'Joriy balans',
-    addBalance: "Balansni to'ldirish",
-    history: 'Tarix',
-    noData: "Ma'lumot topilmadi",
-    nothingYet: 'Hozircha hech narsa yo\'q',
-    games: "O'yinlar",
-    allGames: "Barcha o'yinlar",
-    language: 'Ilova tili',
-    support: "Qo'llab-quvvatlash",
-    supportSub: '24/7 yordam',
-    about: 'Ilova haqida',
-    currency: "Valyutani o'zgartirish",
-    navHome: 'Bosh sahifa',
-    navWallet: 'Hamyon',
-    navGames: "O'yinlar",
-    navHistory: 'Tarix',
-    navProfile: 'Profil',
-    selectLang: 'Ilova tili',
-    phone: 'Telefon',
-    appName: 'Ilova nomi',
-    version: 'Versiya',
-    platform: 'Platforma',
-    developer: 'Ishlab chiquvchi',
-    selectCurrency: 'Valyutani tanlang',
-    topupTitle: "Balansni to'ldirish",
-    selectAmount: 'Summani tanlang',
-    otherAmount: 'Boshqa summa',
-    subscribeChannel: 'Kanalga obuna bo\'ling',
-    supportTitle: 'Qo\'llab-quvvatlash'
-  },
-  ru: {
-    tagline: 'Мы знаем — легко и удобно!',
-    balanceLabel: 'Ваш баланс',
-    topupBtn: 'Пополнить',
-    wallet: 'Кошелёк',
-    currentBalance: 'Текущий баланс',
-    addBalance: 'Пополнить баланс',
-    history: 'История',
-    noData: 'Информация не найдена',
-    nothingYet: 'Пока ничего нет',
-    games: 'Игры',
-    allGames: 'Все игры',
-    language: 'Язык приложения',
-    support: 'Поддержка',
-    supportSub: 'Помощь 24/7',
-    about: 'О приложении',
-    currency: 'Изменить валюту',
-    navHome: 'Главная',
-    navWallet: 'Кошелёк',
-    navGames: 'Игры',
-    navHistory: 'История',
-    navProfile: 'Профиль',
-    selectLang: 'Язык приложения',
-    phone: 'Телефон',
-    appName: 'Название',
-    version: 'Версия',
-    platform: 'Платформа',
-    developer: 'Разработчик',
-    selectCurrency: 'Выберите валюту',
-    topupTitle: 'Пополнение баланса',
-    selectAmount: 'Выберите сумму',
-    otherAmount: 'Другая сумма',
-    subscribeChannel: 'Подписаться на канал',
-    supportTitle: 'Поддержка'
-  },
-  en: {
-    tagline: 'We know — easy and convenient!',
-    balanceLabel: 'Your balance',
-    topupBtn: 'Top up',
-    wallet: 'Wallet',
-    currentBalance: 'Current balance',
-    addBalance: 'Add balance',
-    history: 'History',
-    noData: 'No information found',
-    nothingYet: 'Nothing yet',
-    games: 'Games',
-    allGames: 'All games',
-    language: 'App language',
-    support: 'Support',
-    supportSub: '24/7 help',
-    about: 'About app',
-    currency: 'Change currency',
-    navHome: 'Home',
-    navWallet: 'Wallet',
-    navGames: 'Games',
-    navHistory: 'History',
-    navProfile: 'Profile',
-    selectLang: 'App language',
-    phone: 'Phone',
-    appName: 'App name',
-    version: 'Version',
-    platform: 'Platform',
-    developer: 'Developer',
-    selectCurrency: 'Select currency',
-    topupTitle: 'Top up balance',
-    selectAmount: 'Select amount',
-    otherAmount: 'Other amount',
-    subscribeChannel: 'Subscribe to channel',
-    supportTitle: 'Support'
-  }
-};
 
 let currentLang = 'uz';
 let pendingBuy = {};
@@ -1162,14 +1065,10 @@ let currentFilter = 'all';
 
 function setLang(lang) {
   currentLang = lang;
-  document.querySelectorAll('[data-translate]').forEach(el => {
-    const key = el.getAttribute('data-translate');
-    if (translations[lang][key]) el.textContent = translations[lang][key];
-  });
-  document.querySelectorAll('#sheet-lang .option-item').forEach(o => o.classList.remove('selected'));
-  document.getElementById('lang-' + lang).classList.add('selected');
   const langNames = { uz: "O'zbek", ru: 'Русский', en: 'English' };
   document.getElementById('lang-sub').textContent = langNames[lang];
+  document.querySelectorAll('#sheet-lang .option-item').forEach(o => o.classList.remove('selected'));
+  document.getElementById('lang-' + lang).classList.add('selected');
   setTimeout(closeSheet, 300);
 }
 
@@ -1219,9 +1118,7 @@ function nextSlide() {
 }
 setInterval(nextSlide, 5000);
 
-// Функция для перехода на страницу с сохранением истории
 function switchPage(name, el) {
-  // Добавляем в историю только если это не текущая страница
   if (navigationHistory[navigationHistory.length - 1] !== name) {
     navigationHistory.push(name);
   }
@@ -1232,57 +1129,130 @@ function switchPage(name, el) {
   if(el && el.classList.contains('nav-item')) el.classList.add('active');
   else document.querySelector('.nav-item').classList.add('active');
   
-  // Если открыли страницу истории, загружаем данные
-  if (name === 'tarix') {
-    loadHistory();
-  }
+  if (name === 'tarix') loadHistory();
+  if (name === 'admin') checkAdminAuth();
 }
 
-// Функция для открытия игровой страницы
 function openGamePage(game) {
-  // Добавляем в историю
   navigationHistory.push(game);
-  
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+game).classList.add('active');
 }
 
-// Функция "Назад" - возвращает на предыдущую страницу
 function goBack() {
   if (navigationHistory.length > 1) {
-    navigationHistory.pop(); // Удаляем текущую страницу
-    const previousPage = navigationHistory[navigationHistory.length - 1]; // Получаем предыдущую
-    
+    navigationHistory.pop();
+    const previousPage = navigationHistory[navigationHistory.length - 1];
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
     document.getElementById('page-'+previousPage).classList.add('active');
-    
-    // Если предыдущая страница - одна из основных, активируем соответствующую кнопку навигации
-    const navMapping = {
-      'home': 0,
-      'hamyon': 1,
-      'oyinlar': 2,
-      'tarix': 3,
-      'profil': 4
-    };
-    
+    const navMapping = { 'home': 0, 'hamyon': 1, 'oyinlar': 2, 'tarix': 3, 'profil': 4 };
     if (navMapping[previousPage] !== undefined) {
       document.querySelectorAll('.nav-item')[navMapping[previousPage]].classList.add('active');
     }
   }
 }
 
-// Загрузка истории покупок
+// ADMIN FUNCTIONS
+function checkAdminAuth() {
+  if (!isAdminLoggedIn) {
+    document.getElementById('admin-login').style.display = 'block';
+    document.getElementById('admin-dashboard').style.display = 'none';
+  } else {
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-dashboard').style.display = 'block';
+    updateAdminStats();
+    loadAdminOrders();
+  }
+}
+
+function loginAdmin() {
+  const password = document.getElementById('admin-password').value;
+  if (password === ADMIN_PASSWORD) {
+    isAdminLoggedIn = true;
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-dashboard').style.display = 'block';
+    updateAdminStats();
+    loadAdminOrders();
+  } else {
+    alert('Noto\'g\'ri parol!');
+  }
+}
+
+function logoutAdmin() {
+  isAdminLoggedIn = false;
+  document.getElementById('admin-password').value = '';
+  goBack();
+}
+
+function updateAdminStats() {
+  document.getElementById('total-orders').textContent = purchaseHistory.length;
+  document.getElementById('pending-orders').textContent = purchaseHistory.filter(o => o.status === 'pending').length;
+  document.getElementById('success-orders').textContent = purchaseHistory.filter(o => o.status === 'success').length;
+  
+  const totalRevenue = purchaseHistory
+    .filter(o => o.status === 'success')
+    .reduce((sum, o) => sum + parseInt(o.price.replace(/\s/g, '').replace(' UZS', '')), 0);
+  document.getElementById('total-revenue').textContent = totalRevenue.toLocaleString();
+}
+
+function loadAdminOrders() {
+  const ordersList = document.getElementById('admin-orders-list');
+  ordersList.innerHTML = '';
+  
+  purchaseHistory.forEach(order => {
+    const statusClass = order.status === 'success' ? 'status-success' : 
+                       order.status === 'pending' ? 'status-pending' : 'status-error';
+    const statusText = order.status === 'success' ? '✅ Muvaffaqiyatli' : 
+                      order.status === 'pending' ? '⏳ Kutishda' : '❌ Xato';
+    
+    const orderItem = document.createElement('div');
+    orderItem.className = 'order-item';
+    orderItem.innerHTML = `
+      <div class="order-header">
+        <div>
+          <div style="font-weight:600;color:var(--text);">${order.game}</div>
+          <div style="font-size:12px;color:var(--muted);">${order.package}</div>
+        </div>
+        <div class="history-status ${statusClass}">${statusText}</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;">
+        <div style="font-size:12px;color:var(--muted);">ID: ${order.playerId}</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--primary-light);">${order.price}</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">${order.date}</div>
+      ${order.status === 'pending' ? `
+        <div class="order-actions">
+          <button class="order-btn order-btn-success" onclick="updateOrderStatus(${order.id}, 'success')">✅ Tasdiqlash</button>
+          <button class="order-btn order-btn-error" onclick="updateOrderStatus(${order.id}, 'error')">❌ Rad etish</button>
+        </div>
+      ` : ''}
+    `;
+    ordersList.appendChild(orderItem);
+  });
+}
+
+function updateOrderStatus(orderId, newStatus) {
+  const order = purchaseHistory.find(o => o.id === orderId);
+  if (order) {
+    order.status = newStatus;
+    updateAdminStats();
+    loadAdminOrders();
+    alert(newStatus === 'success' ? 'Buyurtma tasdiqlandi!' : 'Buyurtma rad etildi!');
+  }
+}
+
+function openAdmin() {
+  switchPage('admin');
+}
+
 function loadHistory() {
   filterHistory(currentFilter);
 }
 
-// Фильтрация истории
 function filterHistory(filter, el) {
   currentFilter = filter;
-  
-  // Обновляем активный фильтр
   if (el) {
     document.querySelectorAll('.history-filter').forEach(f => f.classList.remove('active'));
     el.classList.add('active');
@@ -1291,24 +1261,16 @@ function filterHistory(filter, el) {
   const historyList = document.getElementById('history-list');
   historyList.innerHTML = '';
   
-  // Фильтруем данные
   let filteredHistory = purchaseHistory;
   if (filter !== 'all') {
     filteredHistory = purchaseHistory.filter(item => item.status === filter);
   }
   
   if (filteredHistory.length === 0) {
-    historyList.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">📋</div>
-        <div class="empty-text">Ma'lumot topilmadi</div>
-        <div class="empty-sub">Hozircha hech narsa yo'q</div>
-      </div>
-    `;
+    historyList.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">Ma'lumot topilmadi</div><div class="empty-sub">Hozircha hech narsa yo'q</div></div>`;
     return;
   }
   
-  // Отображаем историю
   filteredHistory.forEach(item => {
     const statusClass = item.status === 'success' ? 'status-success' : 
                        item.status === 'pending' ? 'status-pending' : 'status-error';
@@ -1332,21 +1294,17 @@ function filterHistory(filter, el) {
   });
 }
 
-// PUBG Tabs
 function showPUBGTab(tabName) {
   document.getElementById('pubg-ucvoucher').style.display = tabName === 'ucvoucher' ? 'block' : 'none';
   document.getElementById('pubg-royalpass').style.display = tabName === 'royalpass' ? 'block' : 'none';
   document.getElementById('pubg-promocod').style.display = tabName === 'promocod' ? 'block' : 'none';
-  
   document.querySelectorAll('#page-pubg .game-tab').forEach(tab => tab.classList.remove('active'));
   event.target.classList.add('active');
 }
 
-// MLBB Tabs
 function showMLBBTab(tabName) {
   document.querySelectorAll('#page-mlbb .packages-grid').forEach(grid => grid.style.display = 'none');
   document.getElementById('mlbb-'+tabName).style.display = 'grid';
-  
   document.querySelectorAll('#page-mlbb .game-tab').forEach(tab => tab.classList.remove('active'));
   event.target.classList.add('active');
 }
@@ -1393,16 +1351,12 @@ function buyPackage(game, packageName, price) {
 
 function confirmBuy() {
   const playerId = document.getElementById('player-id-input').value.trim();
-  if (!playerId) {
-    alert('ID kiriting!');
-    return;
-  }
+  if (!playerId) { alert('ID kiriting!'); return; }
   closeSheet();
   const msg = `${pendingBuy.game}|${pendingBuy.packageName}|${pendingBuy.price}|${playerId}`;
   if (tg) tg.sendData(msg);
   else alert('Покупка: ' + msg + ' (demo)');
   
-  // Добавляем покупку в историю (демо)
   const newPurchase = {
     id: purchaseHistory.length + 1,
     game: pendingBuy.game,
@@ -1415,13 +1369,9 @@ function confirmBuy() {
   purchaseHistory.unshift(newPurchase);
 }
 
-// Telegram Premium functions
 function checkUsername() {
   const username = document.getElementById('tg-username').value.trim();
-  if (!username) {
-    alert('Username kiriting!');
-    return;
-  }
+  if (!username) { alert('Username kiriting!'); return; }
   alert('Username tekshirildi: ' + username);
 }
 
@@ -1435,15 +1385,11 @@ function selectPremium(el, duration, price) {
 function buyPremium() {
   if (!selectedPremium) return;
   const username = document.getElementById('tg-username').value.trim();
-  if (!username) {
-    alert('Username kiriting!');
-    return;
-  }
+  if (!username) { alert('Username kiriting!'); return; }
   const msg = `TELEGRAM|Premium ${selectedPremium.duration}|${selectedPremium.price}|${username}`;
   if (tg) tg.sendData(msg);
   else alert('Покупка: ' + msg + ' (demo)');
   
-  // Добавляем покупку в историю (демо)
   const newPurchase = {
     id: purchaseHistory.length + 1,
     game: 'Telegram Premium',
