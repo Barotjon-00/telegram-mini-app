@@ -7,7 +7,7 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
-    :root { --primary: #8B5CF6; --primary-dark: #7C3AED; --primary-light: #A78BFA; --dark1: #0F0A1A; --dark2: #1A1128; --dark3: #241835; --dark4: #2D1F42; --green: #10B981; --text: #F3E8FF; --muted: #9CA3AF; --border: rgba(139,92,246,0.2); --success: #10B981; --pending: #F59E0B; --error: #EF4444; }
+    :root { --primary: #8B5CF6; --primary-dark: #7C3AED; --primary-light: #A78BFA; --dark1: #0F0A1A; --dark2: #1A1128; --dark3: #241835; --dark4: #2D1F42; --green: #10B981; --text: #F3E8FF; --muted: #9CA3AF; --border: rgba(139,92,246,0.2); --success: #10B981; --pending: #F59E0B; --error: #EF4444; --blue: #3B82F6; }
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
     body { font-family: 'Inter', sans-serif; background: var(--dark1); color: var(--text); min-height: 100vh; overflow-x: hidden; }
     .bg-canvas { position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden; }
@@ -136,11 +136,12 @@
     .order-item{background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;}
     .order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
     .order-id{font-size:12px;color:var(--muted);}
-    .order-actions{display:flex;gap:8px;margin-top:12px;}
-    .order-btn{flex:1;padding:10px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:transform 0.1s;}
+    .order-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+    .order-btn{flex:1;min-width:80px;padding:8px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:transform 0.1s;text-align:center;margin:2px;}
     .order-btn:active{transform:scale(0.95);}
     .order-btn-success{background:rgba(16,185,129,0.2);color:var(--success);}
     .order-btn-error{background:rgba(239,68,68,0.2);color:var(--error);}
+    .order-btn-delete{background:rgba(239,68,68,0.1);color:var(--error);border:1px solid rgba(239,68,68,0.3);}
     .username-input-section{padding:16px;}
     .username-label{font-size:14px;color:var(--muted);margin-bottom:8px;}
     .username-input{width:100%;padding:14px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;}
@@ -707,7 +708,7 @@
     </div>
   </div>
 
-  <!-- TARIX (ИСТОРИЯ ПОКУПОК) -->
+  <!-- TARIX -->
   <div class="page scroll-content" id="page-tarix">
     <div class="page-header">
       <div class="page-title">Tarix</div>
@@ -984,6 +985,12 @@
 </div>
 
 <script>
+// ============================================
+// ⚠️ ВАЖНО: Замените на URL вашего сервера!
+// Пример: 'https://arena-api.beget.app'
+// ============================================
+const SERVER_URL = 'https://ВАШ_СЕРВЕР';
+
 let tg = null;
 try { tg = window.Telegram?.WebApp || null; if(tg){tg.expand();tg.ready();} } catch(e){}
 
@@ -1099,7 +1106,99 @@ function goBack() {
   }
 }
 
-// ADMIN FUNCTIONS
+// === ADMIN API FUNCTIONS ===
+async function loadAdminOrders() {
+    const ordersList = document.getElementById('admin-orders-list');
+    ordersList.innerHTML = '<p style="text-align:center;">Yuklanmoqda...</p>';
+    
+    try {
+        const response = await fetch(`${SERVER_URL}/api/orders`);
+        const orders = await response.json();
+        
+        if (orders.length === 0) {
+            ordersList.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Buyurtmalar yo\'q</div></div>';
+            return;
+        }
+        
+        ordersList.innerHTML = '';
+        orders.forEach(order => {
+            const statusClass = order.status === 'success' ? 'status-success' : 
+                               order.status === 'pending' ? 'status-pending' : 'status-error';
+            const statusText = order.status === 'success' ? '✅ Muvaffaqiyatli' : 
+                              order.status === 'pending' ? '⏳ Kutishda' : '❌ Xato';
+            
+            const orderItem = document.createElement('div');
+            orderItem.className = 'order-item';
+            orderItem.innerHTML = `
+                <div class="order-header">
+                    <div>
+                        <div style="font-weight:600;color:var(--text);">${order.game}</div>
+                        <div style="font-size:12px;color:var(--muted);">${order.package}</div>
+                    </div>
+                    <div class="history-status ${statusClass}">${statusText}</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:8px;">
+                    <div style="font-size:12px;color:var(--muted);">ID: ${order.player_id}</div>
+                    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--primary-light);">${order.price}</div>
+                </div>
+                <div style="font-size:11px;color:var(--muted);margin-top:4px;">${order.date}</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:2px;">👤 @${order.username || 'unknown'}</div>
+                ${order.status === 'pending' ? `
+                    <div class="order-actions">
+                        <button class="order-btn order-btn-success" onclick="updateOrderStatusApi(${order.id}, 'success')">✅ Tasdiqlash</button>
+                        <button class="order-btn order-btn-error" onclick="updateOrderStatusApi(${order.id}, 'error')">❌ Rad etish</button>
+                        <button class="order-btn order-btn-delete" onclick="deleteOrderApi(${order.id})">🗑 O'chirish</button>
+                    </div>
+                ` : ''}
+            `;
+            ordersList.appendChild(orderItem);
+        });
+    } catch (error) {
+        console.error('Ошибка загрузки заказов:', error);
+        ordersList.innerHTML = '<div class="empty-state"><div class="empty-text">Ошибка загрузки</div></div>';
+    }
+}
+
+async function updateOrderStatusApi(orderId, newStatus) {
+    try {
+        await fetch(`${SERVER_URL}/api/order/${orderId}/status`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: newStatus })
+        });
+        alert(newStatus === 'success' ? 'Buyurtma tasdiqlandi!' : 'Buyurtma rad etildi!');
+        loadAdminOrders();
+        updateAdminStats();
+    } catch (error) {
+        alert('Ошибка обновления статуса');
+    }
+}
+
+async function deleteOrderApi(orderId) {
+    if (!confirm("Haqiqatan ham o'chirmoqchimisiz?")) return;
+    try {
+        await fetch(`${SERVER_URL}/api/order/${orderId}`, { method: 'DELETE' });
+        alert('Buyurtma o\'chirildi!');
+        loadAdminOrders();
+        updateAdminStats();
+    } catch (error) {
+        alert('Ошибка удаления');
+    }
+}
+
+async function updateAdminStats() {
+    try {
+        const response = await fetch(`${SERVER_URL}/api/stats`);
+        const stats = await response.json();
+        document.getElementById('total-orders').textContent = stats.total;
+        document.getElementById('pending-orders').textContent = stats.pending;
+        document.getElementById('success-orders').textContent = stats.success;
+        document.getElementById('total-revenue').textContent = stats.revenue.toLocaleString();
+    } catch (error) {
+        console.error('Ошибка загрузки статистики:', error);
+    }
+}
+
 function checkAdminAuth() {
     if (!isUserAdmin()) {
         alert('❌ Siz admin emassiz! Kirish taqiqlangan.');
@@ -1137,34 +1236,6 @@ function logoutAdmin() {
   goBack();
 }
 
-function updateAdminStats() {
-    // Статистика теперь берется из бота, а не из localStorage
-    document.getElementById('total-orders').textContent = '—';
-    document.getElementById('pending-orders').textContent = '—';
-    document.getElementById('success-orders').textContent = '—';
-    document.getElementById('total-revenue').textContent = '—';
-}
-
-function loadAdminOrders() {
-    const ordersList = document.getElementById('admin-orders-list');
-    
-    // Показываем сообщение, что заказы через бота
-    ordersList.innerHTML = `
-        <div style="text-align:center;padding:20px;">
-            <div style="font-size:40px;margin-bottom:10px;">📋</div>
-            <div style="font-weight:600;margin-bottom:10px;">Buyurtmalarni ko'rish</div>
-            <div style="color:var(--muted);margin-bottom:20px;">
-                Buyurtmalarni Telegram bot orqali ko'ring:<br><br>
-                <b>/orders</b> - barcha buyurtmalar<br>
-                <b>/confirm [ID]</b> - tasdiqlash
-            </div>
-            <button class="admin-btn" onclick="if(tg)tg.openTelegramLink('https://t.me/barbossa_gaming')">
-                Botga o'tish
-            </button>
-        </div>
-    `;
-}
-
 function openAdmin() {
     if (!isUserAdmin()) {
         alert('❌ Siz admin emassiz! Kirish taqiqlangan.');
@@ -1185,7 +1256,7 @@ function filterHistory(filter, el) {
   }
   
   const historyList = document.getElementById('history-list');
-  historyList.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">Tarix bot orqali ko'riladi</div></div>`;
+  historyList.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">Tarix serverdan yuklanadi</div></div>`;
 }
 
 function showPUBGTab(tabName) {
@@ -1243,7 +1314,7 @@ function buyPackage(game, packageName, price) {
   openSheet('sheet-buy');
 }
 
-// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ - УБРАНО localStorage
+// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ - ОТПРАВКА НА СЕРВЕР
 function confirmBuy() {
   const playerId = document.getElementById('player-id-input').value.trim();
   if (!playerId) { 
@@ -1260,18 +1331,27 @@ function confirmBuy() {
       userId = tg.initDataUnsafe.user.id;
   }
   
-  // Формируем сообщение для бота
-  const msg = `${pendingBuy.game}|${pendingBuy.packageName}|${pendingBuy.price}|${playerId}`;
+  const orderData = {
+      user_id: userId,
+      username: username,
+      game: pendingBuy.game,
+      package: pendingBuy.packageName,
+      price: pendingBuy.price,
+      player_id: playerId,
+      date: new Date().toLocaleString('uz-UZ')
+  };
   
-  // ОТПРАВЛЯЕМ ТОЛЬКО БОТУ (убрали сохранение в localStorage!)
-  if (tg) {
-      tg.sendData(msg);
-  } else {
-      alert('Demo: ' + msg);
-  }
-  
-  // Показываем подтверждение
-  alert('✅ Buyurtma qabul qilindi! Operator tez orada aloqaga chiqadi.');
+  // Отправляем на сервер
+  fetch(`${SERVER_URL}/api/order`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData)
+  }).then(() => {
+      alert('✅ Buyurtma qabul qilindi! Operator tez orada aloqaga chiqadi.');
+  }).catch(err => {
+      console.error('Ошибка:', err);
+      alert('❌ Xatolik yuz berdi');
+  });
 }
 
 function checkUsername() {
@@ -1287,7 +1367,7 @@ function selectPremium(el, duration, price) {
   document.getElementById('buy-premium-btn').disabled = false;
 }
 
-// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ - УБРАНО localStorage
+// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ - ОТПРАВКА НА СЕРВЕР
 function buyPremium() {
   if (!selectedPremium) return;
   const username = document.getElementById('tg-username').value.trim();
@@ -1300,15 +1380,26 @@ function buyPremium() {
       userId = tg.initDataUnsafe.user.id;
   }
   
-  const msg = `TELEGRAM|Premium ${selectedPremium.duration}|${selectedPremium.price}|${username}`;
+  const orderData = {
+      user_id: userId,
+      username: username,
+      game: 'Telegram Premium',
+      package: 'Premium ' + selectedPremium.duration,
+      price: selectedPremium.price,
+      player_id: username,
+      date: new Date().toLocaleString('uz-UZ')
+  };
   
-  if (tg) {
-      tg.sendData(msg);
-  } else {
-      alert('Demo: ' + msg);
-  }
-  
-  alert('✅ Buyurtma qabul qilindi!');
+  fetch(`${SERVER_URL}/api/order`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData)
+  }).then(() => {
+      alert('✅ Buyurtma qabul qilindi!');
+  }).catch(err => {
+      console.error('Ошибка:', err);
+      alert('❌ Xatolik yuz berdi');
+  });
 }
 
 function openLang() { openSheet('sheet-lang'); }
