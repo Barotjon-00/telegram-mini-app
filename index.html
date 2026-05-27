@@ -789,7 +789,6 @@
         <div class="menu-text"><div class="mtitle">Valyutani o'zgartirish</div><div class="msub" id="currency-sub">UZS — so'm</div></div>
         <div class="menu-arrow">›</div>
       </div>
-      <!-- Кнопка Admin Panel скрыта по умолчанию, показывается только админу через JS -->
       <div class="menu-item" id="admin-menu-item" style="display:none; border-color:var(--primary);" onclick="openAdmin()">
         <div class="menu-text"><div class="mtitle" style="color:var(--primary-light);">🔐 Admin Panel</div><div class="msub">Boshqaruv paneli</div></div>
         <div class="menu-arrow" style="color:var(--primary);">›</div>
@@ -990,27 +989,14 @@ try { tg = window.Telegram?.WebApp || null; if(tg){tg.expand();tg.ready();} } ca
 
 let navigationHistory = ['home'];
 let isAdminLoggedIn = false;
-const ADMIN_PASSWORD = 'admin123'; // Пароль для входа в админку внутри приложения
-
-// ВАЖНО: Замените этот ID на ваш реальный Telegram ID
+const ADMIN_PASSWORD = 'admin123';
 const MY_ADMIN_ID = 5273703401; 
 
-// Проверяем, является ли текущий пользователь админом
 function isUserAdmin() {
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
         return tg.initDataUnsafe.user.id === MY_ADMIN_ID;
     }
     return false;
-}
-
-// История заказов (загружаем из localStorage)
-function getPurchaseHistory() {
-    const history = localStorage.getItem('purchaseHistory');
-    return history ? JSON.parse(history) : [];
-}
-
-function savePurchaseHistory(history) {
-    localStorage.setItem('purchaseHistory', JSON.stringify(history));
 }
 
 let currentLang = 'uz';
@@ -1050,7 +1036,6 @@ function loadUserData() {
     if (dot) el.appendChild(dot);
   });
   
-  // Показываем кнопку админки только если это админ
   if (isUserAdmin()) {
       document.getElementById('admin-menu-item').style.display = 'flex';
   }
@@ -1116,7 +1101,6 @@ function goBack() {
 
 // ADMIN FUNCTIONS
 function checkAdminAuth() {
-    // Дополнительная проверка при открытии страницы админки
     if (!isUserAdmin()) {
         alert('❌ Siz admin emassiz! Kirish taqiqlangan.');
         goBack();
@@ -1154,70 +1138,31 @@ function logoutAdmin() {
 }
 
 function updateAdminStats() {
-  const history = getPurchaseHistory();
-  document.getElementById('total-orders').textContent = history.length;
-  document.getElementById('pending-orders').textContent = history.filter(o => o.status === 'pending').length;
-  document.getElementById('success-orders').textContent = history.filter(o => o.status === 'success').length;
-  
-  const totalRevenue = history
-    .filter(o => o.status === 'success')
-    .reduce((sum, o) => sum + parseInt(o.price.replace(/\s/g, '').replace(' UZS', '')), 0);
-  document.getElementById('total-revenue').textContent = totalRevenue.toLocaleString();
+    // Статистика теперь берется из бота, а не из localStorage
+    document.getElementById('total-orders').textContent = '—';
+    document.getElementById('pending-orders').textContent = '—';
+    document.getElementById('success-orders').textContent = '—';
+    document.getElementById('total-revenue').textContent = '—';
 }
 
 function loadAdminOrders() {
-  const ordersList = document.getElementById('admin-orders-list');
-  ordersList.innerHTML = '';
-  const history = getPurchaseHistory();
-  
-  if (history.length === 0) {
-    ordersList.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Buyurtmalar yo\'q</div></div>';
-    return;
-  }
-  
-  history.forEach(order => {
-    const statusClass = order.status === 'success' ? 'status-success' : 
-                       order.status === 'pending' ? 'status-pending' : 'status-error';
-    const statusText = order.status === 'success' ? '✅ Muvaffaqiyatli' : 
-                      order.status === 'pending' ? '⏳ Kutishda' : '❌ Xato';
+    const ordersList = document.getElementById('admin-orders-list');
     
-    const orderItem = document.createElement('div');
-    orderItem.className = 'order-item';
-    orderItem.innerHTML = `
-      <div class="order-header">
-        <div>
-          <div style="font-weight:600;color:var(--text);">${order.game}</div>
-          <div style="font-size:12px;color:var(--muted);">${order.package}</div>
+    // Показываем сообщение, что заказы через бота
+    ordersList.innerHTML = `
+        <div style="text-align:center;padding:20px;">
+            <div style="font-size:40px;margin-bottom:10px;">📋</div>
+            <div style="font-weight:600;margin-bottom:10px;">Buyurtmalarni ko'rish</div>
+            <div style="color:var(--muted);margin-bottom:20px;">
+                Buyurtmalarni Telegram bot orqali ko'ring:<br><br>
+                <b>/orders</b> - barcha buyurtmalar<br>
+                <b>/confirm [ID]</b> - tasdiqlash
+            </div>
+            <button class="admin-btn" onclick="if(tg)tg.openTelegramLink('https://t.me/barbossa_gaming')">
+                Botga o'tish
+            </button>
         </div>
-        <div class="history-status ${statusClass}">${statusText}</div>
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-top:8px;">
-        <div style="font-size:12px;color:var(--muted);">ID: ${order.playerId}</div>
-        <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--primary-light);">${order.price}</div>
-      </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:4px;">${order.date}</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px;">👤 @${order.username || 'unknown'}</div>
-      ${order.status === 'pending' ? `
-        <div class="order-actions">
-          <button class="order-btn order-btn-success" onclick="updateOrderStatus(${order.id}, 'success')">✅ Tasdiqlash</button>
-          <button class="order-btn order-btn-error" onclick="updateOrderStatus(${order.id}, 'error')">❌ Rad etish</button>
-        </div>
-      ` : ''}
     `;
-    ordersList.appendChild(orderItem);
-  });
-}
-
-function updateOrderStatus(orderId, newStatus) {
-  let history = getPurchaseHistory();
-  const order = history.find(o => o.id === orderId);
-  if (order) {
-    order.status = newStatus;
-    savePurchaseHistory(history);
-    updateAdminStats();
-    loadAdminOrders();
-    alert(newStatus === 'success' ? 'Buyurtma tasdiqlandi!' : 'Buyurtma rad etildi!');
-  }
 }
 
 function openAdmin() {
@@ -1240,40 +1185,7 @@ function filterHistory(filter, el) {
   }
   
   const historyList = document.getElementById('history-list');
-  historyList.innerHTML = '';
-  
-  let history = getPurchaseHistory();
-  let filteredHistory = history;
-  if (filter !== 'all') {
-    filteredHistory = history.filter(item => item.status === filter);
-  }
-  
-  if (filteredHistory.length === 0) {
-    historyList.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">Ma'lumot topilmadi</div><div class="empty-sub">Hozircha hech narsa yo'q</div></div>`;
-    return;
-  }
-  
-  filteredHistory.forEach(item => {
-    const statusClass = item.status === 'success' ? 'status-success' : 
-                       item.status === 'pending' ? 'status-pending' : 'status-error';
-    const statusText = item.status === 'success' ? '✅ Muvaffaqiyatli' : 
-                      item.status === 'pending' ? '⏳ Kutishda' : '❌ Xato';
-    
-    const historyItem = document.createElement('div');
-    historyItem.className = 'history-item';
-    historyItem.innerHTML = `
-      <div class="history-item-header">
-        <div class="history-game-name">${item.game}</div>
-        <div class="history-status ${statusClass}">${statusText}</div>
-      </div>
-      <div class="history-item-details">
-        <div class="history-package">${item.package}</div>
-        <div class="history-price">${item.price}</div>
-      </div>
-      <div class="history-date">${item.date} • ID: ${item.playerId}</div>
-    `;
-    historyList.appendChild(historyItem);
-  });
+  historyList.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">Tarix bot orqali ko'riladi</div></div>`;
 }
 
 function showPUBGTab(tabName) {
@@ -1331,6 +1243,7 @@ function buyPackage(game, packageName, price) {
   openSheet('sheet-buy');
 }
 
+// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ - УБРАНО localStorage
 function confirmBuy() {
   const playerId = document.getElementById('player-id-input').value.trim();
   if (!playerId) { 
@@ -1340,7 +1253,6 @@ function confirmBuy() {
   
   closeSheet();
   
-  // Получаем данные пользователя
   let username = 'unknown';
   let userId = 0;
   if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
@@ -1351,28 +1263,12 @@ function confirmBuy() {
   // Формируем сообщение для бота
   const msg = `${pendingBuy.game}|${pendingBuy.packageName}|${pendingBuy.price}|${playerId}`;
   
-  // Отправляем данные боту
+  // ОТПРАВЛЯЕМ ТОЛЬКО БОТУ (убрали сохранение в localStorage!)
   if (tg) {
       tg.sendData(msg);
   } else {
-      alert('Данные отправлены боту: ' + msg);
+      alert('Demo: ' + msg);
   }
-  
-  // Сохраняем в локальную историю
-  let history = getPurchaseHistory();
-  const newPurchase = {
-      id: Date.now(),
-      user_id: userId,
-      username: username,
-      game: pendingBuy.game,
-      package: pendingBuy.packageName,
-      price: parseInt(pendingBuy.price).toLocaleString() + ' UZS',
-      status: 'pending',
-      date: new Date().toLocaleString('uz-UZ'),
-      playerId: playerId
-  };
-  history.unshift(newPurchase);
-  savePurchaseHistory(history);
   
   // Показываем подтверждение
   alert('✅ Buyurtma qabul qilindi! Operator tez orada aloqaga chiqadi.');
@@ -1391,6 +1287,7 @@ function selectPremium(el, duration, price) {
   document.getElementById('buy-premium-btn').disabled = false;
 }
 
+// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ - УБРАНО localStorage
 function buyPremium() {
   if (!selectedPremium) return;
   const username = document.getElementById('tg-username').value.trim();
@@ -1408,23 +1305,8 @@ function buyPremium() {
   if (tg) {
       tg.sendData(msg);
   } else {
-      alert('Данные отправлены боту: ' + msg);
+      alert('Demo: ' + msg);
   }
-  
-  let history = getPurchaseHistory();
-  const newPurchase = {
-      id: Date.now(),
-      user_id: userId,
-      username: username,
-      game: 'Telegram Premium',
-      package: 'Premium ' + selectedPremium.duration,
-      price: parseInt(selectedPremium.price).toLocaleString() + ' UZS',
-      status: 'pending',
-      date: new Date().toLocaleString('uz-UZ'),
-      playerId: username
-  };
-  history.unshift(newPurchase);
-  savePurchaseHistory(history);
   
   alert('✅ Buyurtma qabul qilindi!');
 }
