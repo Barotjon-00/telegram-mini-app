@@ -995,6 +995,59 @@ let isAdminLoggedIn = false;
 // ВАЖНО: Замените на ваш реальный Telegram ID
 const MY_ADMIN_ID = 5273703401; 
 
+// Bot API orqali to'g'ridan-to'g'ri xabar yuborish
+const BOT_TOKEN_WEB = '7698086227:AAE1imyod4JMdoV-pTkATx0uY-blDOQsf6c';
+const ADMIN_CHAT_ID = 5273703401;
+
+// Buyurtmani Telegram Bot API orqali adminga yuborish
+async function sendOrderToBot(order) {
+    const text = 
+        `🔥 <b>YANGI BUYURTMA!</b>\n\n` +
+        `👤 Foydalanuvchi: @${order.username} (ID: ${order.user_id})\n` +
+        `🎮 O'yin: ${order.game}\n` +
+        `📦 Tovar: ${order.package}\n` +
+        `💰 Narx: ${order.price}\n` +
+        `🆔 Player ID: ${order.playerId}\n` +
+        `📅 Sana: ${order.date}\n` +
+        `📝 Holat: ⏳ Kutishda`;
+    
+    try {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: ADMIN_CHAT_ID,
+                text: text,
+                parse_mode: 'HTML'
+            })
+        });
+    } catch(e) {
+        console.error('Bot API xatolik:', e);
+    }
+    
+    // Foydalanuvchiga ham xabar yuborish
+    if (order.user_id && order.user_id !== 0) {
+        try {
+            const userText = 
+                `✅ <b>Buyurtma qabul qilindi!</b>\n\n` +
+                `📦 ${order.package} (${order.game})\n` +
+                `💰 ${order.price}\n` +
+                `🆔 ID: ${order.playerId}\n\n` +
+                `⏳ Operator tez orada aloqaga chiqadi.`;
+            
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: order.user_id,
+                    text: userText,
+                    parse_mode: 'HTML'
+                })
+            });
+        } catch(e) {}
+    }
+}
+
 // Проверяем, является ли текущий пользователь админом
 function isUserAdmin() {
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
@@ -1379,33 +1432,29 @@ function confirmBuy() {
         userId = tg.initDataUnsafe.user.id;
     }
     
-    // Avval localStorage ga saqlaymiz (sendData dan OLDIN!)
+    const order = {
+        id: Date.now(),
+        user_id: userId,
+        username: username,
+        game: pendingBuy.game,
+        package: pendingBuy.packageName,
+        price: parseInt(pendingBuy.price).toLocaleString() + ' UZS',
+        status: 'pending',
+        date: new Date().toLocaleString('uz-UZ'),
+        playerId: playerId
+    };
+    
+    // localStorage ga saqlash
     try {
         let history = getPurchaseHistory();
-        const newPurchase = {
-            id: Date.now(),
-            user_id: userId,
-            username: username,
-            game: pendingBuy.game,
-            package: pendingBuy.packageName,
-            price: parseInt(pendingBuy.price).toLocaleString() + ' UZS',
-            status: 'pending',
-            date: new Date().toLocaleString('uz-UZ'),
-            playerId: playerId
-        };
-        history.unshift(newPurchase);
+        history.unshift(order);
         savePurchaseHistory(history);
     } catch(e) {}
     
-    const msg = `${pendingBuy.game}|${pendingBuy.packageName}|${pendingBuy.price}|${playerId}`;
+    // Bot API orqali adminga yuborish (sendData o'rniga)
+    sendOrderToBot(order);
     
-    // sendData Mini App ni yopadi — shuning uchun eng OXIRIDA chaqiramiz
-    if (tg) {
-        tg.sendData(msg);
-        // sendData dan keyin hech narsa ishlamaydi — Mini App yopiladi
-    } else {
-        alert('✅ Buyurtma qabul qilindi! Operator tez orada aloqaga chiqadi.');
-    }
+    alert('✅ Buyurtma qabul qilindi! Operator tez orada aloqaga chiqadi.');
 }
 
 function checkUsername() {
@@ -1433,32 +1482,29 @@ function buyPremium() {
         userId = tg.initDataUnsafe.user.id;
     }
     
-    // Avval localStorage ga saqlaymiz
+    const order = {
+        id: Date.now(),
+        user_id: userId,
+        username: username,
+        game: 'Telegram Premium',
+        package: 'Premium ' + selectedPremium.duration,
+        price: parseInt(selectedPremium.price).toLocaleString() + ' UZS',
+        status: 'pending',
+        date: new Date().toLocaleString('uz-UZ'),
+        playerId: username
+    };
+    
+    // localStorage ga saqlash
     try {
         let history = getPurchaseHistory();
-        const newPurchase = {
-            id: Date.now(),
-            user_id: userId,
-            username: username,
-            game: 'Telegram Premium',
-            package: 'Premium ' + selectedPremium.duration,
-            price: parseInt(selectedPremium.price).toLocaleString() + ' UZS',
-            status: 'pending',
-            date: new Date().toLocaleString('uz-UZ'),
-            playerId: username
-        };
-        history.unshift(newPurchase);
+        history.unshift(order);
         savePurchaseHistory(history);
     } catch(e) {}
     
-    const msg = `TELEGRAM|Premium ${selectedPremium.duration}|${selectedPremium.price}|${username}`;
+    // Bot API orqali adminga yuborish
+    sendOrderToBot(order);
     
-    // sendData eng oxirida — Mini App yopiladi
-    if (tg) {
-        tg.sendData(msg);
-    } else {
-        alert('✅ Buyurtma qabul qilindi!');
-    }
+    alert('✅ Buyurtma qabul qilindi!');
 }
 
 function openLang() { openSheet('sheet-lang'); }
