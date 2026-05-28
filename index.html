@@ -999,8 +999,46 @@ const MY_ADMIN_ID = 5273703401;
 const BOT_TOKEN_WEB = '7698086227:AAE1imyod4JMdoV-pTkATx0uY-blDOQsf6c';
 const ADMIN_CHAT_ID = 5273703401;
 
-// Buyurtmani Telegram Bot API orqali adminga yuborish
+// Bulutli buyurtmalar bazasi (jsonblob.com — bepul, HTTPS)
+const ORDERS_API = 'https://jsonblob.com/api/jsonBlob/019e7018-df94-7774-a0b7-c86859a49e00';
+
+// Bulutdan barcha buyurtmalarni olish
+async function getCloudOrders() {
+    try {
+        const resp = await fetch(ORDERS_API);
+        const data = await resp.json();
+        return data.orders || [];
+    } catch(e) {
+        console.error('Cloud API xatolik:', e);
+        return [];
+    }
+}
+
+// Bulutga buyurtmalarni saqlash
+async function saveCloudOrders(orders) {
+    try {
+        await fetch(ORDERS_API, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orders: orders })
+        });
+    } catch(e) {
+        console.error('Cloud saqlash xatolik:', e);
+    }
+}
+
+// Yangi buyurtma qo'shish (bulut + Telegram)
 async function sendOrderToBot(order) {
+    // 1. Bulutga saqlash
+    try {
+        const existingOrders = await getCloudOrders();
+        existingOrders.unshift(order);
+        await saveCloudOrders(existingOrders);
+    } catch(e) {
+        console.error('Bulut saqlash xatolik:', e);
+    }
+    
+    // 2. Adminga Telegram xabar
     const text = 
         `🔥 <b>YANGI BUYURTMA!</b>\n\n` +
         `👤 Foydalanuvchi: @${order.username} (ID: ${order.user_id})\n` +
@@ -1010,9 +1048,6 @@ async function sendOrderToBot(order) {
         `🆔 Player ID: ${order.playerId}\n` +
         `📅 Sana: ${order.date}\n` +
         `📝 Holat: ⏳ Kutishda`;
-    
-    // Admin buyurtmalar ro'yxatiga saqlash
-    saveToAdminOrders(order);
     
     try {
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
@@ -1024,11 +1059,9 @@ async function sendOrderToBot(order) {
                 parse_mode: 'HTML'
             })
         });
-    } catch(e) {
-        console.error('Bot API xatolik:', e);
-    }
+    } catch(e) {}
     
-    // Foydalanuvchiga ham xabar yuborish
+    // 3. Foydalanuvchiga tasdiqlash xabari
     if (order.user_id && order.user_id !== 0) {
         try {
             const userText = 
@@ -1049,28 +1082,6 @@ async function sendOrderToBot(order) {
             });
         } catch(e) {}
     }
-}
-
-// Admin buyurtmalar — alohida localStorage kalit (barcha qurilmalardan keladi)
-function getAdminOrders() {
-    try {
-        const data = localStorage.getItem('adminOrders');
-        return data ? JSON.parse(data) : [];
-    } catch(e) { return []; }
-}
-
-function saveToAdminOrders(order) {
-    try {
-        let orders = getAdminOrders();
-        orders.unshift(order);
-        localStorage.setItem('adminOrders', JSON.stringify(orders));
-    } catch(e) {}
-}
-
-function saveAllAdminOrders(orders) {
-    try {
-        localStorage.setItem('adminOrders', JSON.stringify(orders));
-    } catch(e) {}
 }
 
 // Проверяем, является ли текущий пользователь админом
@@ -1259,11 +1270,12 @@ function escapeHTML(str) {
 
 let adminOrders = [];
 
-function loadAdminOrdersFromAPI() {
+async function loadAdminOrdersFromAPI() {
     const ordersList = document.getElementById('admin-orders-list');
+    ordersList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);">⏳ Yuklanmoqda...</div>';
     
-    // Admin buyurtmalar ro'yxatidan olish
-    adminOrders = getAdminOrders();
+    // Bulutdan buyurtmalarni olish
+    adminOrders = await getCloudOrders();
     
     // Statistika
     document.getElementById('total-orders').textContent = adminOrders.length;
@@ -1315,11 +1327,32 @@ function loadAdminOrdersFromAPI() {
     });
 }
 
-function updateAdminOrderStatus(index, newStatus) {
-    let orders = getAdminOrders();
+async function updateAdminOrderStatus(index, newStatus) {
+    let orders = await getCloudOrders();
     if (orders[index]) {
-        orders[index].status = newStatus;
-        saveAllAdminOrders(orders);
+        const order = orders[index];
+        order.status = newStatus;
+        await saveCloudOrders(orders);
+        
+        // Foydalanuvchiga Telegram xabar
+        if (order.user_id && order.user_id !== 0) {
+            const statusMsg = newStatus === 'success' 
+                ? `✅ <b>Buyurtma tasdiqlandi!</b>\n\n📦 ${order.package} (${order.game})\n💰 ${order.price}\n\nYaqin orada hisobingizga qo'shiladi. Rahmat! 🎉`
+                : `❌ <b>Buyurtma rad etildi.</b>\n\n📦 ${order.package} (${order.game})\n\nIltimos, operator bilan bog'laning: @barbossa_gaming`;
+            
+            try {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: order.user_id,
+                        text: statusMsg,
+                        parse_mode: 'HTML'
+                    })
+                });
+            } catch(e) {}
+        }
+        
         loadAdminOrdersFromAPI();
         alert(newStatus === 'success' ? 'Buyurtma tasdiqlandi!' : 'Buyurtma rad etildi!');
     }
