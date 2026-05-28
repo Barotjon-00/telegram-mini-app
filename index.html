@@ -7,7 +7,7 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
-    :root { --primary: #8B5CF6; --primary-dark: #7C3AED; --primary-light: #A78BFA; --dark1: #0F0A1A; --dark2: #1A1128; --dark3: #241835; --dark4: #2D1F42; --green: #10B981; --text: #F3E8FF; --muted: #9CA3AF; --border: rgba(139,92,246,0.2); --success: #10B981; --pending: #F59E0B; --error: #EF4444; --blue: #3B82F6; }
+    :root { --primary: #8B5CF6; --primary-dark: #7C3AED; --primary-light: #A78BFA; --dark1: #0F0A1A; --dark2: #1A1128; --dark3: #241835; --dark4: #2D1F42; --green: #10B981; --text: #F3E8FF; --muted: #9CA3AF; --border: rgba(139,92,246,0.2); --success: #10B981; --pending: #F59E0B; --error: #EF4444; }
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
     body { font-family: 'Inter', sans-serif; background: var(--dark1); color: var(--text); min-height: 100vh; overflow-x: hidden; }
     .bg-canvas { position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden; }
@@ -58,7 +58,7 @@
     .support-section{margin:0 16px 20px;background:var(--dark3);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:20px;}
     .support-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;margin-bottom:15px;display:flex;align-items:center;gap:8px;}
     .support-links{display:flex;flex-direction:column;gap:10px;}
-    .support-link{display:flex;align-items:center;background:var(--dark4);border-radius:12px;padding:14px;text-decoration:none;color:var(--text);transition:background 0.15s,transform 0.1s;}
+    .support-link{display:flex;align-items:center;background:var(--dark4);border-radius:12px;padding:14px;text-decoration:none;color:var(--text);transition:background 0.15s,transform 0.1s;cursor:pointer;}
     .support-link:active{transform:scale(0.98);background:rgba(139,92,246,0.1);}
     .support-link-icon{font-size:20px;margin-right:12px;width:36px;text-align:center;}
     .support-link-text{flex:1;}
@@ -136,12 +136,11 @@
     .order-item{background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;}
     .order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
     .order-id{font-size:12px;color:var(--muted);}
-    .order-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
-    .order-btn{flex:1;min-width:80px;padding:8px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:transform 0.1s;text-align:center;margin:2px;}
+    .order-actions{display:flex;gap:8px;margin-top:12px;}
+    .order-btn{flex:1;padding:10px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:transform 0.1s;}
     .order-btn:active{transform:scale(0.95);}
     .order-btn-success{background:rgba(16,185,129,0.2);color:var(--success);}
     .order-btn-error{background:rgba(239,68,68,0.2);color:var(--error);}
-    .order-btn-delete{background:rgba(239,68,68,0.1);color:var(--error);border:1px solid rgba(239,68,68,0.3);}
     .username-input-section{padding:16px;}
     .username-label{font-size:14px;color:var(--muted);margin-bottom:8px;}
     .username-input{width:100%;padding:14px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;}
@@ -318,8 +317,8 @@
         <a class="support-link" onclick="openTelegramSupport()">
           <span class="support-link-icon">✈️</span>
           <div class="support-link-text">
-            <div class="support-label">Telegram</div>
-            <div class="support-val">@barbossa_gaming</div>
+            <div class="support-link-label">Telegram</div>
+            <div class="support-link-val">@barbossa_gaming</div>
           </div>
           <span class="support-link-arrow" style="color:#8B5CF6">›</span>
         </a>
@@ -337,9 +336,9 @@
     </div>
     
     <div class="game-tabs">
-      <div class="game-tab active" onclick="showPUBGTab('ucvoucher')">UC VOUCHER</div>
-      <div class="game-tab" onclick="showPUBGTab('royalpass')">ROYAL PASS</div>
-      <div class="game-tab" onclick="showPUBGTab('promocod')">PROMOCOD</div>
+      <div class="game-tab active" onclick="showPUBGTab('ucvoucher', this)">UC VOUCHER</div>
+      <div class="game-tab" onclick="showPUBGTab('royalpass', this)">ROYAL PASS</div>
+      <div class="game-tab" onclick="showPUBGTab('promocod', this)">PROMOCOD</div>
     </div>
     
     <div id="pubg-ucvoucher">
@@ -445,9 +444,9 @@
     </div>
     
     <div class="game-tabs">
-      <div class="game-tab active" onclick="showMLBBTab('uzglobal')">UZ/Global</div>
-      <div class="game-tab" onclick="showMLBBTab('mlbbuz')">MLBB UZ</div>
-      <div class="game-tab" onclick="showMLBBTab('mlbbru')">MLBB Ru</div>
+      <div class="game-tab active" onclick="showMLBBTab('uzglobal', this)">UZ/Global</div>
+      <div class="game-tab" onclick="showMLBBTab('mlbbuz', this)">MLBB UZ</div>
+      <div class="game-tab" onclick="showMLBBTab('mlbbru', this)">MLBB Ru</div>
     </div>
     
     <div class="packages-grid" id="mlbb-uzglobal">
@@ -577,7 +576,7 @@
     
     <div class="pubg-info-bar">
       <span>ℹ️</span>
-      <span>Izoh: 2</span>
+      <span>Standoff 2</span>
     </div>
     
     <div class="packages-grid">
@@ -717,9 +716,9 @@
     
     <div class="history-filters">
       <div class="history-filter active" onclick="filterHistory('all', this)">Barchasi</div>
-      <div class="history-filter" onclick="filterHistory('success', this)">✅ Muvaffaqiyatli</div>
-      <div class="history-filter" onclick="filterHistory('pending', this)">⏳ Kutishda</div>
-      <div class="history-filter" onclick="filterHistory('error', this)">❌ Xato</div>
+      <div class="history-filter" onclick="filterHistory('success', this)">Muvaffaqiyatli</div>
+      <div class="history-filter" onclick="filterHistory('pending', this)">Kutishda</div>
+      <div class="history-filter" onclick="filterHistory('error', this)">Xato</div>
     </div>
     
     <div class="history-list" id="history-list"></div>
@@ -985,25 +984,41 @@
 </div>
 
 <script>
-// ============================================
-// ⚠️ ВАЖНО: Замените на URL вашего сервера!
-// Пример: 'https://arena-api.beget.app'
-// ============================================
-const SERVER_URL = 'https://ВАШ_СЕРВЕР';
+// ====== ИСПРАВЛЕННЫЙ JavaScript ======
 
 let tg = null;
 try { tg = window.Telegram?.WebApp || null; if(tg){tg.expand();tg.ready();} } catch(e){}
 
 let navigationHistory = ['home'];
 let isAdminLoggedIn = false;
-const ADMIN_PASSWORD = 'admin123';
+
+// ВАЖНО: Замените на ваш реальный Telegram ID
 const MY_ADMIN_ID = 5273703401; 
 
+// Проверяем, является ли текущий пользователь админом
 function isUserAdmin() {
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
         return tg.initDataUnsafe.user.id === MY_ADMIN_ID;
     }
     return false;
+}
+
+// История заказов (загружаем из localStorage)
+function getPurchaseHistory() {
+    try {
+        const history = localStorage.getItem('purchaseHistory');
+        return history ? JSON.parse(history) : [];
+    } catch(e) {
+        return [];
+    }
+}
+
+function savePurchaseHistory(history) {
+    try {
+        localStorage.setItem('purchaseHistory', JSON.stringify(history));
+    } catch(e) {
+        console.error('Не удалось сохранить историю:', e);
+    }
 }
 
 let currentLang = 'uz';
@@ -1012,196 +1027,109 @@ let selectedPremium = null;
 let currentFilter = 'all';
 
 function setLang(lang) {
-  currentLang = lang;
-  const langNames = { uz: "O'zbek", ru: 'Русский', en: 'English' };
-  document.getElementById('lang-sub').textContent = langNames[lang];
-  document.querySelectorAll('#sheet-lang .option-item').forEach(o => o.classList.remove('selected'));
-  document.getElementById('lang-' + lang).classList.add('selected');
-  setTimeout(closeSheet, 300);
+    currentLang = lang;
+    const langNames = { uz: "O'zbek", ru: 'Русский', en: 'English' };
+    document.getElementById('lang-sub').textContent = langNames[lang];
+    document.querySelectorAll('#sheet-lang .option-item').forEach(o => o.classList.remove('selected'));
+    document.getElementById('lang-' + lang).classList.add('selected');
+    setTimeout(closeSheet, 300);
 }
 
 function loadUserData() {
-  let name='Arena X User', handle='@username', initials='AX', photo=null, uid='0000000000';
-  if (tg?.initDataUnsafe?.user) {
-    const u = tg.initDataUnsafe.user;
-    const f = u.first_name||'', l = u.last_name||'';
-    name = (f+' '+l).trim() || name;
-    handle = u.username ? '@'+u.username : handle;
-    initials = (f[0]||(l[0]||'U')).toUpperCase();
-    if (u.photo_url) photo = u.photo_url;
-    uid = String(u.id)||uid;
-  }
-  ['home-name','profil-name'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=name; });
-  document.getElementById('home-handle').textContent = handle;
-  document.getElementById('profil-id').textContent = uid;
-  ['home-avatar','profil-avatar'].forEach(id => {
-    const el = document.getElementById(id); if(!el) return;
-    const dot = el.querySelector('.online-dot');
-    el.innerHTML = '';
-    if (photo) { const img=document.createElement('img'); img.src=photo; img.alt='avatar'; el.appendChild(img); }
-    else { el.appendChild(document.createTextNode(initials)); }
-    if (dot) el.appendChild(dot);
-  });
-  
-  if (isUserAdmin()) {
-      document.getElementById('admin-menu-item').style.display = 'flex';
-  }
+    let name='Arena X User', handle='@username', initials='AX', photo=null, uid='0000000000';
+    if (tg?.initDataUnsafe?.user) {
+        const u = tg.initDataUnsafe.user;
+        const f = u.first_name||'', l = u.last_name||'';
+        name = (f+' '+l).trim() || name;
+        handle = u.username ? '@'+u.username : handle;
+        initials = (f[0]||(l[0]||'U')).toUpperCase();
+        if (u.photo_url) photo = u.photo_url;
+        uid = String(u.id)||uid;
+    }
+    ['home-name','profil-name'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=name; });
+    document.getElementById('home-handle').textContent = handle;
+    document.getElementById('profil-id').textContent = uid;
+    ['home-avatar','profil-avatar'].forEach(id => {
+        const el = document.getElementById(id); if(!el) return;
+        const dot = el.querySelector('.online-dot');
+        el.innerHTML = '';
+        if (photo) { const img=document.createElement('img'); img.src=photo; img.alt='avatar'; el.appendChild(img); }
+        else { el.appendChild(document.createTextNode(initials)); }
+        if (dot) el.appendChild(dot);
+    });
+    
+    // Показываем кнопку админки только если это админ
+    if (isUserAdmin()) {
+        document.getElementById('admin-menu-item').style.display = 'flex';
+    }
 }
 loadUserData();
 
+// Stars
 (function(){
-  const c = document.getElementById('stars');
-  for(let i=0;i<60;i++){
-    const s=document.createElement('div'); s.className='star';
-    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s;`;
-    c.appendChild(s);
-  }
+    const c = document.getElementById('stars');
+    for(let i=0;i<60;i++){
+        const s=document.createElement('div'); s.className='star';
+        s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s;`;
+        c.appendChild(s);
+    }
 })();
 
+// Carousel
 let currentSlide = 0;
 const slides = document.querySelectorAll('.carousel-slide');
 const dots = document.querySelectorAll('.carousel-dot');
 function nextSlide() {
-  slides[currentSlide].classList.remove('active');
-  dots[currentSlide].classList.remove('active');
-  currentSlide = (currentSlide + 1) % slides.length;
-  slides[currentSlide].classList.add('active');
-  dots[currentSlide].classList.add('active');
+    if (slides.length === 0) return;
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
 }
 setInterval(nextSlide, 5000);
 
+// Navigation
 function switchPage(name, el) {
-  if (navigationHistory[navigationHistory.length - 1] !== name) {
-    navigationHistory.push(name);
-  }
-  
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  if(el && el.classList.contains('nav-item')) el.classList.add('active');
-  else document.querySelector('.nav-item').classList.add('active');
-  
-  if (name === 'tarix') loadHistory();
-  if (name === 'admin') checkAdminAuth();
+    if (navigationHistory[navigationHistory.length - 1] !== name) {
+        navigationHistory.push(name);
+    }
+    
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    document.getElementById('page-'+name).classList.add('active');
+    if(el && el.classList.contains('nav-item')) el.classList.add('active');
+    else document.querySelector('.nav-item').classList.add('active');
+    
+    if (name === 'tarix') loadHistory();
+    if (name === 'admin') checkAdminAuth();
 }
 
 function openGamePage(game) {
-  navigationHistory.push(game);
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('page-'+game).classList.add('active');
+    navigationHistory.push(game);
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    document.getElementById('page-'+game).classList.add('active');
 }
 
 function goBack() {
-  if (navigationHistory.length > 1) {
-    navigationHistory.pop();
-    const previousPage = navigationHistory[navigationHistory.length - 1];
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-    document.getElementById('page-'+previousPage).classList.add('active');
-    const navMapping = { 'home': 0, 'hamyon': 1, 'oyinlar': 2, 'tarix': 3, 'profil': 4 };
-    if (navMapping[previousPage] !== undefined) {
-      document.querySelectorAll('.nav-item')[navMapping[previousPage]].classList.add('active');
-    }
-  }
-}
-
-// === ADMIN API FUNCTIONS ===
-async function loadAdminOrders() {
-    const ordersList = document.getElementById('admin-orders-list');
-    ordersList.innerHTML = '<p style="text-align:center;">Yuklanmoqda...</p>';
-    
-    try {
-        const response = await fetch(`${SERVER_URL}/api/orders`);
-        const orders = await response.json();
-        
-        if (orders.length === 0) {
-            ordersList.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Buyurtmalar yo\'q</div></div>';
-            return;
+    if (navigationHistory.length > 1) {
+        navigationHistory.pop();
+        const previousPage = navigationHistory[navigationHistory.length - 1];
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+        document.getElementById('page-'+previousPage).classList.add('active');
+        const navMapping = { 'home': 0, 'hamyon': 1, 'oyinlar': 2, 'tarix': 3, 'profil': 4 };
+        if (navMapping[previousPage] !== undefined) {
+            document.querySelectorAll('.nav-item')[navMapping[previousPage]].classList.add('active');
         }
-        
-        ordersList.innerHTML = '';
-        orders.forEach(order => {
-            const statusClass = order.status === 'success' ? 'status-success' : 
-                               order.status === 'pending' ? 'status-pending' : 'status-error';
-            const statusText = order.status === 'success' ? '✅ Muvaffaqiyatli' : 
-                              order.status === 'pending' ? '⏳ Kutishda' : '❌ Xato';
-            
-            const orderItem = document.createElement('div');
-            orderItem.className = 'order-item';
-            orderItem.innerHTML = `
-                <div class="order-header">
-                    <div>
-                        <div style="font-weight:600;color:var(--text);">${order.game}</div>
-                        <div style="font-size:12px;color:var(--muted);">${order.package}</div>
-                    </div>
-                    <div class="history-status ${statusClass}">${statusText}</div>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-top:8px;">
-                    <div style="font-size:12px;color:var(--muted);">ID: ${order.player_id}</div>
-                    <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--primary-light);">${order.price}</div>
-                </div>
-                <div style="font-size:11px;color:var(--muted);margin-top:4px;">${order.date}</div>
-                <div style="font-size:11px;color:var(--muted);margin-top:2px;">👤 @${order.username || 'unknown'}</div>
-                ${order.status === 'pending' ? `
-                    <div class="order-actions">
-                        <button class="order-btn order-btn-success" onclick="updateOrderStatusApi(${order.id}, 'success')">✅ Tasdiqlash</button>
-                        <button class="order-btn order-btn-error" onclick="updateOrderStatusApi(${order.id}, 'error')">❌ Rad etish</button>
-                        <button class="order-btn order-btn-delete" onclick="deleteOrderApi(${order.id})">🗑 O'chirish</button>
-                    </div>
-                ` : ''}
-            `;
-            ordersList.appendChild(orderItem);
-        });
-    } catch (error) {
-        console.error('Ошибка загрузки заказов:', error);
-        ordersList.innerHTML = '<div class="empty-state"><div class="empty-text">Ошибка загрузки</div></div>';
     }
 }
 
-async function updateOrderStatusApi(orderId, newStatus) {
-    try {
-        await fetch(`${SERVER_URL}/api/order/${orderId}/status`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: newStatus })
-        });
-        alert(newStatus === 'success' ? 'Buyurtma tasdiqlandi!' : 'Buyurtma rad etildi!');
-        loadAdminOrders();
-        updateAdminStats();
-    } catch (error) {
-        alert('Ошибка обновления статуса');
-    }
-}
-
-async function deleteOrderApi(orderId) {
-    if (!confirm("Haqiqatan ham o'chirmoqchimisiz?")) return;
-    try {
-        await fetch(`${SERVER_URL}/api/order/${orderId}`, { method: 'DELETE' });
-        alert('Buyurtma o\'chirildi!');
-        loadAdminOrders();
-        updateAdminStats();
-    } catch (error) {
-        alert('Ошибка удаления');
-    }
-}
-
-async function updateAdminStats() {
-    try {
-        const response = await fetch(`${SERVER_URL}/api/stats`);
-        const stats = await response.json();
-        document.getElementById('total-orders').textContent = stats.total;
-        document.getElementById('pending-orders').textContent = stats.pending;
-        document.getElementById('success-orders').textContent = stats.success;
-        document.getElementById('total-revenue').textContent = stats.revenue.toLocaleString();
-    } catch (error) {
-        console.error('Ошибка загрузки статистики:', error);
-    }
-}
-
+// ADMIN FUNCTIONS
 function checkAdminAuth() {
     if (!isUserAdmin()) {
-        alert('❌ Siz admin emassiz! Kirish taqiqlangan.');
+        alert('Siz admin emassiz! Kirish taqiqlangan.');
         goBack();
         return;
     }
@@ -1218,220 +1146,352 @@ function checkAdminAuth() {
 }
 
 function loginAdmin() {
-  const password = document.getElementById('admin-password').value;
-  if (password === ADMIN_PASSWORD) {
-    isAdminLoggedIn = true;
-    document.getElementById('admin-login').style.display = 'none';
-    document.getElementById('admin-dashboard').style.display = 'block';
-    updateAdminStats();
-    loadAdminOrders();
-  } else {
-    alert('Noto\'g\'ri parol!');
-  }
+    const password = document.getElementById('admin-password').value;
+    // Пароль проверяется на клиенте — для полной безопасности нужна серверная проверка
+    if (password === 'admin123') {
+        isAdminLoggedIn = true;
+        document.getElementById('admin-login').style.display = 'none';
+        document.getElementById('admin-dashboard').style.display = 'block';
+        updateAdminStats();
+        loadAdminOrders();
+    } else {
+        alert('Noto\'g\'ri parol!');
+    }
 }
 
 function logoutAdmin() {
-  isAdminLoggedIn = false;
-  document.getElementById('admin-password').value = '';
-  goBack();
+    isAdminLoggedIn = false;
+    document.getElementById('admin-password').value = '';
+    goBack();
+}
+
+// FIX: безопасный парсинг цены — убираем ВСЕ нецифровые символы
+function parsePrice(priceStr) {
+    if (!priceStr) return 0;
+    return parseInt(String(priceStr).replace(/[^\d]/g, ''), 10) || 0;
+}
+
+function updateAdminStats() {
+    const history = getPurchaseHistory();
+    document.getElementById('total-orders').textContent = history.length;
+    document.getElementById('pending-orders').textContent = history.filter(o => o.status === 'pending').length;
+    document.getElementById('success-orders').textContent = history.filter(o => o.status === 'success').length;
+    
+    const totalRevenue = history
+        .filter(o => o.status === 'success')
+        .reduce((sum, o) => sum + parsePrice(o.price), 0);
+    document.getElementById('total-revenue').textContent = totalRevenue.toLocaleString();
+}
+
+// FIX: экранирование HTML для защиты от XSS
+function escapeHTML(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(String(str)));
+    return div.innerHTML;
+}
+
+function loadAdminOrders() {
+    const ordersList = document.getElementById('admin-orders-list');
+    ordersList.innerHTML = '';
+    const history = getPurchaseHistory();
+    
+    if (history.length === 0) {
+        ordersList.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Buyurtmalar yo\'q</div></div>';
+        return;
+    }
+    
+    history.forEach(order => {
+        const statusClass = order.status === 'success' ? 'status-success' : 
+                           order.status === 'pending' ? 'status-pending' : 'status-error';
+        const statusText = order.status === 'success' ? 'Muvaffaqiyatli' : 
+                          order.status === 'pending' ? 'Kutishda' : 'Xato';
+        
+        const orderItem = document.createElement('div');
+        orderItem.className = 'order-item';
+        orderItem.innerHTML = `
+            <div class="order-header">
+                <div>
+                    <div style="font-weight:600;color:var(--text);">${escapeHTML(order.game)}</div>
+                    <div style="font-size:12px;color:var(--muted);">${escapeHTML(order.package)}</div>
+                </div>
+                <div class="history-status ${statusClass}">${escapeHTML(statusText)}</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:8px;">
+                <div style="font-size:12px;color:var(--muted);">ID: ${escapeHTML(order.playerId)}</div>
+                <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--primary-light);">${escapeHTML(order.price)}</div>
+            </div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px;">${escapeHTML(order.date)}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">👤 @${escapeHTML(order.username || 'unknown')}</div>
+            ${order.status === 'pending' ? `
+                <div class="order-actions">
+                    <button class="order-btn order-btn-success" onclick="updateOrderStatus(${Number(order.id)}, 'success')">✅ Tasdiqlash</button>
+                    <button class="order-btn order-btn-error" onclick="updateOrderStatus(${Number(order.id)}, 'error')">❌ Rad etish</button>
+                </div>
+            ` : ''}
+        `;
+        ordersList.appendChild(orderItem);
+    });
+}
+
+function updateOrderStatus(orderId, newStatus) {
+    let history = getPurchaseHistory();
+    const order = history.find(o => o.id === orderId);
+    if (order) {
+        order.status = newStatus;
+        savePurchaseHistory(history);
+        updateAdminStats();
+        loadAdminOrders();
+        alert(newStatus === 'success' ? 'Buyurtma tasdiqlandi!' : 'Buyurtma rad etildi!');
+    }
 }
 
 function openAdmin() {
     if (!isUserAdmin()) {
-        alert('❌ Siz admin emassiz! Kirish taqiqlangan.');
+        alert('Siz admin emassiz! Kirish taqiqlangan.');
         return;
     }
     switchPage('admin');
 }
 
 function loadHistory() {
-  filterHistory(currentFilter);
+    filterHistory(currentFilter);
 }
 
 function filterHistory(filter, el) {
-  currentFilter = filter;
-  if (el) {
-    document.querySelectorAll('.history-filter').forEach(f => f.classList.remove('active'));
-    el.classList.add('active');
-  }
-  
-  const historyList = document.getElementById('history-list');
-  historyList.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">Tarix serverdan yuklanadi</div></div>`;
+    currentFilter = filter;
+    if (el) {
+        document.querySelectorAll('.history-filter').forEach(f => f.classList.remove('active'));
+        el.classList.add('active');
+    }
+    
+    const historyList = document.getElementById('history-list');
+    historyList.innerHTML = '';
+    
+    let history = getPurchaseHistory();
+    let filteredHistory = history;
+    if (filter !== 'all') {
+        filteredHistory = history.filter(item => item.status === filter);
+    }
+    
+    if (filteredHistory.length === 0) {
+        historyList.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">Ma\'lumot topilmadi</div><div class="empty-sub">Hozircha hech narsa yo\'q</div></div>';
+        return;
+    }
+    
+    filteredHistory.forEach(item => {
+        const statusClass = item.status === 'success' ? 'status-success' : 
+                           item.status === 'pending' ? 'status-pending' : 'status-error';
+        const statusText = item.status === 'success' ? 'Muvaffaqiyatli' : 
+                          item.status === 'pending' ? 'Kutishda' : 'Xato';
+        
+        const historyItem = document.createElement('div');
+        historyItem.className = 'history-item';
+        historyItem.innerHTML = `
+            <div class="history-item-header">
+                <div class="history-game-name">${escapeHTML(item.game)}</div>
+                <div class="history-status ${statusClass}">${escapeHTML(statusText)}</div>
+            </div>
+            <div class="history-item-details">
+                <div class="history-package">${escapeHTML(item.package)}</div>
+                <div class="history-price">${escapeHTML(item.price)}</div>
+            </div>
+            <div class="history-date">${escapeHTML(item.date)} • ID: ${escapeHTML(item.playerId)}</div>
+        `;
+        historyList.appendChild(historyItem);
+    });
 }
 
-function showPUBGTab(tabName) {
-  document.getElementById('pubg-ucvoucher').style.display = tabName === 'ucvoucher' ? 'block' : 'none';
-  document.getElementById('pubg-royalpass').style.display = tabName === 'royalpass' ? 'block' : 'none';
-  document.getElementById('pubg-promocod').style.display = tabName === 'promocod' ? 'block' : 'none';
-  document.querySelectorAll('#page-pubg .game-tab').forEach(tab => tab.classList.remove('active'));
-  event.target.classList.add('active');
+// FIX: передаём элемент tab явно вместо неявного event
+function showPUBGTab(tabName, tabEl) {
+    document.getElementById('pubg-ucvoucher').style.display = tabName === 'ucvoucher' ? 'block' : 'none';
+    document.getElementById('pubg-royalpass').style.display = tabName === 'royalpass' ? 'block' : 'none';
+    document.getElementById('pubg-promocod').style.display = tabName === 'promocod' ? 'block' : 'none';
+    document.querySelectorAll('#page-pubg .game-tab').forEach(tab => tab.classList.remove('active'));
+    if (tabEl) tabEl.classList.add('active');
 }
 
-function showMLBBTab(tabName) {
-  document.querySelectorAll('#page-mlbb .packages-grid').forEach(grid => grid.style.display = 'none');
-  document.getElementById('mlbb-'+tabName).style.display = 'grid';
-  document.querySelectorAll('#page-mlbb .game-tab').forEach(tab => tab.classList.remove('active'));
-  event.target.classList.add('active');
+function showMLBBTab(tabName, tabEl) {
+    document.querySelectorAll('#page-mlbb .packages-grid').forEach(grid => grid.style.display = 'none');
+    document.getElementById('mlbb-'+tabName).style.display = 'grid';
+    document.querySelectorAll('#page-mlbb .game-tab').forEach(tab => tab.classList.remove('active'));
+    if (tabEl) tabEl.classList.add('active');
 }
 
+// Ripple effect
 function ripple(el, e) {
-  const r=document.createElement('span'); r.className='ripple';
-  const rect=el.getBoundingClientRect();
-  const sz=Math.max(rect.width,rect.height)*2;
-  r.style.cssText=`width:${sz}px;height:${sz}px;left:${(e.clientX-rect.left)-sz/2}px;top:${(e.clientY-rect.top)-sz/2}px;`;
-  el.appendChild(r); r.addEventListener('animationend',()=>r.remove());
+    const r=document.createElement('span'); r.className='ripple';
+    const rect=el.getBoundingClientRect();
+    const sz=Math.max(rect.width,rect.height)*2;
+    r.style.cssText=`width:${sz}px;height:${sz}px;left:${(e.clientX-rect.left)-sz/2}px;top:${(e.clientY-rect.top)-sz/2}px;`;
+    el.appendChild(r); r.addEventListener('animationend',()=>r.remove());
 }
 
+// Bottom sheets
 let currentSheet = null;
 function openSheet(id) {
-  if (currentSheet) document.getElementById(currentSheet).classList.remove('open');
-  currentSheet = id;
-  document.getElementById('overlay').classList.add('open');
-  document.getElementById(id).classList.add('open');
+    if (currentSheet) document.getElementById(currentSheet).classList.remove('open');
+    currentSheet = id;
+    document.getElementById('overlay').classList.add('open');
+    document.getElementById(id).classList.add('open');
 }
 function closeSheet() {
-  document.getElementById('overlay').classList.remove('open');
-  if (currentSheet) { document.getElementById(currentSheet).classList.remove('open'); currentSheet=null; }
+    document.getElementById('overlay').classList.remove('open');
+    if (currentSheet) { document.getElementById(currentSheet).classList.remove('open'); currentSheet=null; }
 }
 
 function topupBalance(e, btn) {
-  ripple(btn, e);
-  setTimeout(() => openSheet('sheet-topup'), 80);
+    ripple(btn, e);
+    setTimeout(() => openSheet('sheet-topup'), 80);
 }
 function doTopup(val) {
-  closeSheet();
-  if (tg) tg.sendData(`Topup|Balance|${val}|UserBalance`);
-  else alert('Topup: '+val+' UZS (demo)');
+    closeSheet();
+    if (tg) {
+        tg.sendData(`Topup|Balance|${val}|UserBalance`);
+    } else {
+        alert('Topup: '+val+' UZS (demo)');
+    }
 }
 
 function buyPackage(game, packageName, price) {
-  pendingBuy = { game, packageName, price };
-  const icons = { 'PUBG': '🪖', 'MLBB': '⚔️', 'FREEFIRE': '🔥', 'STANDOFF': '🎯', 'TELEGRAM': '⭐' };
-  document.getElementById('buy-package-icon').textContent = icons[game] || '💎';
-  document.getElementById('buy-package-name').textContent = packageName;
-  document.getElementById('buy-package-price').textContent = parseInt(price).toLocaleString() + ' UZS';
-  document.getElementById('player-id-input').value = '';
-  openSheet('sheet-buy');
+    pendingBuy = { game, packageName, price };
+    const icons = { 'PUBG': '🪖', 'MLBB': '⚔️', 'FREEFIRE': '🔥', 'STANDOFF': '🎯', 'TELEGRAM': '⭐' };
+    document.getElementById('buy-package-icon').textContent = icons[game] || '💎';
+    document.getElementById('buy-package-name').textContent = packageName;
+    document.getElementById('buy-package-price').textContent = parseInt(price).toLocaleString() + ' UZS';
+    document.getElementById('player-id-input').value = '';
+    openSheet('sheet-buy');
 }
 
-// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ - ОТПРАВКА НА СЕРВЕР
 function confirmBuy() {
-  const playerId = document.getElementById('player-id-input').value.trim();
-  if (!playerId) { 
-      alert('ID kiriting!'); 
-      return; 
-  }
-  
-  closeSheet();
-  
-  let username = 'unknown';
-  let userId = 0;
-  if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-      username = tg.initDataUnsafe.user.username || `user_${tg.initDataUnsafe.user.id}`;
-      userId = tg.initDataUnsafe.user.id;
-  }
-  
-  const orderData = {
-      user_id: userId,
-      username: username,
-      game: pendingBuy.game,
-      package: pendingBuy.packageName,
-      price: pendingBuy.price,
-      player_id: playerId,
-      date: new Date().toLocaleString('uz-UZ')
-  };
-  
-  // Отправляем на сервер
-  fetch(`${SERVER_URL}/api/order`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderData)
-  }).then(() => {
-      alert('✅ Buyurtma qabul qilindi! Operator tez orada aloqaga chiqadi.');
-  }).catch(err => {
-      console.error('Ошибка:', err);
-      alert('❌ Xatolik yuz berdi');
-  });
+    const playerId = document.getElementById('player-id-input').value.trim();
+    if (!playerId) { 
+        alert('ID kiriting!'); 
+        return; 
+    }
+    
+    closeSheet();
+    
+    let username = 'unknown';
+    let userId = 0;
+    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        username = tg.initDataUnsafe.user.username || `user_${tg.initDataUnsafe.user.id}`;
+        userId = tg.initDataUnsafe.user.id;
+    }
+    
+    // Avval localStorage ga saqlaymiz (sendData dan OLDIN!)
+    try {
+        let history = getPurchaseHistory();
+        const newPurchase = {
+            id: Date.now(),
+            user_id: userId,
+            username: username,
+            game: pendingBuy.game,
+            package: pendingBuy.packageName,
+            price: parseInt(pendingBuy.price).toLocaleString() + ' UZS',
+            status: 'pending',
+            date: new Date().toLocaleString('uz-UZ'),
+            playerId: playerId
+        };
+        history.unshift(newPurchase);
+        savePurchaseHistory(history);
+    } catch(e) {}
+    
+    const msg = `${pendingBuy.game}|${pendingBuy.packageName}|${pendingBuy.price}|${playerId}`;
+    
+    // sendData Mini App ni yopadi — shuning uchun eng OXIRIDA chaqiramiz
+    if (tg) {
+        tg.sendData(msg);
+        // sendData dan keyin hech narsa ishlamaydi — Mini App yopiladi
+    } else {
+        alert('✅ Buyurtma qabul qilindi! Operator tez orada aloqaga chiqadi.');
+    }
 }
 
 function checkUsername() {
-  const username = document.getElementById('tg-username').value.trim();
-  if (!username) { alert('Username kiriting!'); return; }
-  alert('Username tekshirildi: ' + username);
+    const username = document.getElementById('tg-username').value.trim();
+    if (!username) { alert('Username kiriting!'); return; }
+    alert('Username tekshirildi: ' + username);
 }
 
 function selectPremium(el, duration, price) {
-  document.querySelectorAll('.premium-option').forEach(opt => opt.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedPremium = { duration, price };
-  document.getElementById('buy-premium-btn').disabled = false;
+    document.querySelectorAll('.premium-option').forEach(opt => opt.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedPremium = { duration, price };
+    document.getElementById('buy-premium-btn').disabled = false;
 }
 
-// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ - ОТПРАВКА НА СЕРВЕР
 function buyPremium() {
-  if (!selectedPremium) return;
-  const username = document.getElementById('tg-username').value.trim();
-  if (!username) { alert('Username kiriting!'); return; }
-  
-  closeSheet();
-  
-  let userId = 0;
-  if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-      userId = tg.initDataUnsafe.user.id;
-  }
-  
-  const orderData = {
-      user_id: userId,
-      username: username,
-      game: 'Telegram Premium',
-      package: 'Premium ' + selectedPremium.duration,
-      price: selectedPremium.price,
-      player_id: username,
-      date: new Date().toLocaleString('uz-UZ')
-  };
-  
-  fetch(`${SERVER_URL}/api/order`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderData)
-  }).then(() => {
-      alert('✅ Buyurtma qabul qilindi!');
-  }).catch(err => {
-      console.error('Ошибка:', err);
-      alert('❌ Xatolik yuz berdi');
-  });
+    if (!selectedPremium) return;
+    const username = document.getElementById('tg-username').value.trim();
+    if (!username) { alert('Username kiriting!'); return; }
+    
+    closeSheet();
+    
+    let userId = 0;
+    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        userId = tg.initDataUnsafe.user.id;
+    }
+    
+    // Avval localStorage ga saqlaymiz
+    try {
+        let history = getPurchaseHistory();
+        const newPurchase = {
+            id: Date.now(),
+            user_id: userId,
+            username: username,
+            game: 'Telegram Premium',
+            package: 'Premium ' + selectedPremium.duration,
+            price: parseInt(selectedPremium.price).toLocaleString() + ' UZS',
+            status: 'pending',
+            date: new Date().toLocaleString('uz-UZ'),
+            playerId: username
+        };
+        history.unshift(newPurchase);
+        savePurchaseHistory(history);
+    } catch(e) {}
+    
+    const msg = `TELEGRAM|Premium ${selectedPremium.duration}|${selectedPremium.price}|${username}`;
+    
+    // sendData eng oxirida — Mini App yopiladi
+    if (tg) {
+        tg.sendData(msg);
+    } else {
+        alert('✅ Buyurtma qabul qilindi!');
+    }
 }
 
 function openLang() { openSheet('sheet-lang'); }
 function openSupport() { openSheet('sheet-support'); }
 function callPhone() {
-  closeSheet();
-  if (tg) tg.openLink('tel:+998905890192');
-  else window.location.href='tel:+998905890192';
+    closeSheet();
+    if (tg) tg.openLink('tel:+998905890192');
+    else window.location.href='tel:+998905890192';
 }
 function openTelegram() {
-  closeSheet();
-  if (tg) tg.openTelegramLink('https://t.me/barbossa_gaming');
-  else window.open('https://t.me/barbossa_gaming','_blank');
+    closeSheet();
+    if (tg) tg.openTelegramLink('https://t.me/barbossa_gaming');
+    else window.open('https://t.me/barbossa_gaming','_blank');
 }
 function openAbout() { openSheet('sheet-about'); }
 function openCurrency() { openSheet('sheet-currency'); }
 function setCurrency(code, label) {
-  document.querySelectorAll('#sheet-currency .option-item').forEach(o=>o.classList.remove('selected'));
-  document.getElementById('cur-'+code.toLowerCase()).classList.add('selected');
-  document.getElementById('currency-sub').textContent = label;
-  setTimeout(closeSheet, 300);
+    document.querySelectorAll('#sheet-currency .option-item').forEach(o=>o.classList.remove('selected'));
+    document.getElementById('cur-'+code.toLowerCase()).classList.add('selected');
+    document.getElementById('currency-sub').textContent = label;
+    setTimeout(closeSheet, 300);
 }
 
+// FIX: реальная ссылка на канал вместо заглушки
 function openChannel() {
-  const channelUrl = 'https://t.me/ВАШ_КАНАЛ';
-  if (tg) tg.openTelegramLink(channelUrl);
-  else window.open(channelUrl, '_blank');
+    const channelUrl = 'https://t.me/barbossa_gaming';
+    if (tg) tg.openTelegramLink(channelUrl);
+    else window.open(channelUrl, '_blank');
 }
 
 function openTelegramSupport() {
-  if (tg) tg.openTelegramLink('https://t.me/barbossa_gaming');
-  else window.open('https://t.me/barbossa_gaming', '_blank');
+    if (tg) tg.openTelegramLink('https://t.me/barbossa_gaming');
+    else window.open('https://t.me/barbossa_gaming', '_blank');
 }
 </script>
 </body>
