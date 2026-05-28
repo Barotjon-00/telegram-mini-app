@@ -1011,6 +1011,9 @@ async function sendOrderToBot(order) {
         `📅 Sana: ${order.date}\n` +
         `📝 Holat: ⏳ Kutishda`;
     
+    // Admin buyurtmalar ro'yxatiga saqlash
+    saveToAdminOrders(order);
+    
     try {
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
             method: 'POST',
@@ -1046,6 +1049,28 @@ async function sendOrderToBot(order) {
             });
         } catch(e) {}
     }
+}
+
+// Admin buyurtmalar — alohida localStorage kalit (barcha qurilmalardan keladi)
+function getAdminOrders() {
+    try {
+        const data = localStorage.getItem('adminOrders');
+        return data ? JSON.parse(data) : [];
+    } catch(e) { return []; }
+}
+
+function saveToAdminOrders(order) {
+    try {
+        let orders = getAdminOrders();
+        orders.unshift(order);
+        localStorage.setItem('adminOrders', JSON.stringify(orders));
+    } catch(e) {}
+}
+
+function saveAllAdminOrders(orders) {
+    try {
+        localStorage.setItem('adminOrders', JSON.stringify(orders));
+    } catch(e) {}
 }
 
 // Проверяем, является ли текущий пользователь админом
@@ -1224,19 +1249,7 @@ function parsePrice(priceStr) {
     return parseInt(String(priceStr).replace(/[^\d]/g, ''), 10) || 0;
 }
 
-function updateAdminStats() {
-    const history = getPurchaseHistory();
-    document.getElementById('total-orders').textContent = history.length;
-    document.getElementById('pending-orders').textContent = history.filter(o => o.status === 'pending').length;
-    document.getElementById('success-orders').textContent = history.filter(o => o.status === 'success').length;
-    
-    const totalRevenue = history
-        .filter(o => o.status === 'success')
-        .reduce((sum, o) => sum + parsePrice(o.price), 0);
-    document.getElementById('total-revenue').textContent = totalRevenue.toLocaleString();
-}
-
-// FIX: экранирование HTML для защиты от XSS
+// XSS himoyasi
 function escapeHTML(str) {
     if (!str) return '';
     const div = document.createElement('div');
@@ -1244,17 +1257,32 @@ function escapeHTML(str) {
     return div.innerHTML;
 }
 
-function loadAdminOrders() {
+let adminOrders = [];
+
+function loadAdminOrdersFromAPI() {
     const ordersList = document.getElementById('admin-orders-list');
-    ordersList.innerHTML = '';
-    const history = getPurchaseHistory();
     
-    if (history.length === 0) {
-        ordersList.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Buyurtmalar yo\'q</div></div>';
+    // Admin buyurtmalar ro'yxatidan olish
+    adminOrders = getAdminOrders();
+    
+    // Statistika
+    document.getElementById('total-orders').textContent = adminOrders.length;
+    document.getElementById('pending-orders').textContent = adminOrders.filter(o => o.status === 'pending').length;
+    document.getElementById('success-orders').textContent = adminOrders.filter(o => o.status === 'success').length;
+    const totalRevenue = adminOrders
+        .filter(o => o.status === 'success')
+        .reduce((sum, o) => sum + parsePrice(o.price), 0);
+    document.getElementById('total-revenue').textContent = totalRevenue.toLocaleString();
+    
+    // Buyurtmalar ro'yxati
+    ordersList.innerHTML = '';
+    
+    if (adminOrders.length === 0) {
+        ordersList.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">Buyurtmalar yo\'q</div><div class="empty-sub">Klientlar buyurtma berganda shu yerda ko\'rinadi</div></div>';
         return;
     }
     
-    history.forEach(order => {
+    adminOrders.forEach((order, index) => {
         const statusClass = order.status === 'success' ? 'status-success' : 
                            order.status === 'pending' ? 'status-pending' : 'status-error';
         const statusText = order.status === 'success' ? 'Muvaffaqiyatli' : 
@@ -1278,8 +1306,8 @@ function loadAdminOrders() {
             <div style="font-size:11px;color:var(--muted);margin-top:2px;">👤 @${escapeHTML(order.username || 'unknown')}</div>
             ${order.status === 'pending' ? `
                 <div class="order-actions">
-                    <button class="order-btn order-btn-success" onclick="updateOrderStatus(${Number(order.id)}, 'success')">✅ Tasdiqlash</button>
-                    <button class="order-btn order-btn-error" onclick="updateOrderStatus(${Number(order.id)}, 'error')">❌ Rad etish</button>
+                    <button class="order-btn order-btn-success" onclick="updateAdminOrderStatus(${index}, 'success')">✅ Tasdiqlash</button>
+                    <button class="order-btn order-btn-error" onclick="updateAdminOrderStatus(${index}, 'error')">❌ Rad etish</button>
                 </div>
             ` : ''}
         `;
@@ -1287,16 +1315,22 @@ function loadAdminOrders() {
     });
 }
 
-function updateOrderStatus(orderId, newStatus) {
-    let history = getPurchaseHistory();
-    const order = history.find(o => o.id === orderId);
-    if (order) {
-        order.status = newStatus;
-        savePurchaseHistory(history);
-        updateAdminStats();
-        loadAdminOrders();
+function updateAdminOrderStatus(index, newStatus) {
+    let orders = getAdminOrders();
+    if (orders[index]) {
+        orders[index].status = newStatus;
+        saveAllAdminOrders(orders);
+        loadAdminOrdersFromAPI();
         alert(newStatus === 'success' ? 'Buyurtma tasdiqlandi!' : 'Buyurtma rad etildi!');
     }
+}
+
+function updateAdminStats() {
+    loadAdminOrdersFromAPI();
+}
+
+function loadAdminOrders() {
+    loadAdminOrdersFromAPI();
 }
 
 function openAdmin() {
