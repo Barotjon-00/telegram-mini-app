@@ -127,7 +127,9 @@
     .history-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--primary-light);}
     .history-date{font-size:11px;color:var(--muted);margin-top:8px;}
     .admin-login{padding:40px 20px;text-align:center;}
-    .admin-input{width:100%;max-width:300px;padding:14px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;text-align:center;}
+    .admin-input{width:100%;max-width:300px;padding:14px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;margin-bottom:15px;outline:none;text-align:center;transition:border-color 0.2s;}
+    .admin-input:focus{border-color:var(--primary);}
+    @keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-8px);}40%,80%{transform:translateX(8px);}}
     .admin-btn{width:100%;max-width:300px;background:linear-gradient(135deg,#8B5CF6,#EC4899);border:none;border-radius:10px;padding:14px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;cursor:pointer;}
     .admin-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px;}
     .stat-card{background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;}
@@ -729,14 +731,22 @@
   <div class="page scroll-content" id="page-admin">
     <div class="page-header">
       <div class="page-title">Admin Panel</div>
-      <div class="refresh-btn" onclick="loadAdminOrdersFromAPI()" title="Yangilash">↻</div>
-      <div class="refresh-btn" onclick="logoutAdmin()" title="Chiqish">🚪</div>
+      <div class="refresh-btn" onclick="loadAdminOrdersFromAPI();this.style.transform='rotate(360deg)';setTimeout(()=>this.style.transform='',500)" title="Yangilash">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary-light)" stroke-width="2" stroke-linecap="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0115.4-6.4L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 01-15.4 6.4L3 16"/></svg>
+      </div>
+      <div class="refresh-btn" onclick="logoutAdmin()" title="Chiqish" style="margin-left:0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
     </div>
     
     <div id="admin-login" class="admin-login">
-      <h2 style="margin-bottom:20px;color:var(--primary-light);">Admin Kirish</h2>
-      <input type="password" class="admin-input" id="admin-password" placeholder="Parol kiriting">
+      <div style="font-size:48px;margin-bottom:16px;">🔐</div>
+      <h2 style="margin-bottom:8px;color:var(--primary-light);font-family:'Rajdhani',sans-serif;font-size:24px;">Admin Kirish</h2>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:20px;" id="login-hint">Parolni kiriting</div>
+      <input type="password" class="admin-input" id="admin-password" placeholder="••••••" onkeydown="if(event.key==='Enter')loginAdmin()">
+      <div id="login-error" style="color:var(--error);font-size:13px;margin-bottom:12px;min-height:18px;"></div>
       <button class="admin-btn" onclick="loginAdmin()">Kirish</button>
+      <div style="font-size:11px;color:var(--muted);margin-top:16px;">Urinishlar: <span id="attempts-left">5</span> / 5</div>
     </div>
     
     <div id="admin-dashboard" style="display:none;">
@@ -1248,23 +1258,65 @@ function checkAdminAuth() {
     }
 }
 
+let loginAttempts = 0;
+const MAX_ATTEMPTS = 5;
+
 function loginAdmin() {
+    if (loginAttempts >= MAX_ATTEMPTS) {
+        document.getElementById('login-error').textContent = 'Urinishlar tugadi! Keyinroq qaytadan urinib ko\'ring.';
+        return;
+    }
+    
     const password = document.getElementById('admin-password').value;
-    // Пароль проверяется на клиенте — для полной безопасности нужна серверная проверка
+    if (!password) {
+        document.getElementById('login-error').textContent = 'Parolni kiriting!';
+        shakeInput();
+        return;
+    }
+    
     if (password === 'admin123') {
+        loginAttempts = 0;
         isAdminLoggedIn = true;
         document.getElementById('admin-login').style.display = 'none';
         document.getElementById('admin-dashboard').style.display = 'block';
+        document.getElementById('login-error').textContent = '';
+        document.getElementById('admin-password').value = '';
         updateAdminStats();
         loadAdminOrders();
     } else {
-        alert('Noto\'g\'ri parol!');
+        loginAttempts++;
+        const left = MAX_ATTEMPTS - loginAttempts;
+        document.getElementById('attempts-left').textContent = left;
+        document.getElementById('login-error').textContent = `Noto'g'ri parol! ${left} ta urinish qoldi.`;
+        document.getElementById('admin-password').value = '';
+        shakeInput();
+        
+        if (left <= 0) {
+            document.getElementById('login-error').textContent = 'Urinishlar tugadi! 30 soniya kuting...';
+            document.querySelector('.admin-btn').disabled = true;
+            setTimeout(() => {
+                loginAttempts = 0;
+                document.getElementById('attempts-left').textContent = MAX_ATTEMPTS;
+                document.getElementById('login-error').textContent = '';
+                document.querySelector('.admin-btn').disabled = false;
+            }, 30000);
+        }
     }
+}
+
+function shakeInput() {
+    const input = document.getElementById('admin-password');
+    input.style.animation = 'none';
+    input.offsetHeight; // reflow
+    input.style.animation = 'shake 0.4s ease';
 }
 
 function logoutAdmin() {
     isAdminLoggedIn = false;
+    loginAttempts = 0;
     document.getElementById('admin-password').value = '';
+    document.getElementById('login-error').textContent = '';
+    document.getElementById('attempts-left').textContent = MAX_ATTEMPTS;
     goBack();
 }
 
