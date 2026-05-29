@@ -1052,8 +1052,15 @@
     <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.6;">
       1. Karta raqamini nusxalang<br>
       2. Click/Payme orqali to'lang<br>
-      3. "Tasdiqlash" tugmasini bosing
+      3. Chek rasmini yuklang va "Tasdiqlash" bosing
     </div>
+    <div id="click-screenshot-preview" style="width:100%;min-height:80px;background:var(--dark4);border:2px dashed rgba(59,130,246,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;overflow:hidden;cursor:pointer;transition:border-color 0.2s;" onclick="document.getElementById('click-screenshot-file').click()">
+      <div id="click-screenshot-placeholder" style="text-align:center;padding:16px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" style="margin-bottom:4px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <div style="font-size:12px;color:var(--muted);">📸 To'lov chekini yuklang</div>
+      </div>
+    </div>
+    <input type="file" id="click-screenshot-file" accept="image/*" style="display:none;" onchange="previewClickScreenshot(this)">
     <button style="width:100%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);border:none;border-radius:14px;padding:16px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;cursor:pointer;" onclick="confirmClickPayment()">✅ To'ladim — Tasdiqlash</button>
   </div>
 </div>
@@ -1107,48 +1114,77 @@ const BOT_TOKEN_WEB = '7698086227:AAEgwdmDHOyyFzv0-4rW5RPUA-2i7M_6dEg';
 const STORAGE_MSG_ID = 1470; // Pinned message ID — buyurtmalar bazasi
 
 // Telegram'dan buyurtmalarni o'qish (pinned message)
-async function getCloudOrders() {
+// ====== BULUT MA'LUMOTLAR BAZASI ======
+// Struktura: { orders: [], payments: [], balances: { "user_id": summa } }
+
+async function getCloudData() {
     try {
         const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/getChat?chat_id=${ADMIN_CHAT_ID}`);
         const data = await resp.json();
-        if (data.ok && data.result.pinned_message && data.result.pinned_message.text) {
+        if (data.ok && data.result.pinned_message?.text) {
             const parsed = JSON.parse(data.result.pinned_message.text);
-            return parsed.orders || [];
+            return { orders: parsed.orders || [], payments: parsed.payments || [], balances: parsed.balances || {} };
         }
-        return [];
+        return { orders: [], payments: [], balances: {} };
     } catch(e) {
-        console.error('Telegram o\'qish xatolik:', e);
-        return [];
+        console.error('Cloud o\'qish xatolik:', e);
+        return { orders: [], payments: [], balances: {} };
     }
 }
 
-// Telegram'ga buyurtmalarni saqlash (edit pinned message) — payments'ni saqlab qoladi
-async function saveCloudOrders(orders) {
+async function saveCloudData(cloudData) {
     try {
-        // Avval mavjud payments'ni olish
-        let payments = [];
-        try {
-            const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/getChat?chat_id=${ADMIN_CHAT_ID}`);
-            const data = await resp.json();
-            if (data.ok && data.result.pinned_message?.text) {
-                const stored = JSON.parse(data.result.pinned_message.text);
-                payments = stored.payments || [];
-            }
-        } catch(e) {}
-        
-        const text = JSON.stringify({ orders: orders, payments: payments });
+        // Limitlar: max 15 orders, 15 payments (4096 belgi limit)
+        if (cloudData.orders?.length > 15) cloudData.orders.length = 15;
+        if (cloudData.payments?.length > 15) cloudData.payments.length = 15;
+        const text = JSON.stringify(cloudData);
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/editMessageText`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: ADMIN_CHAT_ID,
-                message_id: STORAGE_MSG_ID,
-                text: text
-            })
+            body: JSON.stringify({ chat_id: ADMIN_CHAT_ID, message_id: STORAGE_MSG_ID, text: text })
         });
     } catch(e) {
-        console.error('Telegram saqlash xatolik:', e);
+        console.error('Cloud saqlash xatolik:', e);
     }
+}
+
+// Eski funksiyalar — yangilarga o'tkaziladi
+async function getCloudOrders() {
+    const data = await getCloudData();
+    return data.orders;
+}
+async function saveCloudOrders(orders) {
+    const data = await getCloudData();
+    data.orders = orders;
+    await saveCloudData(data);
+}
+
+// Foydalanuvchi balansini olish
+async function getUserBalance(userId) {
+    const data = await getCloudData();
+    return data.balances[String(userId)] || 0;
+}
+
+// Balansni yangilash (qo'shish yoki ayirish)
+async function changeBalance(userId, amount) {
+    const data = await getCloudData();
+    const uid = String(userId);
+    data.balances[uid] = (data.balances[uid] || 0) + amount;
+    if (data.balances[uid] < 0) data.balances[uid] = 0;
+    await saveCloudData(data);
+    return data.balances[uid];
+}
+
+// Bosh sahifada balansni ko'rsatish
+async function loadUserBalance() {
+    let userId = 0;
+    if (tg?.initDataUnsafe?.user) userId = tg.initDataUnsafe.user.id;
+    if (!userId) return;
+    const balance = await getUserBalance(userId);
+    document.getElementById('home-balance').textContent = balance.toLocaleString() + ' UZS';
+    // Hamyon sahifasi ham
+    const hamyonEl = document.querySelector('.hamyon-amount');
+    if (hamyonEl) hamyonEl.textContent = balance.toLocaleString();
 }
 
 // Yangi buyurtma — saqlash + adminga xabar
@@ -1270,6 +1306,7 @@ function loadUserData() {
     }
 }
 loadUserData();
+loadUserBalance(); // Balansni bulutdan yuklash
 
 // Stars
 (function(){
@@ -1714,11 +1751,17 @@ function openClickPayment() {
     currentTopupAmount = getTopupAmount();
     if (!currentTopupAmount) return;
     closeSheet();
+    selectedClickScreenshot = null;
     // Random karta tanlash
     currentClickCard = CLICK_CARDS[Math.floor(Math.random() * CLICK_CARDS.length)];
     document.getElementById('click-amount').textContent = currentTopupAmount.toLocaleString() + ' UZS';
     document.getElementById('click-card-number').textContent = currentClickCard.number;
     document.getElementById('click-card-name').textContent = currentClickCard.name;
+    // Reset screenshot preview
+    try {
+        document.getElementById('click-screenshot-preview').innerHTML = document.getElementById('click-screenshot-placeholder')?.outerHTML || '<div style="text-align:center;padding:16px;"><div style="font-size:12px;color:var(--muted);">📸 To\'lov chekini yuklang</div></div>';
+        document.getElementById('click-screenshot-file').value = '';
+    } catch(e) {}
     setTimeout(() => openSheet('sheet-click'), 300);
 }
 
@@ -1805,6 +1848,20 @@ function copyCardNumber() {
     });
 }
 
+let selectedClickScreenshot = null;
+
+function previewClickScreenshot(input) {
+    if (input.files && input.files[0]) {
+        selectedClickScreenshot = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('click-screenshot-preview').innerHTML = 
+                `<img src="${e.target.result}" style="width:100%;max-height:150px;object-fit:contain;border-radius:10px;">`;
+        };
+        reader.readAsDataURL(selectedClickScreenshot);
+    }
+}
+
 async function confirmClickPayment() {
     let username = 'unknown', userId = 0;
     if (tg?.initDataUnsafe?.user) {
@@ -1812,15 +1869,27 @@ async function confirmClickPayment() {
         userId = tg.initDataUnsafe.user.id;
     }
     
-    const text = `💳 CLICK TO'LOV\n\n👤 @${username} (ID: ${userId})\n💵 Summa: ${currentTopupAmount.toLocaleString()} UZS\n💳 Karta: ${currentClickCard.number}\n📅 ${new Date().toLocaleString('uz-UZ')}\n\n⏳ Tekshirish kerak`;
+    const caption = `💳 CLICK TO'LOV\n\n👤 @${username} (ID: ${userId})\n💵 Summa: ${currentTopupAmount.toLocaleString()} UZS\n💳 Karta: ${currentClickCard.number}\n📅 ${new Date().toLocaleString('uz-UZ')}\n\n⏳ Tekshirish kerak`;
     
     for (const adminId of ADMIN_IDS) {
         try {
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: adminId, text: text })
-            });
+            // Agar screenshot yuklangan bo'lsa — rasm bilan yuborish
+            if (selectedClickScreenshot) {
+                const fd = new FormData();
+                fd.append('chat_id', adminId);
+                fd.append('photo', selectedClickScreenshot);
+                fd.append('caption', caption);
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendPhoto`, {
+                    method: 'POST', body: fd
+                });
+            } else {
+                // Screenshot yo'q — faqat text
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: adminId, text: caption })
+                });
+            }
         } catch(e) {}
     }
     
@@ -1829,35 +1898,23 @@ async function confirmClickPayment() {
         username, user_id: userId,
         amount: currentTopupAmount,
         card: currentClickCard.number,
+        hasScreenshot: !!selectedClickScreenshot,
         status: 'pending',
         date: new Date().toLocaleString('uz-UZ')
     });
     
+    selectedClickScreenshot = null;
     closeSheet();
     alert('✅ To\'lov ma\'lumotlari yuborildi! Admin tekshirib tasdiqlaydi.');
 }
 
-// To'lovlarni saqlash (pinned message'da orders bilan birga)
+// To'lovlarni saqlash
 async function savePaymentToCloud(payment) {
     try {
-        const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/getChat?chat_id=${ADMIN_CHAT_ID}`);
-        const data = await resp.json();
-        let stored = { orders: [], payments: [] };
-        if (data.ok && data.result.pinned_message?.text) {
-            try { stored = JSON.parse(data.result.pinned_message.text); } catch(e) {}
-            if (!stored.payments) stored.payments = [];
-        }
-        stored.payments.unshift(payment);
-        if (stored.payments.length > 20) stored.payments.length = 20;
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/editMessageText`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: ADMIN_CHAT_ID,
-                message_id: STORAGE_MSG_ID,
-                text: JSON.stringify(stored)
-            })
-        });
+        const data = await getCloudData();
+        data.payments.unshift(payment);
+        if (data.payments.length > 15) data.payments.length = 15;
+        await saveCloudData(data);
     } catch(e) { console.error('Payment save error:', e); }
 }
 
@@ -1875,13 +1932,8 @@ async function loadAdminPayments() {
     list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);">⏳ Yuklanmoqda...</div>';
     
     try {
-        const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/getChat?chat_id=${ADMIN_CHAT_ID}`);
-        const data = await resp.json();
-        let payments = [];
-        if (data.ok && data.result.pinned_message?.text) {
-            const stored = JSON.parse(data.result.pinned_message.text);
-            payments = stored.payments || [];
-        }
+        const cloudData = await getCloudData();
+        const payments = cloudData.payments || [];
         
         list.innerHTML = '';
         if (payments.length === 0) {
@@ -1893,6 +1945,7 @@ async function loadAdminPayments() {
             const statusClass = p.status === 'confirmed' ? 'status-success' : p.status === 'pending' ? 'status-pending' : 'status-error';
             const statusText = p.status === 'confirmed' ? 'Tasdiqlangan' : p.status === 'pending' ? 'Kutishda' : 'Rad etildi';
             const typeIcon = p.type === 'screenshot' ? '📸' : '💳';
+            const userBal = cloudData.balances[String(p.user_id)] || 0;
             
             const el = document.createElement('div');
             el.className = 'order-item';
@@ -1900,7 +1953,7 @@ async function loadAdminPayments() {
                 <div class="order-header">
                     <div>
                         <div style="font-weight:600;color:var(--text);">${typeIcon} ${escapeHTML(p.type === 'screenshot' ? 'Screenshot to\'lov' : 'Click to\'lov')}</div>
-                        <div style="font-size:12px;color:var(--muted);">👤 @${escapeHTML(p.username)}</div>
+                        <div style="font-size:12px;color:var(--muted);">👤 @${escapeHTML(p.username)} • Balans: ${userBal.toLocaleString()} UZS</div>
                     </div>
                     <div class="history-status ${statusClass}">${statusText}</div>
                 </div>
@@ -1909,9 +1962,10 @@ async function loadAdminPayments() {
                     <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--green);">${parseInt(p.amount).toLocaleString()} UZS</div>
                 </div>
                 ${p.card ? `<div style="font-size:11px;color:var(--muted);margin-top:4px;">💳 ${escapeHTML(p.card)}</div>` : ''}
+                ${p.hasScreenshot ? `<div style="font-size:11px;color:var(--primary-light);margin-top:4px;">📸 Screenshot yuborilgan</div>` : ''}
                 ${p.status === 'pending' ? `
                     <div class="order-actions" style="flex-wrap:wrap;">
-                        <button class="order-btn order-btn-success" onclick="updatePaymentStatus(${i}, 'confirmed')">✅ Tasdiqlash</button>
+                        <button class="order-btn order-btn-success" onclick="updatePaymentStatus(${i}, 'confirmed')">✅ Tasdiqlash (+${parseInt(p.amount).toLocaleString()})</button>
                         <button class="order-btn order-btn-error" onclick="updatePaymentStatus(${i}, 'rejected')">❌ Rad etish</button>
                     </div>
                 ` : ''}
@@ -1925,28 +1979,25 @@ async function loadAdminPayments() {
 
 async function updatePaymentStatus(index, newStatus) {
     try {
-        const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/getChat?chat_id=${ADMIN_CHAT_ID}`);
-        const data = await resp.json();
-        let stored = JSON.parse(data.result.pinned_message.text);
+        const cloudData = await getCloudData();
         
-        if (stored.payments && stored.payments[index]) {
-            const payment = stored.payments[index];
+        if (cloudData.payments && cloudData.payments[index]) {
+            const payment = cloudData.payments[index];
             payment.status = newStatus;
             
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/editMessageText`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: ADMIN_CHAT_ID,
-                    message_id: STORAGE_MSG_ID,
-                    text: JSON.stringify(stored)
-                })
-            });
+            // Tasdiqlansa — balansga pul qo'shish
+            if (newStatus === 'confirmed' && payment.user_id) {
+                const uid = String(payment.user_id);
+                cloudData.balances[uid] = (cloudData.balances[uid] || 0) + parseInt(payment.amount);
+            }
+            
+            await saveCloudData(cloudData);
             
             // Foydalanuvchiga xabar
             if (payment.user_id) {
+                const newBal = cloudData.balances[String(payment.user_id)] || 0;
                 const msg = newStatus === 'confirmed'
-                    ? `✅ <b>To'lov tasdiqlandi!</b>\n\n💵 ${parseInt(payment.amount).toLocaleString()} UZS balansingizga qo'shildi.`
+                    ? `✅ <b>To'lov tasdiqlandi!</b>\n\n💵 ${parseInt(payment.amount).toLocaleString()} UZS balansingizga qo'shildi.\n💰 Joriy balans: ${newBal.toLocaleString()} UZS`
                     : `❌ <b>To'lov rad etildi.</b>\n\n💵 ${parseInt(payment.amount).toLocaleString()} UZS\nIltimos, qaytadan urinib ko'ring yoki operator bilan bog'laning.`;
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
                     method: 'POST',
@@ -1956,7 +2007,7 @@ async function updatePaymentStatus(index, newStatus) {
             }
             
             loadAdminPayments();
-            alert(newStatus === 'confirmed' ? 'To\'lov tasdiqlandi!' : 'To\'lov rad etildi!');
+            alert(newStatus === 'confirmed' ? 'To\'lov tasdiqlandi! Balans yangilandi.' : 'To\'lov rad etildi!');
         }
     } catch(e) { console.error(e); }
 }
@@ -1971,14 +2022,12 @@ function buyPackage(game, packageName, price) {
     openSheet('sheet-buy');
 }
 
-function confirmBuy() {
+async function confirmBuy() {
     const playerId = document.getElementById('player-id-input').value.trim();
     if (!playerId) { 
         alert('ID kiriting!'); 
         return; 
     }
-    
-    closeSheet();
     
     let username = 'unknown';
     let userId = 0;
@@ -1987,13 +2036,28 @@ function confirmBuy() {
         userId = tg.initDataUnsafe.user.id;
     }
     
+    const price = parseInt(pendingBuy.price);
+    
+    // Balansni tekshirish
+    const balance = await getUserBalance(userId);
+    if (balance < price) {
+        alert(`❌ Balansingiz yetarli emas!\n\nKerak: ${price.toLocaleString()} UZS\nBalans: ${balance.toLocaleString()} UZS\n\nAvval balansni to'ldiring.`);
+        return;
+    }
+    
+    closeSheet();
+    
+    // Balansdan ayirish
+    const newBalance = await changeBalance(userId, -price);
+    
     const order = {
         id: Date.now(),
         user_id: userId,
         username: username,
         game: pendingBuy.game,
         package: pendingBuy.packageName,
-        price: parseInt(pendingBuy.price).toLocaleString() + ' UZS',
+        price: price.toLocaleString() + ' UZS',
+        priceRaw: price,
         status: 'pending',
         date: new Date().toLocaleString('uz-UZ'),
         playerId: playerId
@@ -2006,10 +2070,15 @@ function confirmBuy() {
         savePurchaseHistory(history);
     } catch(e) {}
     
-    // Bot API orqali adminga yuborish (sendData o'rniga)
+    // Bot API orqali adminga yuborish
     sendOrderToBot(order);
     
-    alert('✅ Buyurtma qabul qilindi! Operator tez orada aloqaga chiqadi.');
+    // Balansni yangilash ekranda
+    document.getElementById('home-balance').textContent = newBalance.toLocaleString() + ' UZS';
+    const hamyonEl = document.querySelector('.hamyon-amount');
+    if (hamyonEl) hamyonEl.textContent = newBalance.toLocaleString();
+    
+    alert(`✅ Buyurtma qabul qilindi!\n\n💰 Balansdan ayirildi: ${price.toLocaleString()} UZS\n💵 Qoldi: ${newBalance.toLocaleString()} UZS`);
 }
 
 function checkUsername() {
