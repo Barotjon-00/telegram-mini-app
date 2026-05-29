@@ -995,88 +995,85 @@ let isAdminLoggedIn = false;
 // ВАЖНО: Замените на ваш реальный Telegram ID
 const MY_ADMIN_ID = 5273703401; 
 
-// Bot API orqali to'g'ridan-to'g'ri xabar yuborish
-const BOT_TOKEN_WEB = '7698086227:AAE1imyod4JMdoV-pTkATx0uY-blDOQsf6c';
+// Bot API — CORS qo'llab-quvvatlanadi!
+const BOT_TOKEN_WEB = '7698086227:AAEgwdmDHOyyFzv0-4rW5RPUA-2i7M_6dEg';
 const ADMIN_CHAT_ID = 5273703401;
+const STORAGE_MSG_ID = 1470; // Pinned message ID — buyurtmalar bazasi
 
-// Bulutli buyurtmalar bazasi (jsonblob.com — bepul, HTTPS)
-const ORDERS_API = 'https://jsonblob.com/api/jsonBlob/019e7022-7a8d-7fbc-a033-97fe5c2df1ab';
-
-// Bulutdan barcha buyurtmalarni olish
+// Telegram'dan buyurtmalarni o'qish (pinned message)
 async function getCloudOrders() {
     try {
-        const resp = await fetch(ORDERS_API);
+        const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/getChat?chat_id=${ADMIN_CHAT_ID}`);
         const data = await resp.json();
-        return data.orders || [];
+        if (data.ok && data.result.pinned_message && data.result.pinned_message.text) {
+            const parsed = JSON.parse(data.result.pinned_message.text);
+            return parsed.orders || [];
+        }
+        return [];
     } catch(e) {
-        console.error('Cloud API xatolik:', e);
+        console.error('Telegram o\'qish xatolik:', e);
         return [];
     }
 }
 
-// Bulutga buyurtmalarni saqlash
+// Telegram'ga buyurtmalarni saqlash (edit pinned message)
 async function saveCloudOrders(orders) {
     try {
-        await fetch(ORDERS_API, {
-            method: 'PUT',
+        const text = JSON.stringify({ orders: orders });
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/editMessageText`, {
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ orders: orders })
+            body: JSON.stringify({
+                chat_id: ADMIN_CHAT_ID,
+                message_id: STORAGE_MSG_ID,
+                text: text
+            })
         });
     } catch(e) {
-        console.error('Cloud saqlash xatolik:', e);
+        console.error('Telegram saqlash xatolik:', e);
     }
 }
 
-// Yangi buyurtma qo'shish (bulut + Telegram)
+// Yangi buyurtma — saqlash + adminga xabar
 async function sendOrderToBot(order) {
-    // 1. Bulutga saqlash
+    // 1. Mavjud buyurtmalarga qo'shish
     try {
-        const existingOrders = await getCloudOrders();
-        existingOrders.unshift(order);
-        await saveCloudOrders(existingOrders);
+        const existing = await getCloudOrders();
+        existing.unshift(order);
+        // Eski buyurtmalarni olib tashlash (Telegram 4096 belgi limit)
+        if (existing.length > 20) existing.length = 20;
+        await saveCloudOrders(existing);
     } catch(e) {
-        console.error('Bulut saqlash xatolik:', e);
+        console.error('Saqlash xatolik:', e);
     }
     
-    // 2. Adminga Telegram xabar
+    // 2. Adminga chiroyli xabar
     const text = 
         `🔥 <b>YANGI BUYURTMA!</b>\n\n` +
-        `👤 Foydalanuvchi: @${order.username} (ID: ${order.user_id})\n` +
-        `🎮 O'yin: ${order.game}\n` +
-        `📦 Tovar: ${order.package}\n` +
-        `💰 Narx: ${order.price}\n` +
+        `👤 @${order.username} (ID: ${order.user_id})\n` +
+        `🎮 ${order.game}\n` +
+        `📦 ${order.package}\n` +
+        `💰 ${order.price}\n` +
         `🆔 Player ID: ${order.playerId}\n` +
-        `📅 Sana: ${order.date}\n` +
-        `📝 Holat: ⏳ Kutishda`;
+        `📅 ${order.date}`;
     
     try {
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: ADMIN_CHAT_ID,
-                text: text,
-                parse_mode: 'HTML'
-            })
+            body: JSON.stringify({ chat_id: ADMIN_CHAT_ID, text: text, parse_mode: 'HTML' })
         });
     } catch(e) {}
     
-    // 3. Foydalanuvchiga tasdiqlash xabari
+    // 3. Foydalanuvchiga tasdiqlash
     if (order.user_id && order.user_id !== 0) {
         try {
-            const userText = 
-                `✅ <b>Buyurtma qabul qilindi!</b>\n\n` +
-                `📦 ${order.package} (${order.game})\n` +
-                `💰 ${order.price}\n` +
-                `🆔 ID: ${order.playerId}\n\n` +
-                `⏳ Operator tez orada aloqaga chiqadi.`;
-            
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     chat_id: order.user_id,
-                    text: userText,
+                    text: `✅ <b>Buyurtma qabul qilindi!</b>\n\n📦 ${order.package} (${order.game})\n💰 ${order.price}\n🆔 ${order.playerId}\n\n⏳ Operator tez orada aloqaga chiqadi.`,
                     parse_mode: 'HTML'
                 })
             });
