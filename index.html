@@ -1577,6 +1577,7 @@ async function loadAdminOrdersFromAPI() {
             </div>
             <div style="font-size:11px;color:var(--muted);margin-top:4px;">${escapeHTML(order.date)}</div>
             <div style="font-size:11px;color:var(--muted);margin-top:2px;">👤 @${escapeHTML(order.username || 'unknown')}</div>
+            ${order.handled_by ? `<div style="font-size:10px;margin-top:4px;padding:3px 8px;background:rgba(139,92,246,0.1);border-radius:6px;display:inline-block;"><span style="color:var(--primary-light);">🛡 ${escapeHTML(order.handled_by)}</span> <span style="color:var(--muted);">• ${escapeHTML(order.handled_at || '')}</span></div>` : ''}
             ${order.status === 'pending' ? `
                 <div class="order-actions" style="flex-wrap:wrap;">
                     <button class="order-btn order-btn-success" onclick="updateAdminOrderStatus(${index}, 'success')">✅ Tasdiqlash</button>
@@ -1598,6 +1599,15 @@ async function updateAdminOrderStatus(index, newStatus) {
     if (orders[index]) {
         const order = orders[index];
         order.status = newStatus;
+        
+        // Qaysi admin tasdiqlagan — ma'lumot saqlash
+        let adminName = 'Admin';
+        if (tg?.initDataUnsafe?.user) {
+            adminName = '@' + (tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name || 'Admin');
+        }
+        order.handled_by = adminName;
+        order.handled_at = new Date().toLocaleString('uz-UZ');
+        
         await saveCloudOrders(orders);
         
         // Foydalanuvchiga Telegram xabar
@@ -1624,14 +1634,14 @@ async function updateAdminOrderStatus(index, newStatus) {
         const statusEmoji = newStatus === 'success' ? '✅' : newStatus === 'wrong_id' ? '⚠️' : '❌';
         const statusLabel = newStatus === 'success' ? 'TASDIQLANDI' : newStatus === 'wrong_id' ? 'ID XATO' : 'RAD ETILDI';
         for (const adminId of ADMIN_IDS) {
-            if (adminId === ADMIN_CHAT_ID) continue; // Asosiy admin allaqachon ko'rgan
+            if (tg?.initDataUnsafe?.user?.id === adminId) continue;
             try {
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         chat_id: adminId,
-                        text: `${statusEmoji} <b>${statusLabel}</b>\n\n📦 ${order.package} (${order.game})\n👤 @${order.username}\n🆔 ${order.playerId}`,
+                        text: `${statusEmoji} <b>${statusLabel}</b>\n\n📦 ${order.package} (${order.game})\n👤 @${order.username}\n🆔 ${order.playerId}\n\n🛡 Bajargan: ${adminName}`,
                         parse_mode: 'HTML'
                     })
                 });
@@ -2400,6 +2410,7 @@ async function loadAdminPayments() {
                 </div>
                 ${p.card ? `<div style="font-size:11px;color:var(--muted);margin-top:4px;">💳 ${escapeHTML(p.card)}</div>` : ''}
                 ${p.hasScreenshot ? `<div style="font-size:11px;color:var(--primary-light);margin-top:4px;">📸 Screenshot yuborilgan</div>` : ''}
+                ${p.handled_by ? `<div style="font-size:10px;margin-top:4px;padding:3px 8px;background:rgba(139,92,246,0.1);border-radius:6px;display:inline-block;"><span style="color:var(--primary-light);">🛡 ${escapeHTML(p.handled_by)}</span> <span style="color:var(--muted);">• ${escapeHTML(p.handled_at || '')}</span></div>` : ''}
                 ${p.status === 'pending' ? `
                     <div class="order-actions" style="flex-wrap:wrap;">
                         <button class="order-btn order-btn-success" onclick="updatePaymentStatus(${i}, 'confirmed')">✅ Tasdiqlash (+${parseInt(p.amount).toLocaleString()})</button>
@@ -2421,6 +2432,14 @@ async function updatePaymentStatus(index, newStatus) {
         if (cloudData.payments && cloudData.payments[index]) {
             const payment = cloudData.payments[index];
             payment.status = newStatus;
+            
+            // Qaysi admin tasdiqlagan
+            let adminName = 'Admin';
+            if (tg?.initDataUnsafe?.user) {
+                adminName = '@' + (tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name || 'Admin');
+            }
+            payment.handled_by = adminName;
+            payment.handled_at = new Date().toLocaleString('uz-UZ');
             
             // Tasdiqlansa — balansga pul qo'shish
             if (newStatus === 'confirmed' && payment.user_id) {
