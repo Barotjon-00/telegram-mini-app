@@ -60,7 +60,7 @@
     .support-links{display:flex;flex-direction:column;gap:10px;}
     .support-link{display:flex;align-items:center;background:var(--dark4);border-radius:12px;padding:14px;text-decoration:none;color:var(--text);transition:background 0.15s,transform 0.1s;cursor:pointer;}
     .support-link:active{transform:scale(0.98);background:rgba(139,92,246,0.1);}
-    .support-link-icon{font-size:20px;margin-right:12px;width:36px;text-align:center;}
+    .support-link-icon{margin-right:12px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:var(--dark3);border-radius:10px;flex-shrink:0;}
     .support-link-text{flex:1;}
     .support-link-label{font-size:14px;font-weight:500;}
     .support-link-val{font-size:12px;color:var(--muted);margin-top:2px;}
@@ -215,7 +215,7 @@
     .option-item:not(.selected) .opt-check::before{content:'';width:10px;height:10px;border:2px solid rgba(255,255,255,0.2);border-radius:50%;display:block;}
     .support-item{display:flex;align-items:center;background:var(--dark3);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;transition:background 0.15s,transform 0.1s;text-decoration:none;}
     .support-item:active{transform:scale(0.98);}
-    .support-icon{font-size:20px;margin-right:14px;width:36px;text-align:center;}
+    .support-icon{margin-right:14px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:var(--dark4);border-radius:10px;flex-shrink:0;}
     .support-text{flex:1;}
     .support-label{font-size:14px;font-weight:500;color:var(--text);}
     .support-val{font-size:13px;color:var(--primary-light);margin-top:2px;}
@@ -305,12 +305,12 @@
 
     <div class="support-section">
       <div class="support-title">
-        <span>🎧</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-light)" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5z"/></svg>
         <span>Qo'llab-quvvatlash</span>
       </div>
       <div class="support-links">
         <a class="support-link" onclick="callPhone()">
-          <span class="support-link-icon">📞</span>
+          <span class="support-link-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>
           <div class="support-link-text">
             <div class="support-link-label">Telefon</div>
             <div class="support-link-val">+998 90 589 01 92</div>
@@ -318,7 +318,7 @@
           <span class="support-link-arrow">›</span>
         </a>
         <a class="support-link" onclick="openTelegramSupport()">
-          <span class="support-link-icon">✈️</span>
+          <span class="support-link-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg></span>
           <div class="support-link-text">
             <div class="support-link-label">Telegram</div>
             <div class="support-link-val">@barbossa_gaming</div>
@@ -880,7 +880,7 @@
   </div>
   <div class="sheet-body">
     <a class="support-item" onclick="callPhone()">
-      <span class="support-icon">📞</span>
+      <span class="support-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>
       <div class="support-text">
         <div class="support-label">Telefon</div>
         <div class="support-val">+998 90 589 01 92</div>
@@ -888,7 +888,7 @@
       <span class="support-arrow">›</span>
     </a>
     <a class="support-item" onclick="openTelegram()">
-      <span class="support-icon">✈️</span>
+      <span class="support-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg></span>
       <div class="support-text">
         <div class="support-label">Telegram</div>
         <div class="support-val">@barbossa_gaming</div>
@@ -1415,7 +1415,7 @@ async function updateAdminOrderStatus(index, newStatus) {
             } else if (newStatus === 'wrong_id') {
                 statusMsg = `⚠️ <b>Player ID xato!</b>\n\n📦 ${order.package} (${order.game})\n🆔 Siz kiritgan ID: ${order.playerId}\n\nIltimos, to'g'ri ID bilan qayta buyurtma bering.`;
             } else {
-                statusMsg = `❌ <b>Buyurtma rad etildi.</b>\n\n📦 ${order.package} (${order.game})\n\nIltimos, operator bilan bog'laning: @barbossa_gaming`;
+                statusMsg = `❌ <b>Buyurtma rad etildi.</b>\n\n📦 ${order.package} (${order.game})\n\nIltimos, operator bilan bog'laning: @ashaf_old`;
             }
             
             try {
