@@ -1001,7 +1001,6 @@ const ADMIN_CHAT_ID = 5273703401;
 
 // Bot API — CORS qo'llab-quvvatlanadi!
 const BOT_TOKEN_WEB = '7698086227:AAEgwdmDHOyyFzv0-4rW5RPUA-2i7M_6dEg';
-const ADMIN_CHAT_ID = 5273703401;
 const STORAGE_MSG_ID = 1470; // Pinned message ID — buyurtmalar bazasi
 
 // Telegram'dan buyurtmalarni o'qish (pinned message)
@@ -1353,7 +1352,7 @@ async function updateAdminOrderStatus(index, newStatus) {
             } else if (newStatus === 'wrong_id') {
                 statusMsg = `⚠️ <b>Player ID xato!</b>\n\n📦 ${order.package} (${order.game})\n🆔 Siz kiritgan ID: ${order.playerId}\n\nIltimos, to'g'ri ID bilan qayta buyurtma bering.`;
             } else {
-                statusMsg = `❌ <b>Buyurtma rad etildi.</b>\n\n📦 ${order.package} (${order.game})\n\nIltimos, operator bilan bog'laning: @ashaf_old`;
+                statusMsg = `❌ <b>Buyurtma rad etildi.</b>\n\n📦 ${order.package} (${order.game})\n\nIltimos, operator bilan bog'laning: @barbossa_gaming`;
             }
             
             try {
