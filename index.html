@@ -795,16 +795,27 @@
       <div class="game-tabs" style="padding:8px 16px;">
         <div class="game-tab active" onclick="showAdminTab('orders', this)">📦 Buyurtma</div>
         <div class="game-tab" onclick="showAdminTab('payments', this)">💰 To'lov</div>
-        <div class="game-tab" onclick="showAdminTab('manage', this)">👥 Boshqaruv</div>
+        <div class="game-tab" onclick="showAdminTab('stats', this)">📊 Statistika</div>
+        <div class="game-tab" onclick="showAdminTab('manage', this)">⚙️ Boshqaruv</div>
       </div>
       
       <div id="admin-tab-orders">
+        <div style="padding:8px 16px;">
+          <input type="text" id="order-search" placeholder="🔍 Qidirish (username, ID, o'yin...)" oninput="searchOrders(this.value)" style="width:100%;padding:10px 14px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;outline:none;">
+        </div>
         <div class="admin-orders" id="admin-orders-list"></div>
       </div>
       
       <div id="admin-tab-payments" style="display:none;">
         <div class="admin-orders" id="admin-payments-list">
           <div class="empty-state"><div class="empty-icon">💰</div><div class="empty-text">To'lovlar yo'q</div></div>
+        </div>
+      </div>
+      
+      <!-- STATISTIKA -->
+      <div id="admin-tab-stats" style="display:none;padding:16px;">
+        <div id="stats-content">
+          <div style="text-align:center;padding:20px;color:var(--muted);">⏳ Yuklanmoqda...</div>
         </div>
       </div>
       
@@ -848,7 +859,12 @@
             Xabar yuborish
           </div>
           <input type="text" id="msg-user-id" placeholder="User ID (bo'sh = barchaga)" style="width:100%;padding:12px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;margin-bottom:8px;outline:none;">
-          <textarea id="msg-text" placeholder="Xabar matni..." rows="3" style="width:100%;padding:12px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;margin-bottom:10px;outline:none;resize:vertical;font-family:'Inter',sans-serif;"></textarea>
+          <textarea id="msg-text" placeholder="Xabar matni..." rows="3" style="width:100%;padding:12px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;margin-bottom:8px;outline:none;resize:vertical;font-family:'Inter',sans-serif;"></textarea>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+            <button onclick="setMsgTemplate('aksiya')" style="padding:6px 10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:11px;cursor:pointer;">🏷 Aksiya</button>
+            <button onclick="setMsgTemplate('yangilik')" style="padding:6px 10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:11px;cursor:pointer;">📰 Yangilik</button>
+            <button onclick="setMsgTemplate('texnik')" style="padding:6px 10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:11px;cursor:pointer;">🔧 Texnik</button>
+          </div>
           <button onclick="adminSendMessage()" style="width:100%;padding:12px;background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;">📤 Yuborish</button>
           <div id="msg-result" style="font-size:13px;text-align:center;margin-top:8px;min-height:18px;"></div>
         </div>
@@ -1967,13 +1983,243 @@ async function savePaymentToCloud(payment) {
 
 // Admin tab switching
 function showAdminTab(tab, el) {
-    document.getElementById('admin-tab-orders').style.display = tab === 'orders' ? 'block' : 'none';
-    document.getElementById('admin-tab-payments').style.display = tab === 'payments' ? 'block' : 'none';
-    document.getElementById('admin-tab-manage').style.display = tab === 'manage' ? 'block' : 'none';
+    ['orders','payments','stats','manage'].forEach(t => {
+        const el2 = document.getElementById('admin-tab-'+t);
+        if (el2) el2.style.display = t === tab ? 'block' : 'none';
+    });
     el.parentElement.querySelectorAll('.game-tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
     if (tab === 'payments') loadAdminPayments();
+    if (tab === 'stats') loadAdminStats();
     if (tab === 'manage') loadBlockedUsers();
+}
+
+// ====== BUYURTMA QIDIRISH ======
+function searchOrders(query) {
+    const items = document.querySelectorAll('#admin-orders-list .order-item');
+    const q = query.toLowerCase();
+    items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = !q || text.includes(q) ? 'block' : 'none';
+    });
+}
+
+// ====== STATISTIKA ======
+async function loadAdminStats() {
+    const container = document.getElementById('stats-content');
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);">⏳ Yuklanmoqda...</div>';
+    
+    const data = await getCloudData();
+    const orders = data.orders || [];
+    const payments = data.payments || [];
+    const balances = data.balances || {};
+    
+    // O'yin bo'yicha statistika
+    const gameStats = {};
+    let totalRevenue = 0;
+    orders.forEach(o => {
+        const game = o.game || 'Noma\'lum';
+        if (!gameStats[game]) gameStats[game] = { count: 0, revenue: 0 };
+        gameStats[game].count++;
+        if (o.status === 'success') {
+            const price = parseInt(String(o.priceRaw || o.price || '0').replace(/[^\d]/g,'')) || 0;
+            gameStats[game].revenue += price;
+            totalRevenue += price;
+        }
+    });
+    
+    // To'lovlar statistikasi
+    let totalTopup = 0, confirmedTopup = 0, pendingTopup = 0;
+    payments.forEach(p => {
+        const amt = parseInt(p.amount) || 0;
+        totalTopup += amt;
+        if (p.status === 'confirmed') confirmedTopup += amt;
+        if (p.status === 'pending') pendingTopup += amt;
+    });
+    
+    // Foydalanuvchilar soni
+    const userCount = Object.keys(balances).length;
+    const totalBalance = Object.values(balances).reduce((s, v) => s + v, 0);
+    
+    // Eng ko'p sotilgan o'yin
+    const sortedGames = Object.entries(gameStats).sort((a, b) => b[1].count - a[1].count);
+    const maxCount = sortedGames.length > 0 ? sortedGames[0][1].count : 1;
+    
+    const gameColors = { 'PUBG': '#F59E0B', 'MLBB': '#06B6D4', 'FREEFIRE': '#EF4444', 'STANDOFF': '#8B5CF6', 'Telegram Premium': '#3B82F6' };
+    
+    let html = '';
+    
+    // Umumiy ko'rsatkichlar
+    html += `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+      <div style="background:var(--dark3);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:var(--green);">${totalRevenue.toLocaleString()}</div>
+        <div style="font-size:11px;color:var(--muted);">Jami daromad (UZS)</div>
+      </div>
+      <div style="background:var(--dark3);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:var(--primary-light);">${userCount}</div>
+        <div style="font-size:11px;color:var(--muted);">Foydalanuvchilar</div>
+      </div>
+      <div style="background:var(--dark3);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#06B6D4;">${confirmedTopup.toLocaleString()}</div>
+        <div style="font-size:11px;color:var(--muted);">Tasdiqlangan to'lov</div>
+      </div>
+      <div style="background:var(--dark3);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:var(--pending);">${pendingTopup.toLocaleString()}</div>
+        <div style="font-size:11px;color:var(--muted);">Kutilayotgan to'lov</div>
+      </div>
+    </div>`;
+    
+    // O'yin grafigi
+    html += `<div style="background:var(--dark3);border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-size:14px;font-weight:600;margin-bottom:14px;">🎮 O'yinlar bo'yicha buyurtmalar</div>`;
+    
+    if (sortedGames.length === 0) {
+        html += '<div style="text-align:center;color:var(--muted);font-size:13px;padding:10px;">Ma\'lumot yo\'q</div>';
+    } else {
+        sortedGames.forEach(([game, stat]) => {
+            const pct = Math.round((stat.count / maxCount) * 100);
+            const color = gameColors[game] || 'var(--primary)';
+            html += `
+            <div style="margin-bottom:10px;">
+              <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;">
+                <span style="color:var(--text);font-weight:500;">${escapeHTML(game)}</span>
+                <span style="color:var(--muted);">${stat.count} ta</span>
+              </div>
+              <div style="height:8px;background:var(--dark4);border-radius:4px;overflow:hidden;">
+                <div style="height:100%;width:${pct}%;background:${color};border-radius:4px;transition:width 0.5s;"></div>
+              </div>
+            </div>`;
+        });
+    }
+    html += '</div>';
+    
+    // ====== BARCHA FOYDALANUVCHILAR ======
+    // Barcha user_id'larni yig'ish
+    const allUsers = {};
+    orders.forEach(o => {
+        if (!o.user_id) return;
+        const uid = String(o.user_id);
+        if (!allUsers[uid]) allUsers[uid] = { username: o.username || 'unknown', orders: [], payments: [], balance: 0 };
+        allUsers[uid].orders.push(o);
+        if (o.username) allUsers[uid].username = o.username;
+    });
+    payments.forEach(p => {
+        if (!p.user_id) return;
+        const uid = String(p.user_id);
+        if (!allUsers[uid]) allUsers[uid] = { username: p.username || 'unknown', orders: [], payments: [], balance: 0 };
+        allUsers[uid].payments.push(p);
+        if (p.username) allUsers[uid].username = p.username;
+    });
+    Object.entries(balances).forEach(([uid, bal]) => {
+        if (!allUsers[uid]) allUsers[uid] = { username: 'unknown', orders: [], payments: [], balance: 0 };
+        allUsers[uid].balance = bal;
+    });
+    
+    const userList = Object.entries(allUsers);
+    
+    html += `<div style="background:var(--dark3);border-radius:14px;padding:16px;margin-top:14px;">
+      <div style="font-size:14px;font-weight:600;margin-bottom:14px;display:flex;justify-content:space-between;">
+        <span>👥 Foydalanuvchilar</span>
+        <span style="font-size:12px;color:var(--primary-light);font-weight:700;">${userList.length} ta</span>
+      </div>`;
+    
+    if (userList.length === 0) {
+        html += '<div style="text-align:center;color:var(--muted);font-size:13px;padding:10px;">Foydalanuvchilar yo\'q</div>';
+    } else {
+        userList.sort((a, b) => (b[1].balance || 0) - (a[1].balance || 0));
+        userList.forEach(([uid, user], idx) => {
+            const totalSpent = user.orders.reduce((s, o) => s + (parseInt(String(o.priceRaw || o.price || '0').replace(/[^\d]/g,'')) || 0), 0);
+            const totalTopup = user.payments.filter(p => p.status === 'confirmed').reduce((s, p) => s + (parseInt(p.amount) || 0), 0);
+            const orderCount = user.orders.length;
+            const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '👤';
+            
+            html += `
+            <div style="border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;">
+              <div onclick="toggleUserDetail('user-detail-${idx}')" style="display:flex;justify-content:space-between;align-items:center;padding:12px;cursor:pointer;transition:background 0.15s;" onmousedown="this.style.background='var(--dark4)'" onmouseup="this.style.background=''">
+                <div>
+                  <div style="font-size:13px;font-weight:600;color:var(--text);">${medal} @${escapeHTML(user.username)}</div>
+                  <div style="font-size:11px;color:var(--muted);">ID: ${uid} • ${orderCount} ta buyurtma</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--green);">${(user.balance || 0).toLocaleString()}</div>
+                  <div style="font-size:10px;color:var(--muted);">UZS</div>
+                </div>
+              </div>
+              
+              <div id="user-detail-${idx}" style="display:none;padding:0 12px 12px;border-top:1px solid var(--border);">
+                
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;margin-bottom:12px;">
+                  <div style="background:var(--dark4);border-radius:8px;padding:10px;text-align:center;">
+                    <div style="font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--primary-light);">${totalSpent.toLocaleString()}</div>
+                    <div style="font-size:10px;color:var(--muted);">Sarflagan (UZS)</div>
+                  </div>
+                  <div style="background:var(--dark4);border-radius:8px;padding:10px;text-align:center;">
+                    <div style="font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#06B6D4;">${totalTopup.toLocaleString()}</div>
+                    <div style="font-size:10px;color:var(--muted);">To'ldirgan (UZS)</div>
+                  </div>
+                </div>
+                
+                ${user.orders.length > 0 ? `
+                <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">📦 Buyurtmalar</div>
+                ${user.orders.map(o => {
+                    const sc = o.status === 'success' ? 'color:var(--green)' : o.status === 'pending' ? 'color:var(--pending)' : 'color:var(--error)';
+                    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:12px;">
+                      <div>
+                        <span style="color:var(--text);font-weight:500;">${escapeHTML(o.game)}</span>
+                        <span style="color:var(--muted);"> — ${escapeHTML(o.package)}</span>
+                      </div>
+                      <div style="text-align:right;">
+                        <span style="font-weight:600;${sc};">${escapeHTML(o.price)}</span>
+                      </div>
+                    </div>`;
+                }).join('')}` : ''}
+                
+                ${user.payments.length > 0 ? `
+                <div style="font-size:11px;color:var(--muted);font-weight:600;margin:10px 0 6px;text-transform:uppercase;letter-spacing:0.5px;">💰 To'lovlar</div>
+                ${user.payments.map(p => {
+                    const icon = p.type === 'screenshot' ? '📸' : '💳';
+                    const sc2 = p.status === 'confirmed' ? 'color:var(--green)' : p.status === 'pending' ? 'color:var(--pending)' : 'color:var(--error)';
+                    const stxt = p.status === 'confirmed' ? '✅' : p.status === 'pending' ? '⏳' : '❌';
+                    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:12px;">
+                      <div>
+                        <span>${icon}</span>
+                        <span style="color:var(--muted);">${escapeHTML(p.date || '')}</span>
+                      </div>
+                      <div>
+                        <span style="font-weight:600;${sc2};">${stxt} ${parseInt(p.amount || 0).toLocaleString()} UZS</span>
+                      </div>
+                    </div>`;
+                }).join('')}` : ''}
+                
+                <div style="display:flex;gap:6px;margin-top:10px;">
+                  <button onclick="document.getElementById('manage-user-id').value='${uid}';showAdminTab('manage',document.querySelectorAll('.game-tabs .game-tab')[3])" style="flex:1;padding:8px;background:rgba(139,92,246,0.15);color:var(--primary-light);border:none;border-radius:8px;font-size:11px;cursor:pointer;font-weight:600;">💰 Balans</button>
+                  <button onclick="document.getElementById('msg-user-id').value='${uid}';showAdminTab('manage',document.querySelectorAll('.game-tabs .game-tab')[3])" style="flex:1;padding:8px;background:rgba(59,130,246,0.15);color:#3B82F6;border:none;border-radius:8px;font-size:11px;cursor:pointer;font-weight:600;">📤 Xabar</button>
+                  <button onclick="document.getElementById('block-user-id').value='${uid}';showAdminTab('manage',document.querySelectorAll('.game-tabs .game-tab')[3])" style="flex:1;padding:8px;background:rgba(239,68,68,0.1);color:var(--error);border:none;border-radius:8px;font-size:11px;cursor:pointer;font-weight:600;">🚫 Blok</button>
+                </div>
+              </div>
+            </div>`;
+        });
+    }
+    html += '</div>';
+    
+    container.innerHTML = html;
+}
+
+// User detail ochish/yopish
+function toggleUserDetail(id) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+// ====== XABAR SHABLONLARI ======
+function setMsgTemplate(type) {
+    const templates = {
+        aksiya: '🏷 MEGA AKSIYA!\n\nBarcha PUBG UC vaucherlariga 10% chegirma!\n⏰ Faqat bugun va ertaga!\n\n👉 Hoziroq buyurtma bering!',
+        yangilik: '📰 YANGILIK!\n\nYangi o\'yin qo\'shildi — [o\'yin nomi]!\n\n🎮 Hoziroq sinab ko\'ring!\n👉 Arena X Donate',
+        texnik: '🔧 TEXNIK ISH\n\nHurmatli foydalanuvchilar!\nBugun soat 22:00 dan 23:00 gacha texnik ish olib boriladi.\n\nNoqulaylik uchun uzr so\'raymiz! 🙏'
+    };
+    document.getElementById('msg-text').value = templates[type] || '';
 }
 
 // ====== ADMIN BOSHQARUV FUNKSIYALARI ======
