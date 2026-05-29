@@ -793,8 +793,9 @@
       
       <!-- Admin Tabs -->
       <div class="game-tabs" style="padding:8px 16px;">
-        <div class="game-tab active" onclick="showAdminTab('orders', this)">📦 Buyurtmalar</div>
-        <div class="game-tab" onclick="showAdminTab('payments', this)">💰 To'lovlar</div>
+        <div class="game-tab active" onclick="showAdminTab('orders', this)">📦 Buyurtma</div>
+        <div class="game-tab" onclick="showAdminTab('payments', this)">💰 To'lov</div>
+        <div class="game-tab" onclick="showAdminTab('manage', this)">👥 Boshqaruv</div>
       </div>
       
       <div id="admin-tab-orders">
@@ -804,6 +805,52 @@
       <div id="admin-tab-payments" style="display:none;">
         <div class="admin-orders" id="admin-payments-list">
           <div class="empty-state"><div class="empty-icon">💰</div><div class="empty-text">To'lovlar yo'q</div></div>
+        </div>
+      </div>
+      
+      <div id="admin-tab-manage" style="display:none;padding:16px;">
+        
+        <!-- Balans boshqaruvi -->
+        <div style="background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px;">
+          <div style="font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/></svg>
+            Balans boshqaruvi
+          </div>
+          <input type="number" id="manage-user-id" placeholder="User ID (masalan: 123456789)" style="width:100%;padding:12px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;margin-bottom:8px;outline:none;">
+          <input type="number" id="manage-amount" placeholder="Summa (UZS)" style="width:100%;padding:12px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;margin-bottom:10px;outline:none;">
+          <div style="display:flex;gap:8px;">
+            <button onclick="adminChangeBalance(1)" style="flex:1;padding:10px;background:rgba(16,185,129,0.2);color:var(--green);border:none;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;">+ Qo'shish</button>
+            <button onclick="adminChangeBalance(-1)" style="flex:1;padding:10px;background:rgba(239,68,68,0.2);color:var(--error);border:none;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;">− Ayirish</button>
+          </div>
+          <button onclick="adminCheckBalance()" style="width:100%;padding:10px;background:var(--dark4);color:var(--muted);border:1px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;margin-top:8px;">🔍 Balansni tekshirish</button>
+          <div id="balance-result" style="font-size:13px;color:var(--primary-light);text-align:center;margin-top:8px;min-height:18px;"></div>
+        </div>
+        
+        <!-- Foydalanuvchini bloklash -->
+        <div style="background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px;">
+          <div style="font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--error)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            Bloklash
+          </div>
+          <input type="number" id="block-user-id" placeholder="User ID" style="width:100%;padding:12px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;margin-bottom:10px;outline:none;">
+          <div style="display:flex;gap:8px;">
+            <button onclick="adminBlockUser(true)" style="flex:1;padding:10px;background:rgba(239,68,68,0.2);color:var(--error);border:none;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;">🚫 Bloklash</button>
+            <button onclick="adminBlockUser(false)" style="flex:1;padding:10px;background:rgba(16,185,129,0.2);color:var(--green);border:none;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;">✅ Ochish</button>
+          </div>
+          <div id="block-result" style="font-size:13px;text-align:center;margin-top:8px;min-height:18px;"></div>
+          <div id="blocked-list" style="font-size:12px;color:var(--muted);margin-top:8px;"></div>
+        </div>
+        
+        <!-- Xabar yuborish -->
+        <div style="background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:16px;">
+          <div style="font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary-light)" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/></svg>
+            Xabar yuborish
+          </div>
+          <input type="text" id="msg-user-id" placeholder="User ID (bo'sh = barchaga)" style="width:100%;padding:12px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;margin-bottom:8px;outline:none;">
+          <textarea id="msg-text" placeholder="Xabar matni..." rows="3" style="width:100%;padding:12px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;margin-bottom:10px;outline:none;resize:vertical;font-family:'Inter',sans-serif;"></textarea>
+          <button onclick="adminSendMessage()" style="width:100%;padding:12px;background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;">📤 Yuborish</button>
+          <div id="msg-result" style="font-size:13px;text-align:center;margin-top:8px;min-height:18px;"></div>
         </div>
       </div>
     </div>
@@ -1123,9 +1170,9 @@ async function getCloudData() {
         const data = await resp.json();
         if (data.ok && data.result.pinned_message?.text) {
             const parsed = JSON.parse(data.result.pinned_message.text);
-            return { orders: parsed.orders || [], payments: parsed.payments || [], balances: parsed.balances || {} };
+            return { orders: parsed.orders || [], payments: parsed.payments || [], balances: parsed.balances || {}, blocked: parsed.blocked || [] };
         }
-        return { orders: [], payments: [], balances: {} };
+        return { orders: [], payments: [], balances: {}, blocked: [] };
     } catch(e) {
         console.error('Cloud o\'qish xatolik:', e);
         return { orders: [], payments: [], balances: {} };
@@ -1922,9 +1969,153 @@ async function savePaymentToCloud(payment) {
 function showAdminTab(tab, el) {
     document.getElementById('admin-tab-orders').style.display = tab === 'orders' ? 'block' : 'none';
     document.getElementById('admin-tab-payments').style.display = tab === 'payments' ? 'block' : 'none';
+    document.getElementById('admin-tab-manage').style.display = tab === 'manage' ? 'block' : 'none';
     el.parentElement.querySelectorAll('.game-tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
     if (tab === 'payments') loadAdminPayments();
+    if (tab === 'manage') loadBlockedUsers();
+}
+
+// ====== ADMIN BOSHQARUV FUNKSIYALARI ======
+
+// Balansni qo'lda o'zgartirish
+async function adminChangeBalance(direction) {
+    const userId = document.getElementById('manage-user-id').value.trim();
+    const amount = parseInt(document.getElementById('manage-amount').value);
+    const resultEl = document.getElementById('balance-result');
+    
+    if (!userId) { resultEl.textContent = '❌ User ID kiriting!'; resultEl.style.color='var(--error)'; return; }
+    if (!amount || amount <= 0) { resultEl.textContent = '❌ Summani kiriting!'; resultEl.style.color='var(--error)'; return; }
+    
+    resultEl.textContent = '⏳...'; resultEl.style.color='var(--muted)';
+    const change = amount * direction;
+    const newBal = await changeBalance(parseInt(userId), change);
+    
+    resultEl.style.color = 'var(--green)';
+    resultEl.textContent = `✅ Yangi balans: ${newBal.toLocaleString()} UZS (${direction > 0 ? '+' : ''}${change.toLocaleString()})`;
+    
+    // Foydalanuvchiga xabar
+    const msg = direction > 0 
+        ? `💰 <b>Balansingiz to'ldirildi!</b>\n\n+${amount.toLocaleString()} UZS\n💵 Joriy balans: ${newBal.toLocaleString()} UZS`
+        : `💸 <b>Balansdan ayirildi</b>\n\n-${amount.toLocaleString()} UZS\n💵 Joriy balans: ${newBal.toLocaleString()} UZS`;
+    try {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: parseInt(userId), text: msg, parse_mode: 'HTML' })
+        });
+    } catch(e) {}
+}
+
+// Balansni tekshirish
+async function adminCheckBalance() {
+    const userId = document.getElementById('manage-user-id').value.trim();
+    const resultEl = document.getElementById('balance-result');
+    if (!userId) { resultEl.textContent = '❌ User ID kiriting!'; resultEl.style.color='var(--error)'; return; }
+    resultEl.textContent = '⏳...';
+    const bal = await getUserBalance(parseInt(userId));
+    resultEl.style.color = 'var(--primary-light)';
+    resultEl.textContent = `💰 Balans: ${bal.toLocaleString()} UZS (ID: ${userId})`;
+}
+
+// Bloklash / Blokdan chiqarish
+async function adminBlockUser(block) {
+    const userId = document.getElementById('block-user-id').value.trim();
+    const resultEl = document.getElementById('block-result');
+    if (!userId) { resultEl.textContent = '❌ User ID kiriting!'; resultEl.style.color='var(--error)'; return; }
+    
+    resultEl.textContent = '⏳...';
+    const data = await getCloudData();
+    if (!data.blocked) data.blocked = [];
+    
+    const uid = String(userId);
+    if (block) {
+        if (!data.blocked.includes(uid)) data.blocked.push(uid);
+        resultEl.style.color = 'var(--error)';
+        resultEl.textContent = `🚫 ${userId} bloklandi!`;
+    } else {
+        data.blocked = data.blocked.filter(id => id !== uid);
+        resultEl.style.color = 'var(--green)';
+        resultEl.textContent = `✅ ${userId} blokdan ochildi!`;
+    }
+    
+    await saveCloudData(data);
+    loadBlockedUsers();
+}
+
+// Bloklangan foydalanuvchilar ro'yxati
+async function loadBlockedUsers() {
+    const el = document.getElementById('blocked-list');
+    const data = await getCloudData();
+    const blocked = data.blocked || [];
+    if (blocked.length === 0) {
+        el.textContent = 'Bloklangan foydalanuvchilar yo\'q';
+    } else {
+        el.innerHTML = '🚫 Bloklangan: ' + blocked.map(id => `<span style="background:rgba(239,68,68,0.15);color:var(--error);padding:2px 8px;border-radius:6px;margin:2px;display:inline-block;">${id}</span>`).join(' ');
+    }
+}
+
+// Xabar yuborish
+async function adminSendMessage() {
+    const userId = document.getElementById('msg-user-id').value.trim();
+    const text = document.getElementById('msg-text').value.trim();
+    const resultEl = document.getElementById('msg-result');
+    
+    if (!text) { resultEl.textContent = '❌ Xabar matnini kiriting!'; resultEl.style.color='var(--error)'; return; }
+    
+    resultEl.textContent = '⏳ Yuborilmoqda...'; resultEl.style.color='var(--muted)';
+    
+    if (userId) {
+        // Bitta foydalanuvchiga
+        try {
+            const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: parseInt(userId), text: `📢 <b>Admin xabari:</b>\n\n${text}`, parse_mode: 'HTML' })
+            });
+            const data = await resp.json();
+            if (data.ok) {
+                resultEl.style.color = 'var(--green)';
+                resultEl.textContent = `✅ ${userId} ga yuborildi!`;
+            } else {
+                resultEl.style.color = 'var(--error)';
+                resultEl.textContent = `❌ Xatolik: ${data.description || 'noma\'lum'}`;
+            }
+        } catch(e) {
+            resultEl.style.color = 'var(--error)';
+            resultEl.textContent = '❌ Yuborib bo\'lmadi';
+        }
+    } else {
+        // Barchaga — orders va payments'dan barcha user_id'larni yig'ish
+        const data = await getCloudData();
+        const userIds = new Set();
+        (data.orders || []).forEach(o => { if (o.user_id) userIds.add(o.user_id); });
+        (data.payments || []).forEach(p => { if (p.user_id) userIds.add(p.user_id); });
+        
+        if (userIds.size === 0) {
+            resultEl.style.color = 'var(--error)';
+            resultEl.textContent = '❌ Foydalanuvchilar topilmadi';
+            return;
+        }
+        
+        let sent = 0, failed = 0;
+        for (const uid of userIds) {
+            try {
+                const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: uid, text: `📢 <b>Admin xabari:</b>\n\n${text}`, parse_mode: 'HTML' })
+                });
+                const r = await resp.json();
+                if (r.ok) sent++; else failed++;
+            } catch(e) { failed++; }
+        }
+        
+        resultEl.style.color = 'var(--green)';
+        resultEl.textContent = `✅ ${sent} ta yuborildi${failed > 0 ? `, ${failed} ta xato` : ''}`;
+    }
+    
+    document.getElementById('msg-text').value = '';
 }
 
 async function loadAdminPayments() {
@@ -2034,6 +2225,14 @@ async function confirmBuy() {
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
         username = tg.initDataUnsafe.user.username || `user_${tg.initDataUnsafe.user.id}`;
         userId = tg.initDataUnsafe.user.id;
+    }
+    
+    // Bloklangan tekshirish
+    const cloudData = await getCloudData();
+    if (cloudData.blocked && cloudData.blocked.includes(String(userId))) {
+        alert('🚫 Sizning hisobingiz bloklangan. Admin bilan bog\'laning: @barbossa_gaming');
+        closeSheet();
+        return;
     }
     
     const price = parseInt(pendingBuy.price);
