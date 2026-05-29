@@ -728,7 +728,8 @@
   <div class="page scroll-content" id="page-admin">
     <div class="page-header">
       <div class="page-title">Admin Panel</div>
-      <div class="refresh-btn" onclick="logoutAdmin()">🚪</div>
+      <div class="refresh-btn" onclick="loadAdminOrdersFromAPI()" title="Yangilash">↻</div>
+      <div class="refresh-btn" onclick="logoutAdmin()" title="Chiqish">🚪</div>
     </div>
     
     <div id="admin-login" class="admin-login">
@@ -992,8 +993,11 @@ try { tg = window.Telegram?.WebApp || null; if(tg){tg.expand();tg.ready();} } ca
 let navigationHistory = ['home'];
 let isAdminLoggedIn = false;
 
-// ВАЖНО: Замените на ваш реальный Telegram ID
-const MY_ADMIN_ID = 5273703401; 
+// Admin IDlar ro'yxati
+const ADMIN_IDS = [5273703401, 954670875]; 
+
+// Buyurtmalar shu chatga saqlanadi (birinchi admin)
+const ADMIN_CHAT_ID = 5273703401;
 
 // Bot API — CORS qo'llab-quvvatlanadi!
 const BOT_TOKEN_WEB = '7698086227:AAEgwdmDHOyyFzv0-4rW5RPUA-2i7M_6dEg';
@@ -1058,11 +1062,14 @@ async function sendOrderToBot(order) {
         `📅 ${order.date}`;
     
     try {
-        await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: ADMIN_CHAT_ID, text: text, parse_mode: 'HTML' })
-        });
+        // Barcha adminlarga xabar yuborish
+        for (const adminId of ADMIN_IDS) {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: adminId, text: text, parse_mode: 'HTML' })
+            });
+        }
     } catch(e) {}
     
     // 3. Foydalanuvchiga tasdiqlash
@@ -1084,7 +1091,7 @@ async function sendOrderToBot(order) {
 // Проверяем, является ли текущий пользователь админом
 function isUserAdmin() {
     if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-        return tg.initDataUnsafe.user.id === MY_ADMIN_ID;
+        return ADMIN_IDS.includes(tg.initDataUnsafe.user.id);
     }
     return false;
 }
@@ -1293,9 +1300,11 @@ async function loadAdminOrdersFromAPI() {
     
     adminOrders.forEach((order, index) => {
         const statusClass = order.status === 'success' ? 'status-success' : 
-                           order.status === 'pending' ? 'status-pending' : 'status-error';
+                           order.status === 'pending' ? 'status-pending' : 
+                           order.status === 'wrong_id' ? 'status-pending' : 'status-error';
         const statusText = order.status === 'success' ? 'Muvaffaqiyatli' : 
-                          order.status === 'pending' ? 'Kutishda' : 'Xato';
+                          order.status === 'pending' ? 'Kutishda' : 
+                          order.status === 'wrong_id' ? 'ID xato' : 'Rad etildi';
         
         const orderItem = document.createElement('div');
         orderItem.className = 'order-item';
@@ -1314,11 +1323,16 @@ async function loadAdminOrdersFromAPI() {
             <div style="font-size:11px;color:var(--muted);margin-top:4px;">${escapeHTML(order.date)}</div>
             <div style="font-size:11px;color:var(--muted);margin-top:2px;">👤 @${escapeHTML(order.username || 'unknown')}</div>
             ${order.status === 'pending' ? `
-                <div class="order-actions">
+                <div class="order-actions" style="flex-wrap:wrap;">
                     <button class="order-btn order-btn-success" onclick="updateAdminOrderStatus(${index}, 'success')">✅ Tasdiqlash</button>
                     <button class="order-btn order-btn-error" onclick="updateAdminOrderStatus(${index}, 'error')">❌ Rad etish</button>
+                    <button class="order-btn" style="background:rgba(245,158,11,0.2);color:var(--pending);" onclick="updateAdminOrderStatus(${index}, 'wrong_id')">⚠️ ID xato</button>
                 </div>
-            ` : ''}
+            ` : `
+                <div class="order-actions" style="margin-top:8px;">
+                    <button class="order-btn" style="background:rgba(255,255,255,0.05);color:var(--muted);font-size:12px;" onclick="deleteAdminOrder(${index})">🗑 O'chirish</button>
+                </div>
+            `}
         `;
         ordersList.appendChild(orderItem);
     });
@@ -1333,17 +1347,36 @@ async function updateAdminOrderStatus(index, newStatus) {
         
         // Foydalanuvchiga Telegram xabar
         if (order.user_id && order.user_id !== 0) {
-            const statusMsg = newStatus === 'success' 
-                ? `✅ <b>Buyurtma tasdiqlandi!</b>\n\n📦 ${order.package} (${order.game})\n💰 ${order.price}\n\nYaqin orada hisobingizga qo'shiladi. Rahmat! 🎉`
-                : `❌ <b>Buyurtma rad etildi.</b>\n\n📦 ${order.package} (${order.game})\n\nIltimos, operator bilan bog'laning: @barbossa_gaming`;
+            let statusMsg = '';
+            if (newStatus === 'success') {
+                statusMsg = `✅ <b>Buyurtma tasdiqlandi!</b>\n\n📦 ${order.package} (${order.game})\n💰 ${order.price}\n\nYaqin orada hisobingizga qo'shiladi. Rahmat! 🎉`;
+            } else if (newStatus === 'wrong_id') {
+                statusMsg = `⚠️ <b>Player ID xato!</b>\n\n📦 ${order.package} (${order.game})\n🆔 Siz kiritgan ID: ${order.playerId}\n\nIltimos, to'g'ri ID bilan qayta buyurtma bering.`;
+            } else {
+                statusMsg = `❌ <b>Buyurtma rad etildi.</b>\n\n📦 ${order.package} (${order.game})\n\nIltimos, operator bilan bog'laning: @ashaf_old`;
+            }
             
             try {
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: order.user_id, text: statusMsg, parse_mode: 'HTML' })
+                });
+            } catch(e) {}
+        }
+        
+        // Ikkinchi adminga ham xabar
+        const statusEmoji = newStatus === 'success' ? '✅' : newStatus === 'wrong_id' ? '⚠️' : '❌';
+        const statusLabel = newStatus === 'success' ? 'TASDIQLANDI' : newStatus === 'wrong_id' ? 'ID XATO' : 'RAD ETILDI';
+        for (const adminId of ADMIN_IDS) {
+            if (adminId === ADMIN_CHAT_ID) continue; // Asosiy admin allaqachon ko'rgan
+            try {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN_WEB}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        chat_id: order.user_id,
-                        text: statusMsg,
+                        chat_id: adminId,
+                        text: `${statusEmoji} <b>${statusLabel}</b>\n\n📦 ${order.package} (${order.game})\n👤 @${order.username}\n🆔 ${order.playerId}`,
                         parse_mode: 'HTML'
                     })
                 });
@@ -1351,7 +1384,19 @@ async function updateAdminOrderStatus(index, newStatus) {
         }
         
         loadAdminOrdersFromAPI();
-        alert(newStatus === 'success' ? 'Buyurtma tasdiqlandi!' : 'Buyurtma rad etildi!');
+        const msgs = { success: 'Buyurtma tasdiqlandi!', wrong_id: 'ID xato — foydalanuvchiga xabar yuborildi!', error: 'Buyurtma rad etildi!' };
+        alert(msgs[newStatus] || 'Holat yangilandi!');
+    }
+}
+
+// Buyurtmani o'chirish
+async function deleteAdminOrder(index) {
+    if (!confirm('Bu buyurtmani o\'chirishni xohlaysizmi?')) return;
+    let orders = await getCloudOrders();
+    if (orders[index]) {
+        orders.splice(index, 1);
+        await saveCloudOrders(orders);
+        loadAdminOrdersFromAPI();
     }
 }
 
@@ -1398,9 +1443,11 @@ function filterHistory(filter, el) {
     
     filteredHistory.forEach(item => {
         const statusClass = item.status === 'success' ? 'status-success' : 
-                           item.status === 'pending' ? 'status-pending' : 'status-error';
+                           item.status === 'pending' ? 'status-pending' : 
+                           item.status === 'wrong_id' ? 'status-pending' : 'status-error';
         const statusText = item.status === 'success' ? 'Muvaffaqiyatli' : 
-                          item.status === 'pending' ? 'Kutishda' : 'Xato';
+                          item.status === 'pending' ? 'Kutishda' : 
+                          item.status === 'wrong_id' ? 'ID xato' : 'Rad etildi';
         
         const historyItem = document.createElement('div');
         historyItem.className = 'history-item';
