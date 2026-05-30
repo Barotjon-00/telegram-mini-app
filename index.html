@@ -314,6 +314,15 @@
       <span>Kanalga obuna bo'ling</span>
     </button>
 
+    <!-- YANGILIKLAR -->
+    <div id="news-section" style="margin:0 16px 20px;display:none;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <div style="width:3px;height:18px;background:linear-gradient(180deg,#F59E0B,#EF4444);border-radius:2px;"></div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:0.5px;">📰 Yangiliklar</div>
+      </div>
+      <div id="news-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+
     <div class="support-section">
       <div class="support-title">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-light)" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5z"/></svg>
@@ -868,6 +877,26 @@
           <button onclick="adminSendMessage()" style="width:100%;padding:12px;background:linear-gradient(135deg,#8B5CF6,#EC4899);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;">📤 Yuborish</button>
           <div id="msg-result" style="font-size:13px;text-align:center;margin-top:8px;min-height:18px;"></div>
         </div>
+        
+        <!-- Yangiliklar boshqaruvi -->
+        <div style="background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:14px;">
+          <div style="font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+            Yangiliklar
+          </div>
+          <select id="news-type" style="width:100%;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;margin-bottom:8px;outline:none;">
+            <option value="aksiya">🏷 Aksiya / Chegirma</option>
+            <option value="yangilik">📰 Yangilik</option>
+            <option value="muhim">🔴 Muhim xabar</option>
+          </select>
+          <input type="text" id="news-title" placeholder="Sarlavha" style="width:100%;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;margin-bottom:8px;outline:none;">
+          <textarea id="news-text" placeholder="Yangilik matni..." rows="2" style="width:100%;padding:10px;background:var(--dark4);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;margin-bottom:8px;outline:none;resize:vertical;font-family:'Inter',sans-serif;"></textarea>
+          <div style="display:flex;gap:8px;">
+            <button onclick="adminAddNews()" style="flex:1;padding:10px;background:linear-gradient(135deg,#F59E0B,#EF4444);color:#fff;border:none;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;">📰 Chop etish</button>
+            <button onclick="adminClearNews()" style="padding:10px 14px;background:var(--dark4);color:var(--muted);border:1px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer;">🗑</button>
+          </div>
+          <div id="news-admin-list" style="margin-top:10px;"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1186,9 +1215,9 @@ async function getCloudData() {
         const data = await resp.json();
         if (data.ok && data.result.pinned_message?.text) {
             const parsed = JSON.parse(data.result.pinned_message.text);
-            return { orders: parsed.orders || [], payments: parsed.payments || [], balances: parsed.balances || {}, blocked: parsed.blocked || [] };
+            return { orders: parsed.orders || [], payments: parsed.payments || [], balances: parsed.balances || {}, blocked: parsed.blocked || [], news: parsed.news || [] };
         }
-        return { orders: [], payments: [], balances: {}, blocked: [] };
+        return { orders: [], payments: [], balances: {}, blocked: [], news: [] };
     } catch(e) {
         console.error('Cloud o\'qish xatolik:', e);
         return { orders: [], payments: [], balances: {} };
@@ -1369,7 +1398,108 @@ function loadUserData() {
     }
 }
 loadUserData();
-loadUserBalance(); // Balansni bulutdan yuklash
+loadUserBalance();
+loadHomeNews();
+
+// ====== YANGILIKLAR TIZIMI ======
+async function loadHomeNews() {
+    try {
+        const data = await getCloudData();
+        const news = data.news || [];
+        const section = document.getElementById('news-section');
+        const list = document.getElementById('news-list');
+        
+        if (news.length === 0) { section.style.display = 'none'; return; }
+        
+        section.style.display = 'block';
+        list.innerHTML = '';
+        
+        const typeStyles = {
+            aksiya: { icon: '🏷', bg: 'linear-gradient(135deg,rgba(245,158,11,0.12),rgba(239,68,68,0.08))', border: 'rgba(245,158,11,0.3)', badge: 'background:#F59E0B;color:#000' },
+            yangilik: { icon: '📰', bg: 'linear-gradient(135deg,rgba(59,130,246,0.12),rgba(139,92,246,0.08))', border: 'rgba(59,130,246,0.3)', badge: 'background:#3B82F6;color:#fff' },
+            muhim: { icon: '🔴', bg: 'linear-gradient(135deg,rgba(239,68,68,0.12),rgba(236,72,153,0.08))', border: 'rgba(239,68,68,0.3)', badge: 'background:#EF4444;color:#fff' }
+        };
+        
+        news.forEach(item => {
+            const s = typeStyles[item.type] || typeStyles.yangilik;
+            const badgeText = item.type === 'aksiya' ? 'AKSIYA' : item.type === 'muhim' ? 'MUHIM' : 'YANGILIK';
+            
+            const el = document.createElement('div');
+            el.style.cssText = `background:${s.bg};border:1px solid ${s.border};border-radius:14px;padding:14px;cursor:pointer;transition:transform 0.15s;`;
+            el.onmousedown = function(){ this.style.transform='scale(0.98)'; };
+            el.onmouseup = function(){ this.style.transform=''; };
+            el.innerHTML = `
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                    <span style="font-size:16px;">${s.icon}</span>
+                    <span style="${s.badge};font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;font-family:'Rajdhani',sans-serif;letter-spacing:0.5px;">${badgeText}</span>
+                    <span style="font-size:10px;color:var(--muted);margin-left:auto;">${escapeHTML(item.date || '')}</span>
+                </div>
+                <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">${escapeHTML(item.title)}</div>
+                <div style="font-size:12px;color:var(--muted);line-height:1.5;">${escapeHTML(item.text)}</div>
+            `;
+            list.appendChild(el);
+        });
+    } catch(e) {}
+}
+
+async function adminAddNews() {
+    const type = document.getElementById('news-type').value;
+    const title = document.getElementById('news-title').value.trim();
+    const text = document.getElementById('news-text').value.trim();
+    
+    if (!title || !text) { alert('Sarlavha va matnni kiriting!'); return; }
+    
+    const data = await getCloudData();
+    if (!data.news) data.news = [];
+    
+    data.news.unshift({
+        type, title, text,
+        date: new Date().toLocaleDateString('uz-UZ')
+    });
+    
+    if (data.news.length > 5) data.news.length = 5;
+    await saveCloudData(data);
+    
+    document.getElementById('news-title').value = '';
+    document.getElementById('news-text').value = '';
+    
+    loadNewsAdminList();
+    alert('✅ Yangilik chop etildi!');
+}
+
+async function adminClearNews() {
+    if (!confirm('Barcha yangiliklar o\'chirilsinmi?')) return;
+    const data = await getCloudData();
+    data.news = [];
+    await saveCloudData(data);
+    loadNewsAdminList();
+    alert('🗑 Yangiliklar tozalandi!');
+}
+
+async function adminDeleteNews(index) {
+    const data = await getCloudData();
+    if (data.news && data.news[index]) {
+        data.news.splice(index, 1);
+        await saveCloudData(data);
+        loadNewsAdminList();
+    }
+}
+
+async function loadNewsAdminList() {
+    const el = document.getElementById('news-admin-list');
+    const data = await getCloudData();
+    const news = data.news || [];
+    
+    if (news.length === 0) { el.innerHTML = '<div style="font-size:12px;color:var(--muted);text-align:center;padding:8px;">Yangiliklar yo\'q</div>'; return; }
+    
+    const icons = { aksiya: '🏷', yangilik: '📰', muhim: '🔴' };
+    el.innerHTML = news.map((n, i) => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+            <div style="font-size:12px;color:var(--text);flex:1;">${icons[n.type] || '📰'} ${escapeHTML(n.title)}</div>
+            <button onclick="adminDeleteNews(${i})" style="background:none;border:none;color:var(--error);font-size:14px;cursor:pointer;padding:4px 8px;">✕</button>
+        </div>
+    `).join('');
+}
 
 // Stars
 (function(){
@@ -2001,7 +2131,7 @@ function showAdminTab(tab, el) {
     el.classList.add('active');
     if (tab === 'payments') loadAdminPayments();
     if (tab === 'stats') loadAdminStats();
-    if (tab === 'manage') loadBlockedUsers();
+    if (tab === 'manage') { loadBlockedUsers(); loadNewsAdminList(); }
 }
 
 // ====== BUYURTMA QIDIRISH ======
