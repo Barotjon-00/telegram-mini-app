@@ -254,11 +254,11 @@
     </div>
     <div class="logo-section">
       <div class="logo">Arena X Donate</div>
-      <div class="tagline">Biz bilamiz — oson va qulay!</div>
+      <div class="tagline" data-i18n="tagline">Biz bilamiz — oson va qulay!</div>
     </div>
     <div class="balance-card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-        <div class="bal-label">Hisobingiz</div>
+        <div class="bal-label" data-i18n="balance_label">Hisobingiz</div>
         <div style="font-size:10px;color:var(--green);background:rgba(16,185,129,0.15);padding:3px 10px;border-radius:20px;font-weight:600;">● Faol</div>
       </div>
       <div class="bal-amount" id="home-balance">0 UZS</div>
@@ -311,14 +311,14 @@
 
     <button class="channel-btn" onclick="openChannel()">
       <span class="channel-icon">📢</span>
-      <span>Kanalga obuna bo'ling</span>
+      <span data-i18n="subscribe_btn">Kanalga obuna bo'ling</span>
     </button>
 
     <!-- YANGILIKLAR -->
     <div id="news-section" style="margin:0 16px 20px;display:none;">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
         <div style="width:3px;height:18px;background:linear-gradient(180deg,#F59E0B,#EF4444);border-radius:2px;"></div>
-        <div style="font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:0.5px;">📰 Yangiliklar</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:0.5px;"><span data-i18n="news_title">📰 Yangiliklar</span></div>
       </div>
       <div id="news-list" style="display:flex;flex-direction:column;gap:10px;"></div>
     </div>
@@ -326,13 +326,13 @@
     <div class="support-section">
       <div class="support-title">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-light)" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5z"/></svg>
-        <span>Qo'llab-quvvatlash</span>
+        <span data-i18n="support_title">Qo'llab-quvvatlash</span>
       </div>
       <div class="support-links">
         <a class="support-link" onclick="callPhone()">
           <span class="support-link-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>
           <div class="support-link-text">
-            <div class="support-link-label">Telefon</div>
+            <div class="support-link-label" data-i18n="phone_label">Telefon</div>
             <div class="support-link-val">+998 90 589 01 92</div>
           </div>
           <span class="support-link-arrow">›</span>
@@ -340,7 +340,7 @@
         <a class="support-link" onclick="openTelegramSupport()">
           <span class="support-link-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg></span>
           <div class="support-link-text">
-            <div class="support-link-label">Telegram</div>
+            <div class="support-link-label" data-i18n="tg_label">Telegram</div>
             <div class="support-link-val">@barbossa_gaming</div>
           </div>
           <span class="support-link-arrow" style="color:#8B5CF6">›</span>
@@ -677,11 +677,11 @@
   <!-- HAMYON -->
   <div class="page scroll-content" id="page-hamyon">
     <div class="page-header">
-      <div class="page-title">Hamyon</div>
+      <div class="page-title" data-i18n="wallet_title">Hamyon</div>
       <div class="refresh-btn" onclick="this.style.transform='rotate(360deg)';setTimeout(()=>this.style.transform='',400)">↻</div>
     </div>
     <div class="hamyon-card">
-      <div class="hamyon-label">Joriy balans</div>
+      <div class="hamyon-label" data-i18n="current_bal">Joriy balans</div>
       <div class="hamyon-amount">0</div>
       <div class="hamyon-sub">UZS</div>
       <button class="hamyon-topup" onclick="topupBalance(event,this)"><span>+</span> Balansni to'ldirish</button>
@@ -699,11 +699,11 @@
   <!-- O'YINLAR -->
   <div class="page scroll-content" id="page-oyinlar">
     <div class="page-header">
-      <div class="page-title">O'yinlar</div>
+      <div class="page-title" data-i18n="games_title">O'yinlar</div>
     </div>
     <div class="section-header">
       <div class="section-line"></div>
-      <div class="section-title">Barcha o'yinlar</div>
+      <div class="section-title" data-i18n="all_games">Barcha o'yinlar</div>
     </div>
     <div class="games-grid">
       <div class="game-card featured" onclick="openGamePage('pubg')" style="background:linear-gradient(135deg,rgba(245,158,11,0.12),var(--dark3));">
@@ -744,15 +744,15 @@
   <!-- TARIX -->
   <div class="page scroll-content" id="page-tarix">
     <div class="page-header">
-      <div class="page-title">Tarix</div>
+      <div class="page-title" data-i18n="hist_title">Tarix</div>
       <div class="refresh-btn" onclick="loadHistory()">↻</div>
     </div>
     
     <div class="history-filters">
-      <div class="history-filter active" onclick="filterHistory('all', this)">Barchasi</div>
-      <div class="history-filter" onclick="filterHistory('success', this)">Muvaffaqiyatli</div>
-      <div class="history-filter" onclick="filterHistory('pending', this)">Kutishda</div>
-      <div class="history-filter" onclick="filterHistory('error', this)">Xato</div>
+      <div class="history-filter active" onclick="filterHistory('all', this)" data-i18n="filter_all">Barchasi</div>
+      <div class="history-filter" onclick="filterHistory('success', this)" data-i18n="filter_success">Muvaffaqiyatli</div>
+      <div class="history-filter" onclick="filterHistory('pending', this)" data-i18n="filter_pending">Kutishda</div>
+      <div class="history-filter" onclick="filterHistory('error', this)" data-i18n="filter_error">Xato</div>
     </div>
     
     <div class="history-list" id="history-list"></div>
@@ -913,19 +913,19 @@
     </div>
     <div class="menu-list">
       <div class="menu-item" onclick="openLang()">
-        <div class="menu-text"><div class="mtitle">Ilova tili</div><div class="msub" id="lang-sub">O'zbek</div></div>
+        <div class="menu-text"><div class="mtitle" data-i18n="profile_lang">Ilova tili</div><div class="msub" id="lang-sub">O'zbek</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openSupport()">
-        <div class="menu-text"><div class="mtitle">Qo'llab-quvvatlash</div><div class="msub">24/7 yordam</div></div>
+        <div class="menu-text"><div class="mtitle" data-i18n="profile_support">Qo'llab-quvvatlash</div><div class="msub" data-i18n="profile_24">24/7 yordam</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openAbout()">
-        <div class="menu-text"><div class="mtitle">Ilova haqida</div><div class="msub">v1.0.0</div></div>
+        <div class="menu-text"><div class="mtitle" data-i18n="profile_about">Ilova haqida</div><div class="msub">v1.0.0</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" onclick="openCurrency()">
-        <div class="menu-text"><div class="mtitle">Valyutani o'zgartirish</div><div class="msub" id="currency-sub">UZS — so'm</div></div>
+        <div class="menu-text"><div class="mtitle" data-i18n="profile_currency">Valyutani o'zgartirish</div><div class="msub" id="currency-sub">UZS — so'm</div></div>
         <div class="menu-arrow">›</div>
       </div>
       <div class="menu-item" id="admin-menu-item" style="display:none; border-color:var(--primary);" onclick="openAdmin()">
@@ -940,27 +940,27 @@
     <div class="nav-item active" onclick="switchPage('home',this)">
       <div class="nav-active-dot"></div>
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1V9.5z"/></svg></div>
-      <div class="nav-label">Asosiy</div>
+      <div class="nav-label" data-i18n="nav_home">Asosiy</div>
     </div>
     <div class="nav-item" onclick="switchPage('hamyon',this)">
       <div class="nav-active-dot"></div>
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 7H3a1 1 0 00-1 1v10a1 1 0 001 1h18a1 1 0 001-1V8a1 1 0 00-1-1z"/><path d="M2 7V6a2 2 0 012-2h16a2 2 0 012 2v1"/><circle cx="17" cy="14" r="1.5"/></svg></div>
-      <div class="nav-label">Hamyon</div>
+      <div class="nav-label" data-i18n="nav_wallet">Hamyon</div>
     </div>
     <div class="nav-item" onclick="switchPage('oyinlar',this)">
       <div class="nav-active-dot"></div>
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg></div>
-      <div class="nav-label">O'yinlar</div>
+      <div class="nav-label" data-i18n="nav_games">O'yinlar</div>
     </div>
     <div class="nav-item" onclick="switchPage('tarix',this)">
       <div class="nav-active-dot"></div>
       <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-      <div class="nav-label">Tarix</div>
+      <div class="nav-label" data-i18n="nav_history">Tarix</div>
     </div>
     <div class="nav-item" onclick="switchPage('profil',this)">
       <div class="nav-active-dot"></div>
       <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21c0-4.4-3.6-8-8-8s-8 3.6-8 8"/></svg></div>
-      <div class="nav-label">Profil</div>
+      <div class="nav-label" data-i18n="nav_profile">Profil</div>
     </div>
   </nav>
 </div>
@@ -972,7 +972,7 @@
 <div class="sheet" id="sheet-lang">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title">Ilova tili</div>
+    <div class="sheet-title" data-i18n="lang_title">Ilova tili</div>
   </div>
   <div class="sheet-body">
     <div class="option-item selected" id="lang-uz" onclick="setLang('uz')">
@@ -1003,13 +1003,13 @@
 <div class="sheet" id="sheet-support">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title">Qo'llab-quvvatlash</div>
+    <div class="sheet-title" data-i18n="support_sheet">Qo'llab-quvvatlash</div>
   </div>
   <div class="sheet-body">
     <a class="support-item" onclick="callPhone()">
       <span class="support-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>
       <div class="support-text">
-        <div class="support-label">Telefon</div>
+        <div class="support-label" data-i18n="phone_label">Telefon</div>
         <div class="support-val">+998 90 589 01 92</div>
       </div>
       <span class="support-arrow">›</span>
@@ -1017,7 +1017,7 @@
     <a class="support-item" onclick="openTelegram()">
       <span class="support-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg></span>
       <div class="support-text">
-        <div class="support-label">Telegram</div>
+        <div class="support-label" data-i18n="tg_label">Telegram</div>
         <div class="support-val">@barbossa_gaming</div>
       </div>
       <span class="support-arrow" style="color:#8B5CF6">›</span>
@@ -1029,13 +1029,13 @@
 <div class="sheet" id="sheet-about">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title">Ilova haqida</div>
+    <div class="sheet-title" data-i18n="about_title">Ilova haqida</div>
   </div>
   <div class="sheet-body">
-    <div class="about-row"><span class="about-key">Ilova nomi</span><span class="about-val">Arena X Donate</span></div>
-    <div class="about-row"><span class="about-key">Versiya</span><span class="about-val">v1.0.0</span></div>
-    <div class="about-row"><span class="about-key">Platforma</span><span class="about-val">Telegram Mini App</span></div>
-    <div class="about-row"><span class="about-key">Ishlab chiquvchi</span><span class="about-val">@barbossa_gaming</span></div>
+    <div class="about-row"><span class="about-key" data-i18n="about_name">Ilova nomi</span><span class="about-val">Arena X Donate</span></div>
+    <div class="about-row"><span class="about-key" data-i18n="about_version">Versiya</span><span class="about-val">v1.0.0</span></div>
+    <div class="about-row"><span class="about-key" data-i18n="about_platform">Platforma</span><span class="about-val">Telegram Mini App</span></div>
+    <div class="about-row"><span class="about-key" data-i18n="about_dev">Ishlab chiquvchi</span><span class="about-val">@barbossa_gaming</span></div>
   </div>
 </div>
 
@@ -1043,7 +1043,7 @@
 <div class="sheet" id="sheet-currency">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title">Valyutani tanlang</div>
+    <div class="sheet-title" data-i18n="currency_title">Valyutani tanlang</div>
   </div>
   <div class="sheet-body">
     <div class="option-item selected" id="cur-uzs" onclick="setCurrency('UZS','UZS — so\'m')">
@@ -1074,7 +1074,7 @@
 <div class="sheet" id="sheet-topup">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title">Balansni to'ldirish</div>
+    <div class="sheet-title" data-i18n="topup_title">Balansni to'ldirish</div>
   </div>
   <div class="sheet-body">
     <div style="font-size:12px;color:var(--muted);margin-bottom:12px;text-align:center;">Summani kiriting</div>
@@ -1161,7 +1161,7 @@
 <div class="sheet" id="sheet-buy">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title" id="buy-sheet-title">Sotib olish</div>
+    <div class="sheet-title" id="buy-sheet-title" data-i18n="buy_title">Sotib olish</div>
   </div>
   <div class="sheet-body">
     <div style="text-align:center;margin-bottom:24px;position:relative;">
@@ -1356,18 +1356,124 @@ function savePurchaseHistory(history) {
 }
 
 let currentLang = 'uz';
-let pendingBuy = {};
-let selectedPremium = null;
-let currentFilter = 'all';
+
+// ====== 3 TILLI TARJIMA TIZIMI ======
+const LANG = {
+    // Navigation
+    nav_home:       { uz: 'Asosiy',      ru: 'Главная',      en: 'Home' },
+    nav_wallet:     { uz: 'Hamyon',      ru: 'Кошелёк',      en: 'Wallet' },
+    nav_games:      { uz: "O'yinlar",    ru: 'Игры',         en: 'Games' },
+    nav_history:    { uz: 'Tarix',       ru: 'История',      en: 'History' },
+    nav_profile:    { uz: 'Profil',      ru: 'Профиль',      en: 'Profile' },
+    // Home
+    tagline:        { uz: 'Biz bilamiz — oson va qulay!', ru: 'Мы знаем — легко и удобно!', en: 'We know — easy and convenient!' },
+    balance_label:  { uz: 'Hisobingiz',  ru: 'Ваш баланс',   en: 'Your balance' },
+    topup_btn:      { uz: "To'ldirish",  ru: 'Пополнить',    en: 'Top up' },
+    active_badge:   { uz: '● Faol',      ru: '● Активен',    en: '● Active' },
+    subscribe_btn:  { uz: "Kanalga obuna bo'ling", ru: 'Подписаться на канал', en: 'Subscribe to channel' },
+    support_title:  { uz: "Qo'llab-quvvatlash", ru: 'Поддержка', en: 'Support' },
+    phone_label:    { uz: 'Telefon',     ru: 'Телефон',      en: 'Phone' },
+    tg_label:       { uz: 'Telegram',    ru: 'Телеграм',     en: 'Telegram' },
+    news_title:     { uz: '📰 Yangiliklar', ru: '📰 Новости', en: '📰 News' },
+    // Wallet
+    wallet_title:   { uz: 'Hamyon',      ru: 'Кошелёк',      en: 'Wallet' },
+    current_bal:    { uz: 'Joriy balans', ru: 'Текущий баланс', en: 'Current balance' },
+    topup_bal:      { uz: "Balansni to'ldirish", ru: 'Пополнить баланс', en: 'Top up balance' },
+    history_label:  { uz: 'Tarix',       ru: 'История',      en: 'History' },
+    no_data:        { uz: "Ma'lumot topilmadi", ru: 'Данных нет', en: 'No data found' },
+    no_data_sub:    { uz: "Hozircha hech narsa yo'q", ru: 'Пока ничего нет', en: 'Nothing here yet' },
+    // Games
+    games_title:    { uz: "O'yinlar",    ru: 'Игры',         en: 'Games' },
+    all_games:      { uz: "Barcha o'yinlar", ru: 'Все игры', en: 'All games' },
+    buy_btn:        { uz: 'Sotib olish', ru: 'Купить',       en: 'Buy' },
+    // History
+    hist_title:     { uz: 'Tarix',       ru: 'История',      en: 'History' },
+    filter_all:     { uz: 'Barchasi',    ru: 'Все',           en: 'All' },
+    filter_success: { uz: 'Muvaffaqiyatli', ru: 'Успешные', en: 'Successful' },
+    filter_pending: { uz: 'Kutishda',    ru: 'В ожидании',   en: 'Pending' },
+    filter_error:   { uz: 'Xato',        ru: 'Ошибка',       en: 'Error' },
+    // Profile
+    profile_lang:   { uz: 'Ilova tili',  ru: 'Язык приложения', en: 'App language' },
+    profile_support:{ uz: "Qo'llab-quvvatlash", ru: 'Поддержка', en: 'Support' },
+    profile_24:     { uz: '24/7 yordam', ru: '24/7 помощь',  en: '24/7 help' },
+    profile_about:  { uz: 'Ilova haqida', ru: 'О приложении', en: 'About app' },
+    profile_currency:{ uz: "Valyutani o'zgartirish", ru: 'Изменить валюту', en: 'Change currency' },
+    // Buy sheet
+    buy_title:      { uz: 'Sotib olish', ru: 'Купить',       en: 'Buy' },
+    enter_id:       { uz: 'Player ID kiriting', ru: 'Введите Player ID', en: 'Enter Player ID' },
+    confirm_buy:    { uz: 'Sotib olish', ru: 'Купить',       en: 'Buy' },
+    cancel:         { uz: 'Bekor qilish', ru: 'Отмена',      en: 'Cancel' },
+    // Topup sheet
+    topup_title:    { uz: "Balansni to'ldirish", ru: 'Пополнить баланс', en: 'Top up balance' },
+    enter_amount:   { uz: 'Summani kiriting', ru: 'Введите сумму', en: 'Enter amount' },
+    choose_method:  { uz: "To'lov usulini tanlang", ru: 'Выберите способ оплаты', en: 'Choose payment method' },
+    method_screen:  { uz: 'Chek / Screenshot', ru: 'Чек / Скриншот', en: 'Receipt / Screenshot' },
+    method_screen_sub:{ uz: "To'lov chekini rasmga oling", ru: 'Сфотографируйте чек', en: 'Take a photo of receipt' },
+    method_click:   { uz: 'Click / Karta orqali', ru: 'Click / Картой', en: 'Click / By card' },
+    method_click_sub:{ uz: "Karta raqamiga o'tkazing", ru: 'Переведите на карту', en: 'Transfer to card' },
+    // Screenshot sheet
+    screen_title:   { uz: '📸 Chek yuborish', ru: '📸 Отправить чек', en: '📸 Send receipt' },
+    select_image:   { uz: 'Chek rasmini tanlang', ru: 'Выберите фото чека', en: 'Select receipt photo' },
+    send_screen:    { uz: '📤 Chekni yuborish', ru: '📤 Отправить чек', en: '📤 Send receipt' },
+    // Click sheet
+    click_title:    { uz: "💳 Karta orqali to'lov", ru: '💳 Оплата картой', en: '💳 Card payment' },
+    card_number:    { uz: 'Karta raqami', ru: 'Номер карты', en: 'Card number' },
+    copy_btn:       { uz: '📋 Nusxalash', ru: '📋 Скопировать', en: '📋 Copy' },
+    click_step1:    { uz: '1. Karta raqamini nusxalang', ru: '1. Скопируйте номер карты', en: '1. Copy the card number' },
+    click_step2:    { uz: "2. Click/Payme orqali to'lang", ru: '2. Оплатите через Click/Payme', en: '2. Pay via Click/Payme' },
+    click_step3:    { uz: '3. Chek rasmini yuklang va "Tasdiqlash" bosing', ru: '3. Загрузите фото чека и нажмите "Подтвердить"', en: '3. Upload receipt and click "Confirm"' },
+    upload_receipt: { uz: "📸 To'lov chekini yuklang", ru: '📸 Загрузите фото чека', en: '📸 Upload receipt photo' },
+    confirm_pay:    { uz: "✅ To'ladim — Tasdiqlash", ru: '✅ Оплатил — Подтвердить', en: "✅ Paid — Confirm" },
+    // Sheets
+    lang_title:     { uz: 'Ilova tili',  ru: 'Язык приложения', en: 'App language' },
+    support_sheet:  { uz: "Qo'llab-quvvatlash", ru: 'Поддержка', en: 'Support' },
+    about_title:    { uz: 'Ilova haqida', ru: 'О приложении', en: 'About app' },
+    about_name:     { uz: 'Ilova nomi',  ru: 'Название',     en: 'App name' },
+    about_version:  { uz: 'Versiya',     ru: 'Версия',       en: 'Version' },
+    about_platform: { uz: 'Platforma',   ru: 'Платформа',    en: 'Platform' },
+    about_dev:      { uz: 'Ishlab chiquvchi', ru: 'Разработчик', en: 'Developer' },
+    currency_title: { uz: 'Valyutani tanlang', ru: 'Выберите валюту', en: 'Select currency' },
+};
+
+function t(key) { return (LANG[key] && LANG[key][currentLang]) || (LANG[key] && LANG[key]['uz']) || key; }
 
 function setLang(lang) {
     currentLang = lang;
+    try { localStorage.setItem('appLang', lang); } catch(e) {}
+    
+    // Sheet UI
     const langNames = { uz: "O'zbek", ru: 'Русский', en: 'English' };
     document.getElementById('lang-sub').textContent = langNames[lang];
     document.querySelectorAll('#sheet-lang .option-item').forEach(o => o.classList.remove('selected'));
     document.getElementById('lang-' + lang).classList.add('selected');
+    
+    // Barcha data-i18n elementlarni yangilash
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (LANG[key]) el.textContent = LANG[key][lang] || LANG[key]['uz'];
+    });
+    
+    // Placeholder'larni yangilash
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const key = el.getAttribute('data-i18n-ph');
+        if (LANG[key]) el.placeholder = LANG[key][lang] || LANG[key]['uz'];
+    });
+    
     setTimeout(closeSheet, 300);
 }
+
+// Saqlangan tilni yuklash
+try {
+    const saved = localStorage.getItem('appLang');
+    if (saved && ['uz','ru','en'].includes(saved)) {
+        currentLang = saved;
+        setTimeout(() => setLang(currentLang), 100);
+    }
+} catch(e) {}
+
+let pendingBuy = {};
+let selectedPremium = null;
+let currentFilter = 'all';
 
 function loadUserData() {
     let name='Arena X User', handle='@username', initials='AX', photo=null, uid='0000000000';
