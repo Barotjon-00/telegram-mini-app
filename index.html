@@ -259,12 +259,12 @@
     <div class="balance-card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
         <div class="bal-label" data-i18n="balance_label">Hisobingiz</div>
-        <div style="font-size:10px;color:var(--green);background:rgba(16,185,129,0.15);padding:3px 10px;border-radius:20px;font-weight:600;"data-i18n="active_badge">● Faol</div>
+        <div style="font-size:10px;color:var(--green);background:rgba(16,185,129,0.15);padding:3px 10px;border-radius:20px;font-weight:600;" data-i18n="active_badge">● Faol</div>
       </div>
       <div class="bal-amount" id="home-balance">0 UZS</div>
       <button class="topup-btn" onclick="topupBalance(event,this)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        To'ldirish
+        <span data-i18n="topup_btn">To'ldirish</span>
       </button>
     </div>
     
@@ -687,11 +687,11 @@
       <button class="hamyon-topup" onclick="topupBalance(event,this)"><span>+</span> <span data-i18n="topup_bal">Balansni to'ldirish</span></button>
     </div>
     <div class="history-section">
-      <div class="history-title">Tarix</div>
+      <div class="history-title" data-i18n="hist_title">Tarix</div>
       <div class="empty-state">
         <div class="empty-icon">📭</div>
-        <div class="empty-text"data-i18n="no_data">Ma'lumot topilmadi</div>
-        <div class="empty-sub"data-i18n="no_data_sub">Hozircha hech narsa yo'q</div>
+        <div class="empty-text" data-i18n="no_data">Ma'lumot topilmadi</div>
+        <div class="empty-sub" data-i18n="no_data_sub">Hozircha hech narsa yo'q</div>
       </div>
     </div>
   </div>
@@ -711,32 +711,32 @@
         <div class="game-glow" style="background:#F59E0B;"></div>
         <div class="game-img" style="background:linear-gradient(135deg,#F59E0B22,#8B5CF622);border-radius:14px;">🪖</div>
         <div class="game-name">PUBG Mobile</div>
-        <div class="game-tag">UC Voucher • Royal Pass</div>
+        <div class="game-tag" data-i18n="game_tag_pubg">UC Voucher • Royal Pass</div>
       </div>
       <div class="game-card" onclick="openGamePage('mlbb')" style="background:linear-gradient(135deg,rgba(6,182,212,0.12),var(--dark3));">
         <div class="game-glow" style="background:#06B6D4;"></div>
         <div class="game-img" style="background:linear-gradient(135deg,#06B6D422,#8B5CF622);border-radius:14px;">⚔️</div>
         <div class="game-name">Mobile Legends</div>
-        <div class="game-tag">Diamond • Elit Pack</div>
+        <div class="game-tag" data-i18n="game_tag_mlbb">Diamond • Elit Pack</div>
       </div>
       <div class="game-card" onclick="openGamePage('freefire')" style="background:linear-gradient(135deg,rgba(239,68,68,0.12),var(--dark3));">
         <div class="game-glow" style="background:#EF4444;"></div>
         <div class="game-img" style="background:linear-gradient(135deg,#EF444422,#F59E0B22);border-radius:14px;">🔥</div>
         <div class="game-name">Free Fire</div>
-        <div class="game-tag">Almaz RU/CIS</div>
+        <div class="game-tag" data-i18n="game_tag_ff">Almaz RU/CIS</div>
       </div>
       <div class="game-card" onclick="openGamePage('standoff')" style="background:linear-gradient(135deg,rgba(139,92,246,0.12),var(--dark3));">
         <div class="game-glow" style="background:#8B5CF6;"></div>
         <div class="game-img" style="background:linear-gradient(135deg,#8B5CF622,#EC489922);border-radius:14px;">🎯</div>
         <div class="game-name">Standoff 2</div>
-        <div class="game-tag">Gold • Gold Pass</div>
+        <div class="game-tag" data-i18n="game_tag_so2">Gold • Gold Pass</div>
       </div>
       <div class="game-card" onclick="openGamePage('telegram')" style="background:linear-gradient(135deg,rgba(59,130,246,0.12),var(--dark3));">
         <div class="new-badge">✨ NEW</div>
         <div class="game-glow" style="background:#3B82F6;"></div>
         <div class="game-img" style="background:linear-gradient(135deg,#3B82F622,#06B6D422);border-radius:14px;">⭐</div>
         <div class="game-name">Telegram Premium</div>
-        <div class="game-tag">3 oy • 6 oy • 12 oy</div>
+        <div class="game-tag" data-i18n="game_tag_tg">3 oy • 6 oy • 12 oy</div>
       </div>
     </div>
   </div>
@@ -1077,15 +1077,15 @@
     <div class="sheet-title" data-i18n="topup_title">Balansni to'ldirish</div>
   </div>
   <div class="sheet-body">
-    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;text-align:center;"data-i18n="enter_amount">Summani kiriting</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;text-align:center;" data-i18n="enter_amount">Summani kiriting</div>
     <input type="number" id="topup-amount" placeholder="Masalan: 50000" style="width:100%;padding:14px;background:var(--dark4);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:18px;margin-bottom:16px;outline:none;text-align:center;font-family:'Rajdhani',sans-serif;font-weight:700;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;text-align:center;"data-i18n="choose_method">To'lov usulini tanlang</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;text-align:center;" data-i18n="choose_method">To'lov usulini tanlang</div>
     <div class="option-item" onclick="openScreenshotPayment()" style="border-left:3px solid var(--green);">
       <div class="opt-row">
         <span style="font-size:20px;margin-right:4px;">📸</span>
         <div>
-          <div class="opt-label" style="font-size:14px;"data-i18n="method_screen">Chek / Screenshot</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px;"data-i18n="method_screen_sub">To'lov chekini rasmga oling</div>
+          <div class="opt-label" style="font-size:14px;" data-i18n="method_screen">Chek / Screenshot</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;" data-i18n="method_screen_sub">To'lov chekini rasmga oling</div>
         </div>
       </div>
       <span style="color:var(--muted);font-size:16px;">›</span>
@@ -1094,8 +1094,8 @@
       <div class="opt-row">
         <span style="font-size:20px;margin-right:4px;">💳</span>
         <div>
-          <div class="opt-label" style="font-size:14px;"data-i18n="method_click">Click / Karta orqali</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px;"data-i18n="method_click_sub">Karta raqamiga o'tkazing</div>
+          <div class="opt-label" style="font-size:14px;" data-i18n="method_click">Click / Karta orqali</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;" data-i18n="method_click_sub">Karta raqamiga o'tkazing</div>
         </div>
       </div>
       <span style="color:var(--muted);font-size:16px;">›</span>
@@ -1107,7 +1107,7 @@
 <div class="sheet" id="sheet-screenshot">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title"data-i18n="screen_title">📸 Chek yuborish</div>
+    <div class="sheet-title" data-i18n="screen_title">📸 Chek yuborish</div>
   </div>
   <div class="sheet-body">
     <div style="text-align:center;margin-bottom:16px;">
@@ -1116,12 +1116,12 @@
     <div id="screenshot-preview" style="width:100%;min-height:120px;background:var(--dark4);border:2px dashed rgba(139,92,246,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;overflow:hidden;cursor:pointer;transition:border-color 0.2s;" onclick="document.getElementById('screenshot-file').click()">
       <div id="screenshot-placeholder" style="text-align:center;padding:20px;">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" style="margin-bottom:8px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        <div style="font-size:13px;color:var(--muted);"data-i18n="select_image">Chek rasmini tanlang</div>
+        <div style="font-size:13px;color:var(--muted);" data-i18n="select_image">Chek rasmini tanlang</div>
         <div style="font-size:11px;color:var(--muted);opacity:0.6;margin-top:4px;">JPG, PNG</div>
       </div>
     </div>
     <input type="file" id="screenshot-file" accept="image/*" style="display:none;" onchange="previewScreenshot(this)">
-    <button id="send-screenshot-btn" style="width:100%;background:linear-gradient(135deg,#10B981,#06B6D4);border:none;border-radius:14px;padding:16px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;cursor:pointer;opacity:0.5;pointer-events:none;" onclick="sendScreenshotPayment()"data-i18n="send_screen">📤 Chekni yuborish</button>
+    <button id="send-screenshot-btn" style="width:100%;background:linear-gradient(135deg,#10B981,#06B6D4);border:none;border-radius:14px;padding:16px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;cursor:pointer;opacity:0.5;pointer-events:none;" onclick="sendScreenshotPayment()" data-i18n="send_screen">📤 Chekni yuborish</button>
   </div>
 </div>
 
@@ -1129,17 +1129,17 @@
 <div class="sheet" id="sheet-click">
   <div class="sheet-handle"></div>
   <div class="sheet-header">
-    <div class="sheet-title"data-i18n="click_title">💳 Karta orqali to'lov</div>
+    <div class="sheet-title" data-i18n="click_title">💳 Karta orqali to'lov</div>
   </div>
   <div class="sheet-body">
     <div style="text-align:center;margin-bottom:16px;">
       <div style="font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--green);" id="click-amount">0 UZS</div>
     </div>
     <div style="background:linear-gradient(135deg,#1E3A5F,#0F2744);border:1px solid rgba(59,130,246,0.3);border-radius:14px;padding:20px;margin-bottom:16px;text-align:center;">
-      <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;"data-i18n="card_number">Karta raqami</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;" data-i18n="card_number">Karta raqami</div>
       <div id="click-card-number" style="font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;color:#fff;letter-spacing:2px;margin-bottom:10px;">8600 •••• •••• ••••</div>
       <div id="click-card-name" style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:12px;"></div>
-      <button onclick="copyCardNumber()" style="background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:8px 20px;color:#3B82F6;font-size:13px;font-weight:600;cursor:pointer;"data-i18n="copy_btn">📋 Nusxalash</button>
+      <button onclick="copyCardNumber()" style="background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:8px 20px;color:#3B82F6;font-size:13px;font-weight:600;cursor:pointer;" data-i18n="copy_btn">📋 Nusxalash</button>
     </div>
     <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.6;">
       <span data-i18n="click_step1">1. Karta raqamini nusxalang</span><br>
@@ -1149,11 +1149,11 @@
     <div id="click-screenshot-preview" style="width:100%;min-height:80px;background:var(--dark4);border:2px dashed rgba(59,130,246,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;overflow:hidden;cursor:pointer;transition:border-color 0.2s;" onclick="document.getElementById('click-screenshot-file').click()">
       <div id="click-screenshot-placeholder" style="text-align:center;padding:16px;">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" style="margin-bottom:4px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        <div style="font-size:12px;color:var(--muted);"data-i18n="upload_receipt">📸 To'lov chekini yuklang</div>
+        <div style="font-size:12px;color:var(--muted);" data-i18n="upload_receipt">📸 To'lov chekini yuklang</div>
       </div>
     </div>
     <input type="file" id="click-screenshot-file" accept="image/*" style="display:none;" onchange="previewClickScreenshot(this)">
-    <button style="width:100%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);border:none;border-radius:14px;padding:16px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;cursor:pointer;" onclick="confirmClickPayment()"data-i18n="confirm_pay">✅ To'ladim — Tasdiqlash</button>
+    <button style="width:100%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);border:none;border-radius:14px;padding:16px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;cursor:pointer;" onclick="confirmClickPayment()" data-i18n="confirm_pay">✅ To'ladim — Tasdiqlash</button>
   </div>
 </div>
 
@@ -1182,7 +1182,7 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
       Sotib olish
     </button>
-    <button style="width:100%;background:var(--dark4);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px;color:var(--muted);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background 0.15s;" onclick="closeSheet()"data-i18n="cancel">Bekor qilish</button>
+    <button style="width:100%;background:var(--dark4);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px;color:var(--muted);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background 0.15s;" onclick="closeSheet()" data-i18n="cancel">Bekor qilish</button>
   </div>
 </div>
 
@@ -1202,8 +1202,8 @@ const ADMIN_IDS = [5273703401, 954670875];
 const ADMIN_CHAT_ID = 5273703401;
 
 // Bot API — CORS qo'llab-quvvatlanadi!
-const BOT_TOKEN_WEB = '7698086227:AAEgwdmDHOyyFzv0-4rW5RPUA-2i7M_6dEg';
-const STORAGE_MSG_ID = 1470; // Pinned message ID — buyurtmalar bazasi
+const BOT_TOKEN_WEB = '7698086227:AAF3HUjxUX9PxRkUlerd4yJodRjymxPbfeM';
+const STORAGE_MSG_ID = 1632; // Pinned message ID — buyurtmalar bazasi
 
 // Telegram'dan buyurtmalarni o'qish (pinned message)
 // ====== BULUT MA'LUMOTLAR BAZASI ======
@@ -1385,6 +1385,11 @@ const LANG = {
     // Games
     games_title:    { uz: "O'yinlar",    ru: 'Игры',         en: 'Games' },
     all_games:      { uz: "Barcha o'yinlar", ru: 'Все игры', en: 'All games' },
+    game_tag_pubg: { uz: 'UC Voucher • Royal Pass', ru: 'UC Ваучер • Royal Pass', en: 'UC Voucher • Royal Pass' },
+    game_tag_mlbb: { uz: 'Diamond • Elit Pack', ru: 'Алмазы • Элит Пак', en: 'Diamond • Elite Pack' },
+    game_tag_ff: { uz: 'Almaz RU/CIS', ru: 'Алмазы RU/CIS', en: 'Diamonds RU/CIS' },
+    game_tag_so2: { uz: 'Gold • Gold Pass', ru: 'Золото • Gold Pass', en: 'Gold • Gold Pass' },
+    game_tag_tg: { uz: '3 oy • 6 oy • 12 oy', ru: '3 мес • 6 мес • 12 мес', en: '3 mo • 6 mo • 12 mo' },
     buy_btn:        { uz: 'Sotib olish', ru: 'Купить',       en: 'Buy' },
     // History
     hist_title:     { uz: 'Tarix',       ru: 'История',      en: 'History' },
@@ -1400,7 +1405,7 @@ const LANG = {
     profile_currency:{ uz: "Valyutani o'zgartirish", ru: 'Изменить валюту', en: 'Change currency' },
     // Buy sheet
     buy_title:      { uz: 'Sotib olish', ru: 'Купить',       en: 'Buy' },
-    enter_id:       { uz: '<span data-i18n="enter_id">Player ID kiriting</span>', ru: 'Введите Player ID', en: 'Enter Player ID' },
+    enter_id:       { uz: 'Player ID kiriting', ru: 'Введите Player ID', en: 'Enter Player ID' },
     confirm_buy:    { uz: 'Sotib olish', ru: 'Купить',       en: 'Buy' },
     available:      { uz: 'Mavjud',      ru: 'В наличии',    en: 'Available' },
     check_btn:      { uz: 'Tekshirish',  ru: 'Проверить',    en: 'Check' },
@@ -1421,9 +1426,9 @@ const LANG = {
     click_title:    { uz: "💳 Karta orqali to'lov", ru: '💳 Оплата картой', en: '💳 Card payment' },
     card_number:    { uz: 'Karta raqami', ru: 'Номер карты', en: 'Card number' },
     copy_btn:       { uz: '📋 Nusxalash', ru: '📋 Скопировать', en: '📋 Copy' },
-    click_step1:    { uz: '<span data-i18n="click_step1">1. Karta raqamini nusxalang</span>', ru: '1. Скопируйте номер карты', en: '1. Copy the card number' },
-    click_step2:    { uz: "<span data-i18n="click_step2">2. Click/Payme orqali to'lang</span>", ru: '2. Оплатите через Click/Payme', en: '2. Pay via Click/Payme' },
-    click_step3:    { uz: '<span data-i18n="click_step3">3. Chek rasmini yuklang va "Tasdiqlash" bosing</span>', ru: '3. Загрузите фото чека и нажмите "Подтвердить"', en: '3. Upload receipt and click "Confirm"' },
+    click_step1:    { uz: '1. Karta raqamini nusxalang', ru: '1. Скопируйте номер карты', en: '1. Copy the card number' },
+    click_step2:    { uz: "2. Click/Payme orqali to'lang", ru: '2. Оплатите через Click/Payme', en: '2. Pay via Click/Payme' },
+    click_step3:    { uz: '3. Chek rasmini yuklang va tasdiqlang', ru: '3. Загрузите фото чека и подтвердите', en: '3. Upload receipt and confirm' },
     upload_receipt: { uz: "📸 To'lov chekini yuklang", ru: '📸 Загрузите фото чека', en: '📸 Upload receipt photo' },
     confirm_pay:    { uz: "✅ To'ladim — Tasdiqlash", ru: '✅ Оплатил — Подтвердить', en: "✅ Paid — Confirm" },
     // Sheets
@@ -1469,7 +1474,7 @@ try {
     const saved = localStorage.getItem('appLang');
     if (saved && ['uz','ru','en'].includes(saved)) {
         currentLang = saved;
-        setTimeout(() => setLang(currentLang), 100);
+        setTimeout(() => setLang(currentLang), 500);
     }
 } catch(e) {}
 
@@ -2051,7 +2056,7 @@ function openScreenshotPayment() {
     closeSheet();
     selectedScreenshotFile = null;
     document.getElementById('screenshot-amount').textContent = currentTopupAmount.toLocaleString() + ' UZS';
-    document.getElementById('screenshot-preview').innerHTML = document.getElementById('screenshot-placeholder')?.outerHTML || '<div style="text-align:center;padding:20px;"><div style="font-size:13px;color:var(--muted);"data-i18n="select_image"data-i18n="select_image">Chek rasmini tanlang</div></div>';
+    document.getElementById('screenshot-preview').innerHTML = document.getElementById('screenshot-placeholder')?.outerHTML || '<div style="text-align:center;padding:20px;"><div style="font-size:13px;color:var(--muted);" data-i18n="select_image" data-i18n="select_image">Chek rasmini tanlang</div></div>';
     document.getElementById('send-screenshot-btn').style.opacity = '0.5';
     document.getElementById('send-screenshot-btn').style.pointerEvents = 'none';
     document.getElementById('screenshot-file').value = '';
